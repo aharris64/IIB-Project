@@ -1,0 +1,77 @@
+Epoch 01/20 | 299.5s | train loss 1.5801 | val loss 0.9779 | val macroF1 0.3701 | val balAcc 0.5434
+Val confusion matrix:
+ [[106 147 121]
+ [ 16  48  33]
+ [  3   5  46]]
+Epoch 02/20 | 340.2s | train loss 0.7950 | val loss 0.9926 | val macroF1 0.4909 | val balAcc 0.6094
+Val confusion matrix:
+ [[180 129  65]
+ [ 23  57  17]
+ [  1  12  41]]
+Epoch 03/20 | 192.9s | train loss 0.7196 | val loss 0.5769 | val macroF1 0.6830 | val balAcc 0.7298
+Val confusion matrix:
+ [[309  23  42]
+ [ 37  55   5]
+ [  1  10  43]]
+Epoch 04/20 | 302.2s | train loss 0.7218 | val loss 0.6650 | val macroF1 0.6083 | val balAcc 0.6811
+Val confusion matrix:
+ [[279  66  29]
+ [ 27  45  25]
+ [  2   7  45]]
+Epoch 05/20 | 1213.1s | train loss 0.6536 | val loss 0.6089 | val macroF1 0.6980 | val balAcc 0.7638
+Val confusion matrix:
+ [[297  21  56]
+ [ 24  68   5]
+ [  2   9  43]]
+Epoch 06/20 | 315.3s | train loss 0.6191 | val loss 0.5508 | val macroF1 0.7393 | val balAcc 0.7996
+Val confusion matrix:
+ [[294  64  16]
+ [ 18  72   7]
+ [  2   5  47]]
+Epoch 07/20 | 308.7s | train loss 0.5256 | val loss 0.5128 | val macroF1 0.6904 | val balAcc 0.7141
+Val confusion matrix:
+ [[319  42  13]
+ [ 19  64  14]
+ [  7  13  34]]
+Epoch 08/20 | 325.3s | train loss 0.5770 | val loss 0.4162 | val macroF1 0.7669 | val balAcc 0.7769
+Val confusion matrix:
+ [[334  31   9]
+ [ 19  73   5]
+ [  4  13  37]]
+Epoch 09/20 | 296.7s | train loss 0.5983 | val loss 0.5211 | val macroF1 0.7063 | val balAcc 0.6803
+Val confusion matrix:
+ [[345  29   0]
+ [ 36  51  10]
+ [ 16   6  32]]
+Epoch 10/20 | 317.4s | train loss 0.5403 | val loss 0.5287 | val macroF1 0.6902 | val balAcc 0.7113
+Val confusion matrix:
+ [[329  38   7]
+ [ 29  48  20]
+ [  7   6  41]]
+Epoch 11/20 | 198.7s | train loss 0.6306 | val loss 0.6379 | val macroF1 0.6306 | val balAcc 0.6334
+Val confusion matrix:
+ [[307  58   9]
+ [ 30  58   9]
+ [ 17  11  26]]
+Epoch 12/20 | 143.5s | train loss 0.5551 | val loss 0.4856 | val macroF1 0.7337 | val balAcc 0.7896
+Val confusion matrix:
+ [[302  54  18]
+ [ 12  76   9]
+ [  3   9  42]]
+Epoch 13/20 | 482.9s | train loss 0.4799 | val loss 0.3955 | val macroF1 0.7405 | val balAcc 0.7582
+Val confusion matrix:
+ [[330  30  14]
+ [ 23  65   9]
+ [  7   8  39]]
+Early stopping: no val macro-F1 improvement for 5 epochs.
+
+BEST EPOCH: 8 BEST VAL macroF1: 0.7669405282941982
+
+TEST RESULTS
+Loss: 0.3916
+Macro-F1: 0.7439
+Balanced Acc: 0.7507
+Confusion matrix:
+ [[345  26  10]
+ [ 18  78   7]
+ [  2  21  33]]

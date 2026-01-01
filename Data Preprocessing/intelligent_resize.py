@@ -1,0 +1,1 @@
+# Resize to 224x224 so the optic disc is as centred as possible
