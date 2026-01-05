@@ -24,14 +24,14 @@ def get_candidates(img):
     candidates = find_DoG_candidates(pyramid)
 
     if len(candidates) == 0:
-        print("Fall Back")
+        # print("Fall Back")
         # Percentile Controlled Gamma Enhancement
         per_gamma_img = percentile_controlled_gamma(img)
         pyramid = build_scale_space_DoG_pyramid(per_gamma_img)
         candidates = find_DoG_candidates(pyramid)
 
     if len(candidates) == 0:
-        print("Fall Back 2")
+        # print("Fall Back 2")
         # Percentile Controlled Gamma Enhancement
         clahe_img = clahe(img)
         pyramid = build_scale_space_DoG_pyramid(clahe_img)
@@ -39,50 +39,35 @@ def get_candidates(img):
 
     return candidates
 
-def detect_disc(test_image):
-    with Image.open(test_image) as img:
-        img = img.convert("RGB")
 
-        target_size = 512
-        resize_img = resize(img, target_size) # (Float32 array)
+def detect_disc(img):
         
-        # Extract red channel 
-        red_img = extract_red_channel(resize_img) # (Normalised [0, 1] float32 array)
-        
-        # Mask to remove dark border
-        fov_mask = create_mask(red_img)
-        
-        # Fill the border with OpenCV inpaint algorithm
-        inpaint_img = inpaint(red_img, fov_mask)
-        
-        # Get Disc Candidates
-        candidates = get_candidates(inpaint_img)
-        print("Number of Candidates: " + str(len(candidates)))
+    # Extract red channel 
+    red_img = extract_red_channel(img) # (Normalised [0, 1] float32 array)
+    
+    # Mask to remove dark border
+    fov_mask = create_mask(red_img)
+    
+    # Fill the border with OpenCV inpaint algorithm
+    inpaint_img = inpaint(red_img, fov_mask)
+    
+    # Get Disc Candidates
+    candidates = get_candidates(inpaint_img)
+    # print("Number of Candidates: " + str(len(candidates)))
 
-        # Find best candidate
-        best = best_disc_candidate(red_img, candidates, fov_mask)
+    # Find best candidate
+    best = best_disc_candidate(red_img, candidates, fov_mask)
 
-        # save_image(resize_img, process_results_folder, "1_resized_rgb.png")
-        # save_image(red_img, process_results_folder, "2_red_img.png")
-        # save_mask_overlay(red_img, fov_mask, process_results_folder, "3_mask_overlay.png")
-        # save_image(inpaint_img, process_results_folder, "4_inpaint_img.png")
-        # save_image(per_img, process_results_folder, "5_per_img.png")
-        # save_image(per_gamma_img, process_results_folder, "5_per_gamma_img.png")
-        # save_candidate_overlay(red_img, candidates, process_results_folder, "6_candidate_overlay.png")
-        # save_candidate_overlay(red_img, [best], results_folder, "7_best_candidate_overlay.png")
+    # save_image(resize_img, process_results_folder, "1_resized_rgb.png")
+    # save_image(red_img, process_results_folder, "2_red_img.png")
+    # save_mask_overlay(red_img, fov_mask, process_results_folder, "3_mask_overlay.png")
+    # save_image(inpaint_img, process_results_folder, "4_inpaint_img.png")
+    # save_image(per_img, process_results_folder, "5_per_img.png")
+    # save_image(per_gamma_img, process_results_folder, "5_per_gamma_img.png")
+    # save_candidate_overlay(red_img, candidates, process_results_folder, "6_candidate_overlay.png")
+    # save_candidate_overlay(red_img, [best], results_folder, "7_best_candidate_overlay.png")
 
-        save_candidate_overlay(red_img, [best], results_folder, Path(test_image).name)
+    # save_candidate_overlay(red_img, [best], results_folder, Path(test_image).name)
 
-        return best
+    return best
 
-# Test Images
-# name  = "normal_0001_EDD.jpg"
-# name = "PPE 94.jpg"
-# name = "EDD Disc Edema32.jpg"
-# name = "papilledema_0223_PPE.jpg"
-# name = "papilledema_0459_RFM.png"
-# name = "papilledema_0136_IFD.jpg"
-
-for file in os.listdir(test_images):
-    test_image = os.path.join(test_images, file)
-    best = detect_disc(test_image)

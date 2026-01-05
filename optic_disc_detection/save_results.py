@@ -17,7 +17,6 @@ def save_image(img, save_folder, name):
         # RGB image
         if img.dtype != np.uint8:
             img = np.clip(img, 0, 255).astype(np.uint8)
-
         save_path = os.path.join(save_folder, name)
         cv2.imwrite(save_path, cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
 
@@ -45,12 +44,24 @@ def save_candidate_overlay(img, candidates, save_folder, name):
     Overlay candidates on img provided
     """
 
-    img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
-    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    if img.ndim == 2:
+        # Grayscale image (assumed float [0,1])
+        if img.dtype != np.uint8:
+            img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
+        img_c = img.copy()
+
+    elif img.ndim == 3 and img.shape[2] == 3:
+        # RGB image
+        if img.dtype != np.uint8:
+            img = np.clip(img, 0, 255).astype(np.uint8)
+        img_c = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+    else:
+        raise ValueError("Unsupported image shape")
 
     for (centre, radius, resp) in candidates:
-        cv2.circle(img, centre, int(round(radius)), (0, 255, 0), 1)
-        cv2.circle(img, centre, 2, (0, 0, 255), -1)
+        cv2.circle(img_c, centre, int(round(radius)), (0, 255, 0), 1)
+        cv2.circle(img_c, centre, 2, (0, 0, 255), -1)
 
     save_path = os.path.join(save_folder, name)
-    cv2.imwrite(save_path, img)
+    cv2.imwrite(save_path, img_c)
