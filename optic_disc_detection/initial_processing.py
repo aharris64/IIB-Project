@@ -1,12 +1,22 @@
 import numpy as np
 from PIL import Image
+import cv2
 
-def extract_red_channel(img):
+def extract_channel(img, channel):
     """
-    Returns the normalized [0, 1] red channel from RGB array image in float32 array
+    Returns the normalized [0, 1]  channel from RGB array image in float32 array
     """
-    red_img = img[:, :, 0].astype(np.float32) / 255.0
-    return red_img
+    if channel == 1: # RED
+        red_img = img[:, :, 0].astype(np.float32) / 255.0
+        return red_img
+    elif channel == 2: # BLUE
+        grn_img = img[:, :, 1].astype(np.float32) / 255.0
+        return grn_img
+    elif channel == 3: # GREEN
+        blu_img = img[:, :, 2].astype(np.float32) / 255.0
+        return blu_img
+    return None
+
 
 def resize(img, target_size):
     """

@@ -25,6 +25,12 @@ def gaussian_subtraction(img, sigma=60):
     
     return img_sub.astype(np.float32)
 
+def gaussian_blur(img, sigma=60):
+    blur = cv2.GaussianBlur(img, (0, 0), sigma) + 1e-6
+    # (0, 0) - compute kernel size automatically as sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8
+    
+    return blur.astype(np.float32)
+
 def histogram_equalization(img):
     """
     Apply Contrast Histogram Equalization

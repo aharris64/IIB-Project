@@ -20,3 +20,11 @@ print(table_counts)
 
 print("\nClass × Rating (row %)")
 print(table_pct.round(2))
+
+rated_4 = df[df["rating"] == 4]
+
+print("Images rated 4:")
+for name in rated_4["image"]:
+    print(name)
+
+print(f"\nTotal images rated 4: {len(rated_4)}")

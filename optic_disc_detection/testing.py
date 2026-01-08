@@ -20,8 +20,21 @@ results_folder = os.path.join(current_path, "results")
 
 TARGET_SIZE = 512
 
-for file in os.listdir(test_images):
-    test_image = os.path.join(test_images, file)
+def all_images():
+
+    for file in os.listdir(test_images):
+        test_image = os.path.join(test_images, file)
+
+        with Image.open(test_image) as img:
+            img = img.convert("RGB")
+            resize_img = resize(img, TARGET_SIZE)
+
+        best = detect_disc(resize_img)
+
+        save_candidate_overlay(resize_img, [best], results_folder, Path(test_image).name)
+
+def one_image(name):
+    test_image = os.path.join(test_images, name)
 
     with Image.open(test_image) as img:
         img = img.convert("RGB")
@@ -31,3 +44,4 @@ for file in os.listdir(test_images):
 
     save_candidate_overlay(resize_img, [best], results_folder, Path(test_image).name)
 
+one_image("normal_0004_EDD.jpg")

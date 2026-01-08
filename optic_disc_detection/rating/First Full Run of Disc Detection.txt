@@ -1,0 +1,68 @@
+First Full Run of Disc Detection:
+
+No Disc Detected
+normal_1863_RFM.png
+normal_1884_RFM.png
+normal_2214_RFM.png
+normal_2233_RFM.png
+normal_2455_RFM.png
+papilledema_0494_RFM.png
+pseudopapilledema_0142_PPE.jpg
+
+04/01
+
+Class × Rating (counts)
+rating    1    2    3   4
+class
+normal  323  112  125  42
+
+Class × Rating (row %)
+rating      1     2      3     4
+class
+normal  53.65  18.6  20.76  6.98
+Images rated 4:
+normal_0004_EDD.jpg
+normal_0028_EDD.jpg
+normal_0033_EDD.jpg
+normal_0054_EDD.jpg
+normal_0055_EDD.jpg
+normal_0088_EDD.jpg
+normal_0116_EDD.jpg
+normal_0145_EDD.jpg
+normal_0146_EDD.jpg
+normal_0156_EDD.jpg
+normal_0175_EDD.jpg
+normal_0181_EDD.jpg
+normal_0183_EDD.jpg
+normal_0185_EDD.jpg
+normal_0205_EDD.jpg
+normal_0210_EDD.jpg
+normal_0234_EDD.jpg
+normal_0235_EDD.jpg
+normal_0246_EDD.jpg
+normal_0247_EDD.jpg
+normal_0260_EDD.jpg
+normal_0272_EDD.jpg
+normal_0320_EDD.jpg
+normal_0323_EDD.jpg
+normal_0324_EDD.jpg
+normal_0359_EDD.jpg
+normal_0371_EDD.jpg
+normal_0372_EDD.jpg
+normal_0387_EDD.jpg
+normal_0441_EDD.jpg
+normal_0459_EDD.jpg
+normal_0460_EDD.jpg
+normal_0463_EDD.jpg
+normal_0464_EDD.jpg
+normal_0467_EDD.jpg
+normal_0481_EDD.jpg
+normal_0483_EDD.jpg
+normal_0531_EDD.jpg
+normal_0576_EDD.jpg
+normal_0579_EDD.jpg
+normal_0581_EDD.jpg
+normal_0587_EDD.jpg
+
+Total images rated 4: 42
+
