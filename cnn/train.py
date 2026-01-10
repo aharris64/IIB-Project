@@ -38,7 +38,6 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
 
     best = None
     best_state = None
-    best_outputs = None
     best_epoch = None
     bad_epochs = 0
     history = []
@@ -48,7 +47,7 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
 
         val_loss, y_true, y_pred, y_prob = evaluate(model, val_loader, device, criterion)
 
-        macro_f1 = f1_score(y_true, y_pred)
+        macro_f1 = f1_score(y_true, y_pred, average="macro")
 
         history.append({
             "epoch": epoch + 1,
@@ -65,11 +64,6 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
             best = metric
             best_epoch = epoch + 1
             best_state = copy.deepcopy(model.state_dict())
-            best_outputs = {
-                "y_true": y_true,
-                "y_pred": y_pred,
-                "y_prob": y_prob,
-            }
 
             bad_epochs = 0
         else:
@@ -79,4 +73,4 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
             print(f"Early stopping at epoch {epoch+1} (no improvement for {patience} epochs)")
             break
 
-    return best_epoch, best_state, best_outputs, history
+    return best_epoch, best_state, history

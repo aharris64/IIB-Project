@@ -2,6 +2,26 @@ from torchvision.models import efficientnet_b0, squeezenet1_1, mobilenet_v2, mob
 from torch import nn
 import timm
 
+def build_model(model_name, num_classes, freeze):
+    if model_name == "efficientnet_b0":
+        return efficient_net_b0(num_classes, freeze)
+    elif model_name == "mobilenet_v2":
+        return mobile_net_v2(num_classes, freeze)
+    elif model_name in ("mobilenet_v3"):
+        return mobile_net_v3(num_classes, freeze)
+    elif model_name in ("squeezenet"):
+        return squeeze_net(num_classes, freeze)
+    elif model_name in ("resnet"):
+        return res_net(num_classes, freeze)
+    elif model_name == "efficientnet_lite0":
+        return efficientnet_lite0(num_classes, freeze)
+    elif model_name == "efficientnet_lite1":
+        return efficientnet_lite1(num_classes, freeze)
+    elif model_name in ("ghostnet"):
+        return ghost_net(num_classes, freeze)
+
+    return ValueError(f"Unknown model_name='{model_name}'")
+
 # Initially either a full or no freeze (possibly add partial later)
 
 def freeze_all(model):
