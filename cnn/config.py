@@ -9,7 +9,6 @@ NUM_CLASSES = 3
 FREEZE = "head"
 
 # Data
-DATA_ROOT = "/content/drive/MyDrive/datasets/"
 DATASET = "basic_resize_224"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
