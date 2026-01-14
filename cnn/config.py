@@ -1,10 +1,10 @@
 
 EXPERIMENT_NOTE = (
-    "First pass of models: efficient net lite 0"
+    "First pass of models: efficient net lite 1"
 )
 
 # Model
-MODEL_NAME = "efficientnet_lite0"
+MODEL_NAME = "efficientnet_lite1"
 NUM_CLASSES = 3
 FREEZE = "head"
 
