@@ -104,6 +104,7 @@ def efficientnet_lite0(num_classes, freeze):
     return model
 
 def efficientnet_lite1(num_classes, freeze):
+    # ! No pretrained weights
     model = timm.create_model("efficientnet_lite1", pretrained=True, num_classes=num_classes)
 
     if freeze != "none":
