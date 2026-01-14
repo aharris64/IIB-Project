@@ -3,7 +3,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 
-def get_dataloaders(root_folder, dataset, batch_size, num_workers):
+def get_dataloaders(root_folder, dataset, batch_size):
     """
     Loads training, validation, and test datasets using ImageFolder and
     returns their corresponding DataLoaders
