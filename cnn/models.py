@@ -7,17 +7,17 @@ def build_model(model_name, num_classes, freeze):
         return efficient_net_b0(num_classes, freeze)
     elif model_name == "mobilenet_v2":
         return mobile_net_v2(num_classes, freeze)
-    elif model_name in ("mobilenet_v3"):
+    elif model_name == "mobilenet_v3":
         return mobile_net_v3(num_classes, freeze)
-    elif model_name in ("squeezenet"):
+    elif model_name == "squeezenet":
         return squeeze_net(num_classes, freeze)
-    elif model_name in ("resnet"):
+    elif model_name == "resnet":
         return res_net(num_classes, freeze)
     elif model_name == "efficientnet_lite0":
         return efficientnet_lite0(num_classes, freeze)
     elif model_name == "efficientnet_lite1":
         return efficientnet_lite1(num_classes, freeze)
-    elif model_name in ("ghostnet"):
+    elif model_name == "ghostnet":
         return ghost_net(num_classes, freeze)
 
     return ValueError(f"Unknown model_name='{model_name}'")

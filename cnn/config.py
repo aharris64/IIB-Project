@@ -4,7 +4,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "efficientnet_b0"
+MODEL_NAME = "mobilenet_v2"
 NUM_CLASSES = 3
 FREEZE = "head"
 
