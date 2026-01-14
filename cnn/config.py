@@ -1,10 +1,10 @@
 
 EXPERIMENT_NOTE = (
-    "First pass of models: squeeze net"
+    "First pass of models: res net"
 )
 
 # Model
-MODEL_NAME = "squeezenet"
+MODEL_NAME = "resnet"
 NUM_CLASSES = 3
 FREEZE = "head"
 
