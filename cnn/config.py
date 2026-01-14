@@ -1,10 +1,10 @@
 
 EXPERIMENT_NOTE = (
-    "First attempt at running"
+    "First pass of models: mobile net v3"
 )
 
 # Model
-MODEL_NAME = "mobilenet_v2"
+MODEL_NAME = "mobilenet_v3"
 NUM_CLASSES = 3
 FREEZE = "head"
 
