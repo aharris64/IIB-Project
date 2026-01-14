@@ -4,7 +4,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "ghostnet_100"
+MODEL_NAME = "ghostnet"
 NUM_CLASSES = 3
 FREEZE = "head"
 
