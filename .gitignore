@@ -1,0 +1,6 @@
+results/
+runs/
+optic_disc_detection/test_images
+optic_disc_detection/image_results
+optic_disc_detection/image_no_disc_detected
+optic_disc_detection/image_process_results

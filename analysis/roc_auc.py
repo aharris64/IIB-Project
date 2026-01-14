@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import precision_recall_curve, average_precision_score
+from sklearn.metrics import roc_curve, auc, roc_auc_score, average_precision_score
 import os
 
 class_names = ["normal", "papilloedema", "pseudo-\npapilloedema"]
@@ -18,20 +18,21 @@ def one_hot_encoding(y):
     one_hot[np.arange(y.shape[0]), y] = 1
     return one_hot
 
-def plot_pr_indivisual_class(run_root, split, save_path=None):
+def plot_roc_ovr(run_root, split, save_path=None):
     y_true, y_prob = load_predictions(run_root, split)
+    y_true_oh = one_hot_encoding(y_true)
 
+    per_class_auc = {}
     for c in range(n):
-        y_true_bin = (y_true == c).astype(int)
-        y_score = y_prob[:, c]
+        fpr, tpr, _ = roc_curve(y_true_oh[:, c], y_prob[:, c])
+        roc_auc = auc(fpr, tpr)
+        per_class_auc[c] = roc_auc
+        plt.plot(fpr, tpr, label=f"{class_names[c]} (AUC={roc_auc:.3f})")
 
-        precision, recall, _ = precision_recall_curve(y_true_bin, y_score)
-        ap = average_precision_score(y_true_bin, y_score)
+    plt.plot([0, 1], [0, 1], linestyle=":", color="black") # Chance line
 
-        plt.plot(recall, precision, label=f"{class_names[c]} (AP={ap:.3f})")
-
-    plt.xlabel("Recall")
-    plt.ylabel("Precision")
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
@@ -42,17 +43,20 @@ def plot_pr_indivisual_class(run_root, split, save_path=None):
 
     plt.show()
 
-def plot_avg_pr(run_root, split, save_path=None):
+def plot_avg_roc(run_root, split, save_path=None):
     y_true, y_prob = load_predictions(run_root, split)
     y_true_oh = one_hot_encoding(y_true)
 
-    precision, recall, _ = precision_recall_curve(y_true_oh.ravel(),y_prob.ravel())
-    ap_micro = average_precision_score(y_true_oh, y_prob, average="micro")
+    fpr, tpr, _ = roc_curve(y_true_oh.ravel(), y_prob.ravel())
+    auc_micro_score = roc_auc_score(y_true_oh, y_prob, average="micro", multi_class="ovr")
 
-    plt.plot(recall, precision, label=f"Micro-AP={ap_micro:.3f}")
+    plt.plot(fpr, tpr, label=f"Micro-AUC={auc_micro_score:.3f}")
 
-    plt.xlabel("Recall")
-    plt.ylabel("Precision")
+    # Chance line
+    plt.plot([0, 1], [0, 1], linestyle=":", color="black")
+
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()

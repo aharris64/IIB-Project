@@ -12,7 +12,6 @@ FREEZE = "head"
 DATASET = "basic_resize_224"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
-NUM_WORKERS = 2
 
 # Training
 NUM_EPOCHS = 50

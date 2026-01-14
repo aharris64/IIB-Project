@@ -69,8 +69,17 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
         else:
             bad_epochs += 1
 
+        print(
+            f"[Epoch {epoch+1}] "
+            f"Train loss: {train_loss:.4f} | "
+            f"Val loss: {val_loss:.4f} | "
+            f"Val macro-F1: {macro_f1:.4f}"
+        )
+
         if bad_epochs >= patience:
             print(f"Early stopping at epoch {epoch+1} (no improvement for {patience} epochs)")
             break
+
+        
 
     return best_epoch, best_state, history
