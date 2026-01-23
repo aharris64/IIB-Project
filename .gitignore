@@ -8,3 +8,6 @@ optic_disc_detection/__pycache__
 analysis/__pycache__
 analysis/single_run/__pycache__
 analysis/compare_runs/__pycache__
+optic_disc_detection_vessel/process_results
+optic_disc_detection_vessel/__pycache__
+optic_disc_detection_vessel/test_images
