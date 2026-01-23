@@ -59,6 +59,7 @@ def detect_disc_channel(img, channel):
     # Find best candidate
     best = best_disc_candidate(ch_img, candidates, fov_mask)
 
+    save_image(img, process_results_folder, "1_img" + "_ch" + str(channel) + ".png")
     save_image(ch_img, process_results_folder, "2_ch_img" + "_ch" + str(channel) + ".png")
     save_mask_overlay(ch_img, fov_mask, process_results_folder, "3_mask_overlay" + "_ch" + str(channel) + ".png")
     save_image(inpaint_img, process_results_folder, "4_inpaint_img" + "_ch" + str(channel) + ".png")

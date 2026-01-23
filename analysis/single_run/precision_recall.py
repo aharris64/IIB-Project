@@ -21,6 +21,7 @@ def one_hot_encoding(y):
 def plot_pr_indivisual_class(run_root, split, save_path=None):
     y_true, y_prob = load_predictions(run_root, split)
 
+    ap_per_class = []
     for c in range(n):
         y_true_bin = (y_true == c).astype(int)
         y_score = y_prob[:, c]
@@ -28,7 +29,11 @@ def plot_pr_indivisual_class(run_root, split, save_path=None):
         precision, recall, _ = precision_recall_curve(y_true_bin, y_score)
         ap = average_precision_score(y_true_bin, y_score)
 
+        ap_per_class.append(ap)
         plt.plot(recall, precision, label=f"{class_names[c]} (AP={ap:.3f})")
+    
+    macro_ap = np.mean(ap_per_class)
+    print(f"Macro-AP: {macro_ap:.4f}")
 
     plt.xlabel("Recall")
     plt.ylabel("Precision")

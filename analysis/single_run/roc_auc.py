@@ -29,6 +29,9 @@ def plot_roc_ovr(run_root, split, save_path=None):
         per_class_auc[c] = roc_auc
         plt.plot(fpr, tpr, label=f"{class_names[c]} (AUC={roc_auc:.3f})")
 
+    macro_auc = np.mean(list(per_class_auc.values()))
+    print(f"Macro-AUC: {macro_auc:.4f}")
+
     plt.plot([0, 1], [0, 1], linestyle=":", color="black") # Chance line
 
     plt.xlabel("False Positive Rate")

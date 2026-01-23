@@ -6,6 +6,7 @@ def save_image(img, save_folder, name):
     """
     Save an image array, handling grayscale (H×W) and RGB (H×W×3) images
     """
+    
     if img.ndim == 2:
         # Grayscale image (assumed float [0,1])
         if img.dtype != np.uint8:
@@ -19,7 +20,7 @@ def save_image(img, save_folder, name):
             img = np.clip(img, 0, 255).astype(np.uint8)
         save_path = os.path.join(save_folder, name)
         cv2.imwrite(save_path, cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
-
+    
     else:
         raise ValueError("Unsupported image shape")
     

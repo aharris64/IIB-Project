@@ -3,4 +3,8 @@ runs/
 optic_disc_detection/test_images
 optic_disc_detection/image_results
 optic_disc_detection/image_no_disc_detected
-optic_disc_detection/image_process_results
+optic_disc_detection/process_results
+optic_disc_detection/__pycache__
+analysis/__pycache__
+analysis/single_run/__pycache__
+analysis/compare_runs/__pycache__

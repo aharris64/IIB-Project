@@ -44,4 +44,4 @@ def one_image(name):
 
     save_candidate_overlay(resize_img, [best], results_folder, Path(test_image).name)
 
-one_image("normal_0004_EDD.jpg")
+one_image("normal_0018_EDD.jpg")

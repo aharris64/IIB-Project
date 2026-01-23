@@ -20,20 +20,20 @@ split = "test"
 
 print_summary(run_path, save_path)
 
-# n_bins = 10
-# plot_calibration_curve(run_path, split, n_bins)
+n_bins = 10
+plot_calibration_curve(run_path, split, n_bins)
 
 # normalised = False
-# plot_confusion_matrix(run_path, split, False)
-# plot_confusion_matrix(run_path, split, True)
+plot_confusion_matrix(run_path, split, False)
+plot_confusion_matrix(run_path, split, True)
 
 # plot_loss(run_path)
-# plot_macro_F1(run_path)
+plot_macro_F1(run_path)
 
-# plot_pr_indivisual_class(run_path, split)
+plot_pr_indivisual_class(run_path, split)
 # plot_avg_pr(run_path, split)
 
-# plot_roc_ovr(run_path, split)
+plot_roc_ovr(run_path, split)
 # plot_avg_roc(run_path, split)
 
 # plot_threshold_single_class(run_path, split, 0)
