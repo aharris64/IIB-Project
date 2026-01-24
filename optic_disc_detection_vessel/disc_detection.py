@@ -12,6 +12,7 @@ from vessel_enhancement import gaussian_blur, percentage_based_enhancement, clah
 from skimage.morphology import skeletonize
 from scipy.ndimage import distance_transform_edt
 
+
 current_path = Path(__file__).resolve().parent
 test_images = os.path.join(current_path, "test_images")
 process_results_folder = os.path.join(current_path, "process_results")
@@ -29,11 +30,12 @@ def detect_disc_channel(img, channel):
     # Fill the border with OpenCV inpaint algorithm
     inpaint_img = inpaint(ch_img, fov_mask)
 
+    per_img = percentage_based_enhancement(inpaint_img)
+    save_image(per_img, process_results_folder, "6_per_img" + "_ch" + str(channel) + ".png")
 
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (20, 20))
     vessels_open = cv2.morphologyEx(inpaint_img, cv2.MORPH_OPEN, kernel)
     blur = gaussian_blur(vessels_open, sigma=2)
-    inpaint_img = blur
 
     # Vessel Enhancement
     clahe_img = clahe(inpaint_img)
@@ -43,19 +45,25 @@ def detect_disc_channel(img, channel):
     # Vessel Enhancement
     per_clahe_img = percentage_based_enhancement(clahe3_img)
 
-    B = per_clahe_img.astype(bool)
-    inv_img = ~B
+    inv_img = ~per_clahe_img.astype(bool)
 
     skeleton_img = skeletonize(inv_img)
     dist = distance_transform_edt(inv_img)
     thickness_map = np.zeros_like(dist, dtype=np.float32)
     thickness_map[skeleton_img] = 2.0 * dist[skeleton_img]
     thickness = thickness_map.copy()
+
+    diam = 2*dist
+    major_vessels = inv_img & (diam >= 3) & (diam <= 12)
+    skeleton_major = skeletonize(major_vessels)
+
     thickness = thickness / thickness.max()
 
     save_image(skeleton_img, process_results_folder, "6_skeleton_img" + "_ch" + str(channel) + ".png")
     save_image(dist, process_results_folder, "6_dist" + "_ch" + str(channel) + ".png")
     save_image(thickness, process_results_folder, "6_thickness" + "_ch" + str(channel) + ".png")
+    save_image(major_vessels, process_results_folder, "6_major_vessels" + "_ch" + str(channel) + ".png")
+    save_image(skeleton_major, process_results_folder, "6_skeleton_major" + "_ch" + str(channel) + ".png")
 
 
     vessels_open = cv2.morphologyEx(inpaint_img, cv2.MORPH_OPEN, kernel)
