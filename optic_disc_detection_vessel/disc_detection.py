@@ -88,7 +88,7 @@ def detect_disc_channel(img, channel):
     thickness_map = np.zeros_like(dist, dtype=np.float32)
     thickness_map[skeleton_img] = 2.0 * dist[skeleton_img]
     thickness = thickness_map.copy()
-    thickness = thickness / thickness.max()
+    thickness = thickness / (thickness.max() + 1e-8)
     save_image(thickness, process_results_folder, "9_thickness" + "_ch" + str(channel) + ".png")
 
 
@@ -99,6 +99,49 @@ def detect_disc_channel(img, channel):
     # kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
     # dilate1 = cv2.dilate(major_vessels.astype(np.uint8) * 255, kernel, iterations = 1)
     # save_image(dilate1, process_results_folder, "7_dilate1" + "_ch" + str(channel) + ".png")
+
+    sigma_conv = 30
+    conv_map = cv2.GaussianBlur(thickness.astype(np.float32), (0,0), sigma_conv)
+    conv_map = conv_map / (conv_map.max() + 1e-8)
+    save_image(conv_map, process_results_folder, "10_vessel_density" + "_ch" + str(channel) + ".png")
+
+    # diam = 2*dist
+    # major_vessels = inv_img & (diam >= 3)
+    # save_image(major_vessels, process_results_folder, "9_major_vessels" + "_ch" + str(channel) + ".png")
+
+    # lab = label(major_vessels, connectivity=2)
+    # major_keep_vessel = np.zeros_like(inv_img, dtype=bool)
+    # for r in regionprops(lab):
+    #     if r.area >= 10:     # area == #skeleton pixels
+    #         major_keep_vessel[lab == r.label] = True
+
+    # save_image(major_keep_vessel, process_results_folder, "9_major_keep_vessels" + "_ch" + str(channel) + ".png")
+
+    distance = np.zeros_like(skeleton_img, dtype=np.float32)
+    labels = label(skeleton_img, connectivity=2)
+    regions = regionprops(labels)
+    print(len(regions))
+    major_skel_vessel = np.zeros_like(skeleton_img, dtype=bool)
+    min_area = 30
+    cluster_count = 0
+    for r in regions:
+        if r.area < min_area:
+            continue
+        # Create binary mask for a single cluster
+        coords = r.coords
+        m = np.zeros_like(skeleton_img, dtype=bool)
+        m[coords[:, 0], coords[:, 1]] = True
+        distance += distance_transform_edt(~m).astype(np.float32)
+        cluster_count += 1
+        major_skel_vessel[labels == r.label] = True
+
+    save_image(major_skel_vessel, process_results_folder, "9_major_skel_vessel" + "_ch" + str(channel) + ".png")
+
+    print(cluster_count)
+    mean_dist = distance / cluster_count
+    mean_dist_norm = (mean_dist - mean_dist.min()) / (mean_dist.max() - mean_dist.min() + 1e-8)
+    cluster_dist = mean_dist_norm
+    save_image(cluster_dist, process_results_folder, "10_cluster_dist" + "_ch" + str(channel) + ".png")
 
     
 def detect_disc(img):
