@@ -21,9 +21,9 @@ def one_image(name):
 
     detect_disc(resize_img)
 
-# one_image("papilledema_0005_EDD.jpg")
+one_image("papilledema_0005_EDD.jpg")
 # one_image("papilledema_0178_PPE.jpg")
-one_image("normal_0001_EDD.jpg")
+# one_image("normal_0001_EDD.jpg")
 # one_image("normal_1301_PPE.jpg")
 
 def all_images():
