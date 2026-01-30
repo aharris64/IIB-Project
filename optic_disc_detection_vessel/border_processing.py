@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-def create_mask(img, threshold_value=10/255, distance_to_edge=10, max_border_fraction=0.001):
+def create_mask(img, threshold_value=20/255, distance_to_edge=10, max_border_fraction=0.001):
     """
     Creates a masks to remove dark borders around fundus (assumes iamge is array [0,1] float)
     
