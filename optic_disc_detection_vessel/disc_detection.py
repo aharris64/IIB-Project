@@ -8,6 +8,7 @@ from border_processing import create_mask, inpaint
 from initial_processing import extract_channel
 from save_results import save_image, save_mask_overlay
 from vessel_enhancement import gaussian_blur, percentage_based_enhancement, clahe, multi_clahe, percentile_controlled_gamma, gaussian_division, gaussian_subtraction
+from vessel_direction import weighted_pca_points
 
 from skimage.morphology import skeletonize
 from scipy.ndimage import distance_transform_edt
@@ -123,27 +124,36 @@ def detect_disc_channel(img, channel):
     print(len(regions))
     major_skel_vessel = np.zeros_like(skeleton_img, dtype=bool)
     min_area = 30
-    cluster_count = 0
+    K = 5
+    regions = [r for r in regions if r.area >= min_area]
+    regions = sorted(regions, key=lambda r: r.area, reverse=True)[:K]
+
     for r in regions:
-        if r.area < min_area:
-            continue
         # Create binary mask for a single cluster
         coords = r.coords
         m = np.zeros_like(skeleton_img, dtype=bool)
         m[coords[:, 0], coords[:, 1]] = True
         distance += distance_transform_edt(~m).astype(np.float32)
-        cluster_count += 1
         major_skel_vessel[labels == r.label] = True
+        
 
     save_image(major_skel_vessel, process_results_folder, "9_major_skel_vessel" + "_ch" + str(channel) + ".png")
 
+    cluster_count = len(regions)
     print(cluster_count)
     mean_dist = distance / cluster_count
     mean_dist_norm = (mean_dist - mean_dist.min()) / (mean_dist.max() - mean_dist.min() + 1e-8)
-    cluster_dist = mean_dist_norm
+    cluster_dist =  mean_dist_norm
     save_image(cluster_dist, process_results_folder, "10_cluster_dist" + "_ch" + str(channel) + ".png")
+    save_image(1.0 - cluster_dist, process_results_folder, "10_inv_cluster_dist" + "_ch" + str(channel) + ".png")
+
+    # ------- Vessel Direction -------
 
     
+
+
+
+
 def detect_disc(img):
         
     detect_disc_channel(img, 2)
