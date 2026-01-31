@@ -73,12 +73,12 @@ def optic_disc_centre(skeleton_img, thickness_skel):
     
     eps = 1e-15
 
-    acc = generate_vessel_rays(skeleton_img.shape[:2], grid_results, sigma=50, eps=eps, use_weights=False)
+    acc = generate_vessel_rays(skeleton_img.shape[:2], grid_results, sigma=200, eps=eps, use_weights=False)
     acc_out = acc
     acc_out = acc_out / (acc_out.max() + eps)
     
 
-    blurred = blur_vessel_rays(acc, blur_sigma=20)
+    blurred = blur_vessel_rays(acc, blur_sigma=30)
     p_xy, peak = find_convergence_point(blurred)
     blurred_out = blurred
     blurred_out = blurred_out / (blurred_out.max() + eps)
