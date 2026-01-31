@@ -23,7 +23,7 @@ def one_image(name):
 
 
 
-def all_images():
+def all_images(use_weights, sigma_att, sigma_blur):
 
     for file in os.listdir(test_images):
         test_image = os.path.join(test_images, file)
@@ -32,11 +32,14 @@ def all_images():
             img = img.convert("RGB")
             resize_img = resize(img, TARGET_SIZE)
 
-        detect_disc(resize_img, Path(test_image).name)
+        save_name = Path(test_image).stem + "_W" + str(use_weights) + "_sa" + str(sigma_att) + "_sb" + str(sigma_blur) + ".png"
+        print(save_name)
+        detect_disc(resize_img, use_weights, sigma_att, sigma_blur, save_name)
 
-# all_images()
 
-one_image("papilledema_0483_RFM.png")
+all_images(False, 200, 15)
+
+# one_image("papilledema_0483_RFM.png")
 
 # one_image("pseudopapilledema_0009_PPE.jpg")
 # one_image("pseudopapilledema_0011_PPE.jpg")

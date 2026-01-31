@@ -66,19 +66,19 @@ def vessel_processing(img):
 
     return skeleton_img, thickness_skel
 
-def optic_disc_centre(skeleton_img, thickness_skel):
+def optic_disc_centre(skeleton_img, thickness_skel, use_weights, sigma_att, sigma_blur):
 
     grid_results = pca_on_grid_boxes(skeleton_img, thickness_skel, box_size=10, min_points=5, weight_power=1.0)
     dir_grid_img = render_grid_directions(skeleton_img.shape, grid_results, l=5)
     
     eps = 1e-15
 
-    acc = generate_vessel_rays(skeleton_img.shape[:2], grid_results, sigma=200, eps=eps, use_weights=False)
+    acc = generate_vessel_rays(skeleton_img.shape[:2], grid_results, sigma=sigma_att, eps=eps, use_weights=use_weights)
     acc_out = acc
     acc_out = acc_out / (acc_out.max() + eps)
     
 
-    blurred = blur_vessel_rays(acc, blur_sigma=30)
+    blurred = blur_vessel_rays(acc, blur_sigma=sigma_blur)
     p_xy, peak = find_convergence_point(blurred)
     blurred_out = blurred
     blurred_out = blurred_out / (blurred_out.max() + eps)
@@ -87,16 +87,15 @@ def optic_disc_centre(skeleton_img, thickness_skel):
     save_image(acc_out, process_results_folder, "11_acc_out.png")
     save_image(blurred_out, process_results_folder, "12_blurred_out.png")
 
-    print("Estimated centre:", p_xy)
     return p_xy
 
-def detect_disc(img, name):
+def detect_disc(img, use_weights, sigma_att, sigma_blur, name):
 
     processed_img = img_processing(img, 2)
     
     skeleton_img, thickness_skel = vessel_processing(processed_img)
 
-    centre = optic_disc_centre(skeleton_img, thickness_skel)
+    centre = optic_disc_centre(skeleton_img, thickness_skel, use_weights, sigma_att, sigma_blur)
 
     img_centre = img.copy()
     H, W, _ = img_centre.shape
@@ -119,6 +118,6 @@ def detect_disc(img, name):
                 img_centre[r, c, 1] = color[1]
                 img_centre[r, c, 2] = color[2]
 
-    save_image(img_centre, process_results_folder, "13_img_centre.png")
-    # save_image(img_centre, image_results_folder, name)
-
+    # save_image(img_centre, process_results_folder, "13_img_centre.png")
+    save_image(img_centre, image_results_folder, name)
+    # print("Estimated centre:", centre)
