@@ -19,14 +19,9 @@ def one_image(name):
         img = img.convert("RGB")
         resize_img = resize(img, TARGET_SIZE)
 
-    detect_disc(resize_img)
+    detect_disc(resize_img, None)
 
-# one_image("papilledema_0005_EDD.jpg")
-# one_image("papilledema_0178_PPE.jpg")
-# one_image("normal_0001_EDD.jpg")
-# one_image("normal_1301_PPE.jpg")
-# one_image("papilledema_0652_WHC.jpg")
-one_image("papilledema_0654_WHC.jpg")
+
 
 def all_images():
 
@@ -37,4 +32,19 @@ def all_images():
             img = img.convert("RGB")
             resize_img = resize(img, TARGET_SIZE)
 
-        best = detect_disc(resize_img)
+        detect_disc(resize_img, Path(test_image).name)
+
+# all_images()
+
+one_image("papilledema_0483_RFM.png")
+
+# one_image("pseudopapilledema_0009_PPE.jpg")
+# one_image("pseudopapilledema_0011_PPE.jpg")
+# one_image("pseudopapilledema_0015_PPE.jpg")
+# one_image("pseudopapilledema_0029_PPE.jpg")
+# one_image("pseudopapilledema_0202_PPE.jpg")
+# one_image("pseudopapilledema_0296_WHC.jpg")
+# one_image("pseudopapilledema_0317_WHC.jpg")
+# one_image("pseudopapilledema_0320_WHC.jpg")
+# one_image("pseudopapilledema_0321_WHC.jpg")
+# one_image("pseudopapilledema_0361_WHC.jpg")

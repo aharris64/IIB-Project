@@ -33,8 +33,8 @@ def gaussian_blur(img, sigma=5):
     
     return blur.astype(np.float32)
 
-def otsu_thresholding(img):
+def otsu_thresholding(img, level=0):
     thresh_multi_ostu = threshold_multiotsu(img)
-    multi_ostu_r1 = img > thresh_multi_ostu[0]
+    multi_ostu_r1 = img > thresh_multi_ostu[level]
 
     return multi_ostu_r1
