@@ -33,9 +33,6 @@ def vessel_suppression(rgb_img, red_img, save_results=False, save_path=None):
     # Vessel inpaint
     vessel_removed_img = vessel_inpaint(red_img, inv_img)
 
-    # Gaussian Subtraction
-    # gsub = gaussian_subtraction(vessel_removed_img, 60)
-
     if save_results:
         save_image(green_img, save_path, "b_4_green_img.png")
         save_mask_overlay(green_img, fov_mask, save_path, "b_5_mask_overlay.png")
@@ -44,7 +41,6 @@ def vessel_suppression(rgb_img, red_img, save_results=False, save_path=None):
         save_image(threshold_img, save_path, "b_8_threshold_img.png")
         save_image(inv_img, save_path, "b_9_inv_img.png")
         save_image(vessel_removed_img, save_path, "b_10_vessel_removed_img.png")
-        # save_image(gsub, save_path, "b_10_gsub.png")
     
     return vessel_removed_img
 

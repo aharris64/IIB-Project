@@ -48,9 +48,9 @@ def score_candidate(img, centre, radius, response,
     contrast = mu_in - mu_out
     brightness = mu_in ** gamma
 
-    total_score = w_contrast * contrast + w_brightness * brightness + w_response * abs(response)
+    total_score = w_contrast * contrast + w_brightness * brightness + w_response * response
 
-    return total_score
+    return (total_score, contrast, brightness, response)
 
 def best_disc_candidate(img, candidates, mask):
     """
@@ -59,10 +59,10 @@ def best_disc_candidate(img, candidates, mask):
     """
 
     best = None
-    best_score = -np.inf
+    best_score = [-np.inf]
 
-    if len(candidates) == 1:
-        return candidates[0]
+    # if len(candidates) == 1:
+    #     return candidates[0]
 
     for (centre, radius, response) in candidates:
         x, y = centre
@@ -73,7 +73,7 @@ def best_disc_candidate(img, candidates, mask):
 
         score = score_candidate(img, centre, radius, response)
         
-        if score > best_score:
+        if score[0] > best_score[0]:
             best_score = score
             best = (centre, radius, best_score)
 

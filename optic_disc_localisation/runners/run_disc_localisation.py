@@ -27,15 +27,19 @@ def detect_disc(img_path, target_size=512, save_final=False, save_final_path = F
         img = img.convert("RGB")
         img = resize(img, target_size)
     
-    blob_centre, blob_radius, blob_score = blob_disc_detection(img, save_results=save_intermediate, save_path=save_intermediate_path)
+    blob_result = blob_disc_detection(img, save_results=save_intermediate, save_path=save_intermediate_path)
     vessel_centre = vessel_disc_detection(img, save_results=save_intermediate, save_path=save_intermediate_path)
 
-    if blob_centre is None or blob_radius is None:
+    if blob_result is None:
         if save_final:
             save_centre_overlay(img, vessel_centre, save_final_path, img_name)
         return ("no_blob", None, (None, None, None), vessel_centre)
+    
+    blob_centre, blob_radius, blob_score = blob_result
 
     score = score_vessel_blob(blob_centre, blob_radius, vessel_centre)
+
+    # blob_score = (total_score, contrast, brightness, response)
 
     if save_final:
         blob = (blob_centre, blob_radius, blob_score)

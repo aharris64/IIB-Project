@@ -3,7 +3,7 @@ import os
 
 from optic_disc_localisation.runners.run_disc_localisation import detect_disc
 
-image_name = "normal_0004_EDD.jpg"
+image_name = "normal_0001_EDD.jpg"
 
 disc_localisation_path = Path(__file__).parents[1]
 image_path = os.path.join(disc_localisation_path, "input_images", image_name)

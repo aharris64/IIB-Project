@@ -1,0 +1,59 @@
+import pandas as pd
+from pathlib import Path
+
+disc_localisation_path = Path(__file__).parents[1]
+other_candidates = disc_localisation_path / "candidate_ratings" / "disc_candidates_050226_combined.csv"
+best_candidates    = disc_localisation_path / "disc_localisation_030226_results" / "disc_localisation_030226_combined.csv"
+outpath       = disc_localisation_path / "all_candidates_for_learning" / "all_candidates_050226.csv"
+
+
+# df_a = file WITH candidate_num (your first combined output)
+# df_b = file WITHOUT candidate_num (your second spreadsheet-like output)
+df_a = pd.read_csv(other_candidates)
+df_b = pd.read_csv(best_candidates)
+
+# --- normalize image to "normal_0005_EDD" for both ---
+def clean_image(s: pd.Series) -> pd.Series:
+    s = s.astype(str).str.replace(r"^.*/", "", regex=True)   # drop folders
+    s = s.str.replace(r"\.[^.]+$", "", regex=True)           # drop any extension
+    return s
+
+df_a["image"] = clean_image(df_a["image"])
+df_b["image"] = clean_image(df_b["image"])
+
+# --- ensure df_b has candidate_num = 0 ---
+df_b["candidate_num"] = 0
+
+# --- class = class_x (drop class_y if present) ---
+# in df_a it's class_x already; in df_b it's class_x + class_y
+df_b = df_b.rename(columns={"class_x": "class"})
+df_a = df_a.rename(columns={"class_x": "class"})
+
+# --- pick the exact output columns you want (same schema for both) ---
+out_cols = [
+    "image",
+    "candidate_num",
+    "rating",
+    "class",
+    "centre",
+    "radius",
+    "blob_score",
+    "blob_contrast",
+    "blob_brightness",
+    "blob_response",
+    "final_score",
+    "vessel_centre",
+]
+
+# keep only needed cols (ignore extras like vessel_ok/status/class_index/class_y)
+df_a_out = df_a[out_cols]
+df_b_out = df_b[out_cols]
+
+# --- stack them ---
+out = pd.concat([df_a_out, df_b_out], ignore_index=True)
+
+# optional: sort so candidate_num=0 comes first per image
+out = out.sort_values(["image", "candidate_num"], kind="stable").reset_index(drop=True)
+
+out.to_csv(outpath, index=False)
+print("Wrote final_combined.csv with", len(out), "rows")

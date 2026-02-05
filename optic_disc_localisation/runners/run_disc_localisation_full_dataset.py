@@ -9,7 +9,7 @@ from optic_disc_localisation.visualisations.save_visualisations import save_vess
 
 
 source = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw"
-destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation020226"
+destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation030226"
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)
@@ -64,6 +64,9 @@ for cls in CLASSES:
                 "centre": None,
                 "radius": None,
                 "blob_score": None,
+                "blob_contrast": None,
+                "blob_brightness": None,
+                "blob_response": None,
                 "final_score": None,
                 "vessel_centre": None if vessel_centre is None else [
                     float(vessel_centre[0]), float(vessel_centre[1])
@@ -84,7 +87,10 @@ for cls in CLASSES:
                 "class": cls,
                 "centre": [float(blob_centre[0]), float(blob_centre[1])],
                 "radius": float(blob_radius),
-                "blob_score": None if blob_score is None else float(blob_score),
+                "blob_score": None if blob_score is None else float(blob_score[0]),
+                "blob_contrast": None if blob_score is None else float(blob_score[1]),
+                "blob_brightness": None if blob_score is None else float(blob_score[2]),
+                "blob_response": None if blob_score is None else float(blob_score[3]),
                 "final_score": float(score),
                 "vessel_centre": None if vessel_centre is None else [
                     float(vessel_centre[0]), float(vessel_centre[1])
@@ -103,7 +109,10 @@ for cls in CLASSES:
                 "class": cls,
                 "centre": [float(blob_centre[0]), float(blob_centre[1])],
                 "radius": float(blob_radius),
-                "blob_score": None if blob_score is None else float(blob_score),
+                "blob_score": None if blob_score is None else float(blob_score[0]),
+                "blob_contrast": None if blob_score is None else float(blob_score[1]),
+                "blob_brightness": None if blob_score is None else float(blob_score[2]),
+                "blob_response": None if blob_score is None else float(blob_score[3]),
                 "final_score": float(score),
                 "vessel_centre": None if vessel_centre is None else [
                     float(vessel_centre[0]), float(vessel_centre[1])
