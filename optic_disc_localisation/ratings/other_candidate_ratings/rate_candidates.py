@@ -14,14 +14,16 @@ SOURCE_ROOT = ROOT / name
 CLASSES = ["normal", "papilledema", "pseudopapilledema"]
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 
-# Optional: resume from a s4pecific row number in the candidate list (1-based)
 START_ROW = 2286
 
-# Rating keys
 RATING_KEYS = {"1", "2", "3", "4"}
 
-# -------------------- HELPERS --------------------44
 cand_regex = re.compile(r"^(?P<stem>.+?)_cand(?P<cand>\d+)(?:_vb[-\d.]+)?$", re.IGNORECASE)
+
+out_dir = Path(__file__).resolve().parent
+out_dir.mkdir(parents=True, exist_ok=True)
+simple_file = out_dir / f"{name}_candidates_.csv"
+
 
 def parse_candidate_name(p: Path):
     """
@@ -56,19 +58,11 @@ def collect_candidate_images():
     items.sort(key=lambda d: (d["class"], d["base_image"], d["candidate_index"], d["candidate_image"]))
     return items
 
-# -------------------- LOAD ITEMS --------------------
 items = collect_candidate_images()
 if len(items) == 0:
     raise ValueError(f"No candidate images found under {SOURCE_ROOT}.")
 
-# -------------------- OUTPUT FILE --------------------
-out_dir = Path(__file__).resolve().parent
-out_dir.mkdir(parents=True, exist_ok=True)
-simple_file = out_dir / f"{name}_candidates_.csv"
-
-# -------------------- LOAD EXISTING SIMPLE CSV (optional) --------------------
-# This lets you continue a previous session WITHOUT a separate resume CSV.
-# Key by (image, candidate_num) because those are what you save.
+# Load existing csv
 rated = {}  # (image_no_ext, candidate_num) -> rating
 if simple_file.exists():
     df_prev = pd.read_csv(simple_file)
@@ -78,7 +72,7 @@ if simple_file.exists():
                 continue
             rated[(str(r["image"]), int(r["candidate_num"]))] = int(r["rating"])
 
-# -------------------- MAIN LOOP --------------------
+
 i = max(START_ROW - 1, 0)
 last_saved = None
 
@@ -142,9 +136,7 @@ while 0 <= i < len(items):
             i += 1
             break
 
-# -------------------- SAVE SIMPLE CSV --------------------
-# Save in the exact requested columns: image, candidate_num, rating, index
-# index is assigned in the order candidates appear in `items`.
+# Save csv
 rows = []
 for idx0, it in enumerate(items, start=1):
     image_no_ext = Path(it["base_image"]).stem

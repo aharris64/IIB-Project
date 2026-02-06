@@ -1,12 +1,7 @@
 from pathlib import Path
 import json
-import os
-from PIL import Image
 
-from optic_disc_localisation.candidate_ratings.find_other_candidates import detect_disc
-from optic_disc_localisation.image_processing.initial_processing import resize
-from optic_disc_localisation.visualisations.save_visualisations import save_vessel_centre_and_blob_candidate, save_centre_overlay
-
+from optic_disc_localisation.ratings.other_candidate_ratings.find_other_candidates import detect_disc
 
 source = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw"
 destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_candidates050226"
