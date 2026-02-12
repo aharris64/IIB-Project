@@ -8,7 +8,7 @@ from roc_auc import plot_roc_ovr, plot_avg_roc
 from threshold import plot_threshold_single_class, plot_threshold_single_metric
 from summary import print_summary
 
-run = "mobilenet_v3_20260212_105504"
+run = "mobilenet_v3_20260212_152242"
 
 run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
 save_folder =  r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\results"
