@@ -4,12 +4,12 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "ghostnet"
+MODEL_NAME = "mobilenet_v3"
 NUM_CLASSES = 3
 FREEZE = "head"
 
 # Data
-DATASET = "basic_resize_224"
+DATASET = "disc_centred_r4"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
