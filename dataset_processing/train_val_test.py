@@ -3,10 +3,10 @@ from collections import defaultdict
 from pathlib import Path
 import shutil
 
-SOURCE = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Dataset"
-DESTINATION = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\train_test_val"
+SOURCE = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets"
+DESTINATION = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\train_test_val"
 
-DATASET = "basic_resize_224"
+DATASET = "disc_centred_r4"
 
 SOURCE_ROOT = Path(SOURCE + "\\" + DATASET)
 DEST_ROOT = Path(DESTINATION + "\\" + DATASET)

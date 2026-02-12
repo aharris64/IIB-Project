@@ -4,29 +4,41 @@ import json
 import pandas as pd
 from PIL import Image, ImageOps
 
+
+# ----------------------------------------------------------------------------
+# ------- WILL ONLY WORK ON MANUALLY RATED DISC (I.E. 512 TARGET_SIZE) -------
+# ----------------------------------------------------------------------------
+
 CLASSES = ["normal", "papilledema", "pseudopapilledema"]
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 
-TARGET_SHORT = 512
+TARGET_SIZE = 512
 OUT_SIZE = 224
 PAD_COLOR = (0, 0, 0)
 RADIUS_SCALE_FACTOR = 4.0
-ACCEPT_THRESHOLD = 1.75
+REJECT_CLASS = 4
 
 
-name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_th{ACCEPT_THRESHOLD}"
+name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_cl{REJECT_CLASS}"
 
 source = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw")
-dest   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_centred_r4")
+dest_root   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets")
+dest = dest_root / name
 dest.mkdir(parents=True, exist_ok=True)
 
 json_file = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation_100226_512\disc_localisation_results.json")
 
-def resize_scale_factor(w: int, h: int, target_short: int) -> float:
+# Load CSV
+path = Path(__file__).parents[1]
+csv = path / "optic_disc_localisation" / "ratings" / "all_candidates" / "best_candidates_050226.csv"
+df_ratings = pd.read_csv(csv)
+df_ratings = df_ratings.set_index("image")
+
+def resize_scale_factor(w: int, h: int, target_size: int) -> float:
     # matches your resize(): if both sides smaller, no resize
-    if w < target_short and h < target_short:
+    if w < target_size and h < target_size:
         return 1.0
-    return target_short / min(w, h)
+    return target_size / min(w, h)
 
 def centred_square_box(cx: float, cy: float, side: float):
     half = side / 2.0
@@ -72,6 +84,12 @@ for cls in CLASSES:
             print(f"[WARN] No blob detected")
             continue
 
+        name_clean = Path(name).stem
+
+        if df_ratings.loc[name_clean, "rating"] == REJECT_CLASS:
+            print(f"[WARN] Disc Localisation Classed as Poor")
+            continue
+
         cx_512, cy_512 = df.loc[name, "centre"]
         r_512 = float(df.loc[name, "radius"])
 
@@ -79,7 +97,7 @@ for cls in CLASSES:
             img = img.convert("RGB")
             w0, h0 = img.size
 
-            s = resize_scale_factor(w0, h0, TARGET_SHORT)  # original -> 512 space
+            s = resize_scale_factor(w0, h0, TARGET_SIZE)  # original -> 512 space
             # invert mapping: 512 space -> original
             cx0 = float(cx_512) / s
             cy0 = float(cy_512) / s

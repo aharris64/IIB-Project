@@ -8,7 +8,7 @@ from roc_auc import plot_roc_ovr, plot_avg_roc
 from threshold import plot_threshold_single_class, plot_threshold_single_metric
 from summary import print_summary
 
-run = "efficientnet_b0_20260111_214118"
+run = "mobilenet_v3_20260212_105504"
 
 run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
 save_folder =  r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\results"
@@ -27,14 +27,14 @@ plot_calibration_curve(run_path, split, n_bins)
 plot_confusion_matrix(run_path, split, False)
 plot_confusion_matrix(run_path, split, True)
 
-# plot_loss(run_path)
+plot_loss(run_path)
 plot_macro_F1(run_path)
 
 plot_pr_indivisual_class(run_path, split)
-# plot_avg_pr(run_path, split)
+plot_avg_pr(run_path, split)
 
 plot_roc_ovr(run_path, split)
-# plot_avg_roc(run_path, split)
+plot_avg_roc(run_path, split)
 
 # plot_threshold_single_class(run_path, split, 0)
 # plot_threshold_single_class(run_path, split, 1)
