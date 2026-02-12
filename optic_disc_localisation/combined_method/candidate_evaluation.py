@@ -62,7 +62,7 @@ def score_candidate(img, centre, radius, response, vessel_centre,
 
     total_score = w_bias + w_contrast * contrast + w_response * response + w_vessel_sign * vessel_sign
 
-    return (total_score, contrast, response)
+    return (total_score, contrast, response, vessel_sign)
 
 def best_disc_candidate(img, vessel_centre, candidates, mask):
     """
@@ -70,11 +70,10 @@ def best_disc_candidate(img, vessel_centre, candidates, mask):
     Return tuple of centre and radius of the best candidate
     """
 
-    best = None
+    best = (None, None, vessel_centre, (None, None, None, None))
     best_score = [-np.inf]
 
-    # if len(candidates) == 1:
-    #     return candidates[0]
+    h, w = img.shape[:2]
 
     for (centre, radius, response) in candidates:
         x, y = centre
@@ -83,10 +82,14 @@ def best_disc_candidate(img, vessel_centre, candidates, mask):
         if mask[int(y), int(x)] == 0:
             continue
 
+        # Check if diameter is greater than image
+        if 2 * radius > min(h, w):
+            continue
+
         score = score_candidate(img, centre, radius, response, vessel_centre)
         
         if score[0] > best_score[0]:
             best_score = score
-            best = (centre, radius, best_score)
+            best = (centre, radius, vessel_centre, best_score)
 
     return best

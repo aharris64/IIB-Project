@@ -4,7 +4,7 @@ from optic_disc_localisation.image_processing.contrast_enhacement import  percen
 from optic_disc_localisation.image_processing.gaussian_processing import  gaussian_subtraction, gaussian_blur
 
 from optic_disc_localisation.blob_method.blob_candidate import find_DoG_candidates
-from optic_disc_localisation.blob_method.candidate_evaluation import best_disc_candidate
+from optic_disc_localisation.combined_method.candidate_evaluation import best_disc_candidate
 
 from optic_disc_localisation.image_processing.vessel_processing import inverse_bool_img, otsu_thresholding, inverse_bool_img, isolate_major_vessels, vessel_skeleton, vessel_thickness_skeleton, vessel_inpaint
 from optic_disc_localisation.vessel_method.vessel_directions import pca_on_grid_boxes
@@ -94,7 +94,7 @@ def vessel_convergence(skeleton_img, thickness_skel, save_results=False, save_pa
 def vessel_suppression(vessel_mask_img, red_img, save_results=False, save_path=None):
 
     # Vessel inpaint
-    vessel_removed_img = vessel_inpaint(red_img, vessel_mask_img, save_results=save_results, save_path=save_path)
+    vessel_removed_img = vessel_inpaint(red_img, vessel_mask_img)
 
     if save_results:
         save_image(vessel_removed_img, save_path, "14_vessel_removed_img.png")
@@ -134,9 +134,9 @@ def get_candidates(img, save_results=False, save_path=None):
 
     return candidates
 
-def blob_disc_detection(img, save_results=False, save_path=None):
+def optic_disc_localisation(img, save_results=False, save_path=None):
 
-    fov_mask, processed_img = image_processing(img, save_results=save_results, save_path=save_path)
+    fov_mask, processed_img = image_processing(img, 1, save_results=save_results, save_path=save_path)
 
     # Vessel Extraction
     vessel_mask = vessel_extraction(img, save_results=save_results, save_path=save_path)
@@ -158,7 +158,7 @@ def blob_disc_detection(img, save_results=False, save_path=None):
 
     if save_results:
         save_centre_overlay(img, vessel_centre, save_path, "17_vessel_centre.png")
-        save_candidate_overlay(img, [best], save_path, "17_best_candidate.png")
-        save_vessel_centre_and_blob_candidate(img, [best], vessel_centre, save_path, "18_vessel_and_best.png")
+        save_candidate_overlay(img, [(best[0], best[1], None)], save_path, "17_best_candidate.png")
+        save_vessel_centre_and_blob_candidate(img, (best[0], best[1], None), vessel_centre, save_path, "18_vessel_and_best.png")
 
     return best

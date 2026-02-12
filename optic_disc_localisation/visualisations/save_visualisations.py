@@ -61,7 +61,7 @@ def save_candidate_overlay(img, candidates, save_folder, name):
     else:
         raise ValueError("Unsupported image shape")
 
-    for (centre, radius, resp) in candidates:
+    for (centre, radius, response) in candidates:
         cv2.circle(img_c, centre, int(round(radius)), (0, 255, 0), 1)
         cv2.circle(img_c, centre, 2, (0, 0, 255), -1)
 

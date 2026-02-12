@@ -48,7 +48,7 @@ def score_candidate(img, centre, radius, response,
     contrast = mu_in - mu_out
     brightness = mu_in ** gamma
 
-    total_score = w_contrast * contrast + w_brightness * brightness + w_response * response
+    total_score = w_contrast * contrast + w_brightness * brightness + w_response * abs(response)
 
     return (total_score, contrast, brightness, response)
 
