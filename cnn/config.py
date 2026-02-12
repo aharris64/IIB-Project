@@ -1,6 +1,6 @@
 
 EXPERIMENT_NOTE = (
-    "First pass of models: ghost net"
+    "Mobile Net V3 with disc centering, no augmentation, removed manually rated class 4"
 )
 
 # Model
@@ -9,7 +9,7 @@ NUM_CLASSES = 3
 FREEZE = "head"
 
 # Data
-DATASET = "disc_centred_r4"
+DATASET = "disc_centred_r4.0_cl4"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
