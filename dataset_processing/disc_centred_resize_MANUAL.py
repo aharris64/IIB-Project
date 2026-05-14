@@ -35,7 +35,7 @@ df_ratings = pd.read_csv(csv)
 df_ratings = df_ratings.set_index("image")
 
 def resize_scale_factor(w: int, h: int, target_size: int) -> float:
-    # matches your resize(): if both sides smaller, no resize
+    # matches resize(): if both sides smaller, no resize
     if w < target_size and h < target_size:
         return 1.0
     return target_size / min(w, h)

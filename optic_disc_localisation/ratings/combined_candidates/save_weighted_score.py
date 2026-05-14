@@ -4,10 +4,10 @@ from pathlib import Path
 
 def calculate_weighted_score(df):
     # Define weights
-    w_contrast = 3.83144
-    w_response = -8.45457
-    w_final    = 1.21192
-    bias       = 0.
+    w_contrast = 3.831443
+    w_response = -8.454572
+    w_final    = 1.211922
+    bias       = 0.5929768734602114
     
     df["final_sign"] = (df["final_score"] > 0).astype(int) # Just use sign
 

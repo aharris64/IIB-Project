@@ -23,7 +23,7 @@ dest.mkdir(parents=True, exist_ok=True)
 json_file = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation_100226_512\disc_localisation_results.json")
 
 def resize_scale_factor(w: int, h: int, target_short: int) -> float:
-    # matches your resize(): if both sides smaller, no resize
+    # matches resize(): if both sides smaller, no resize
     if w < target_short and h < target_short:
         return 1.0
     return target_short / min(w, h)

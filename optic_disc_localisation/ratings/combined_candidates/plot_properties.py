@@ -7,10 +7,10 @@ from sklearn.metrics import roc_auc_score
 
 def calculate_wegihted_score(df):
     # Define weights
-    w_contrast = 3.83144
-    w_response = -8.45457
-    w_final    = 1.21192
-    bias       = 0.
+    w_contrast = 3.831443
+    w_response = -8.454572
+    w_final    = 1.211922
+    bias       = 0.5929768734602114
     
     df["final_sign"] = (df["final_score"] > 0).astype(int) # Just use sign
 
@@ -52,10 +52,16 @@ def plot_kde(df, property, name, num_points, cmap):
         kde = gaussian_kde(vals)
         plt.plot(x_grid, kde(x_grid), label=f"Rating {r}", c=cmap(r-1))
 
-    plt.xlabel(name)
-    plt.ylabel("Density")
+    
+
+    plt.xlabel(name, fontsize=12)
+    plt.ylabel("Density",fontsize=12)
     plt.title(f"Keneral Density Estimate (KDE) of {name}")
-    plt.legend()
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    plt.legend(fontsize=12)
     plt.tight_layout()
     plt.show()
 
@@ -76,7 +82,7 @@ def count_ratings(df):
 
 
 disc_localisation_path = Path(__file__).parents[1]
-csv = disc_localisation_path / "all_candidates" / "best_candidates_050226.csv"
+csv = disc_localisation_path / "all_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 
 count_ratings(df)
@@ -93,10 +99,8 @@ cmap = plt.colormaps.get_cmap("bwr").resampled(4)
 # plot_overlapping_histograms(df, "blob_response", "DoG Response", bins)
 # plot_overlapping_histograms(df, "final_score", "Vessel Score", bins)
 
-# plot_kde(df, "blob_contrast", "Contrast", num_points, cmap)
-# plot_kde(df, "blob_response", "DoG Response", num_points, cmap)
-# plot_kde(df, "final_score", "Vessel Score", num_points, cmap)
-
-# plot_kde(df, "final_score", "Vessel Score", num_points, cmap)
+plot_kde(df, "blob_contrast", "Contrast", num_points, cmap)
+plot_kde(df, "blob_response", "DoG Response", num_points, cmap)
+plot_kde(df, "final_score", "Vessel Score", num_points, cmap)
 
 plot_kde(df, "weighted_score", "Weighted Score", num_points, cmap)
