@@ -44,23 +44,24 @@ def plot_kde(df, property, name, num_points, cmap):
     x_grid = np.linspace(df[property].min(),
                      df[property].max(), num_points)
 
+    legend = ["Very Good", "Good", "Poor", "Very Poor"]
+
     for r in range(1,5):
         vals = df.loc[df["rating"]==r, property].dropna()
         if len(vals) < 2:
             continue
 
         kde = gaussian_kde(vals)
-        plt.plot(x_grid, kde(x_grid), label=f"Rating {r}", c=cmap(r-1))
+        weight = len(vals) / len(df[property].dropna())  # fraction of total
+        plt.plot(x_grid, kde(x_grid) * weight, label=legend[r-1], c=cmap(r-1))
 
     
 
     plt.xlabel(name, fontsize=12)
     plt.ylabel("Density",fontsize=12)
-    plt.title(f"Keneral Density Estimate (KDE) of {name}")
-
+    plt.gca().spines[["top", "right"]].set_visible(False)
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
-
     plt.legend(fontsize=12)
     plt.tight_layout()
     plt.show()
@@ -82,7 +83,7 @@ def count_ratings(df):
 
 
 disc_localisation_path = Path(__file__).parents[1]
-csv = disc_localisation_path / "all_candidates" / "all_candidates_050226.csv"
+csv = disc_localisation_path / "combined_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 
 count_ratings(df)
@@ -99,8 +100,8 @@ cmap = plt.colormaps.get_cmap("bwr").resampled(4)
 # plot_overlapping_histograms(df, "blob_response", "DoG Response", bins)
 # plot_overlapping_histograms(df, "final_score", "Vessel Score", bins)
 
-plot_kde(df, "blob_contrast", "Contrast", num_points, cmap)
-plot_kde(df, "blob_response", "DoG Response", num_points, cmap)
-plot_kde(df, "final_score", "Vessel Score", num_points, cmap)
+# plot_kde(df, "blob_contrast", "Contrast", num_points, cmap)
+# plot_kde(df, "blob_response", "DoG Response", num_points, cmap)
+# plot_kde(df, "final_score", "Vessel Score", num_points, cmap)
 
 plot_kde(df, "weighted_score", "Weighted Score", num_points, cmap)

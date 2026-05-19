@@ -42,9 +42,11 @@ def plot_overlapping_histograms(df, property, name, num_bins):
     plt.tight_layout()
     plt.show()
 
-def plot_kde(df, property, name, num_points, cmap):
+def plot_kde(df, property, name, num_points, cmap, threshold=None):
     x_grid = np.linspace(df[property].min(),
                      df[property].max(), num_points)
+    
+    legend = ["Very Good", "Good", "Poor", "Very Poor"]
 
     for r in range(1,5):
         vals = df.loc[df["rating"]==r, property].dropna()
@@ -52,34 +54,18 @@ def plot_kde(df, property, name, num_points, cmap):
             continue
 
         kde = gaussian_kde(vals)
-        plt.plot(x_grid, kde(x_grid), label=f"Rating {r}", c=cmap(r-1))
+        weight = len(vals) / len(df[property].dropna())  # fraction of total
+        plt.plot(x_grid, kde(x_grid) * weight, label=legend[r-1], c=cmap(r-1))
 
-    plt.xlabel(name)
-    plt.ylabel("Density")
-    plt.title(f"Keneral Density Estimate (KDE) of {name}")
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+    if threshold is not None:
+        plt.axvline(threshold, color="black", linestyle="--", label=f"Threshold ({threshold:.2f})")
 
-def plot_kde_binary(df, property, name, num_points, cmap):
-    x_grid = np.linspace(df[property].min(),
-                         df[property].max(), num_points)
-
-    groups = {
-        "Good": df[df["rating"].isin([1, 2])][property].dropna(),
-        "Poor": df[df["rating"].isin([3, 4])][property].dropna(),
-    }
-
-    for i, (label, vals) in enumerate(groups.items()):
-        if len(vals) < 2:
-            continue
-        kde = gaussian_kde(vals)
-        plt.plot(x_grid, kde(x_grid), label=label, c=cmap(i))
-
-    plt.xlabel(name)
-    plt.ylabel("Density")
-    plt.title(f"Kernel Density Estimate (KDE) of {name}")
-    plt.legend()
+    plt.xlabel(name, fontsize=12)
+    plt.ylabel("Density", fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.legend(fontsize=12)
+    plt.gca().spines[["top", "right"]].set_visible(False)
     plt.tight_layout()
     plt.show()
 
@@ -138,9 +124,151 @@ def find_threshold(df, good_ratings=(1, 2)):
 
     return best_threshold
 
+CLASS_ORDER  = ["normal", "papilledema", "pseudopapilledema", "non_specific_disc_oedema"]
+CLASS_LABELS = {
+    "normal":                   "Normal",
+    "papilledema":              "Papilloedema",
+    "pseudopapilledema":        "Pseudo-\npapilloedema",
+    "non_specific_disc_oedema": "Non Specific\nDisc Oedema",
+}
+cmap1 = plt.colormaps.get_cmap("bwr").resampled(6)
+
+
+def plot_localisation_success(df):
+    """
+    Stacked 100% bar chart showing localisation rating distribution
+    per class, plus an overall bar.
+    """
+    rating_colors = {1: cmap1(0), 2: cmap1(1), 3: cmap1(4), 4: cmap1(5)}
+    rating_labels = {1: "1 Very Good", 2: "2 Good", 3: "3 Poor", 4: "4 Very Poor"}
+
+    # Add an "Overall" group to the class breakdown
+    df = df.copy()
+    df_all = df.copy()
+    df_all["class"] = "Overall"
+    df_combined = pd.concat([df, df_all], ignore_index=True)
+
+    classes = [c for c in CLASS_ORDER if c in df["class"].unique()] + ["Overall"]
+    class_labels = [CLASS_LABELS[c] for c in classes[:-1]] + ["Overall"]
+
+    # Build percentage table
+    rows = []
+    for cls in classes:
+        sub = df_combined[df_combined["class"] == cls]
+        total = len(sub)
+        row = {"class": cls, "total": total}
+        for r in [1, 2, 3, 4]:
+            n = (sub["rating"] == r).sum()
+            row[f"r{r}_n"]   = n
+            row[f"r{r}_pct"] = 100 * n / total if total > 0 else 0
+        rows.append(row)
+    summary = pd.DataFrame(rows).set_index("class").loc[classes]
+
+    fig, ax = plt.subplots(figsize=(9, 5), facecolor="white")
+
+    x = np.arange(len(classes))
+    bottoms = np.zeros(len(classes))
+
+    for r in [1, 2, 3, 4]:
+        pcts = summary[f"r{r}_pct"].values
+        bars = ax.bar(x, pcts, bottom=bottoms, color=rating_colors[r], label=rating_labels[r])
+        # Annotate each segment with count + %
+        for bar, cls, pct in zip(bars, classes, pcts):
+            n = summary.loc[cls, f"r{r}_n"]
+            if pct > 4:
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bottoms[classes.index(cls)] + pct / 2,
+                    f"{n} ({pct:.0f}%)",
+                    ha="center", va="center",
+                    fontsize=9, color="white", fontweight="bold",
+                )
+        bottoms += pcts
+
+    # Annotate total n above each bar
+    for i, cls in enumerate(classes):
+        ax.text(i, 102, f"n={summary.loc[cls, 'total']}",
+                ha="center", va="bottom", fontsize=9, color="k")
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(class_labels, fontsize=12)
+    ax.set_ylabel("Percentage of Images (%)", fontsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0f}%"))
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.2), ncols=4, fontsize=11, frameon=True)
+
+    plt.tight_layout()
+    plt.show()
+
+def plot_vessel_ok(df):
+    """
+    Stacked 100% bar chart showing vessel detection success by class, plus an overall bar.
+    """
+    vessel_colors = {9: cmap1(0), 0: cmap1(5)}
+    vessel_labels = {9: "Vessel Centre Correct", 0: "Vessel Centre Incorrect"}
+ 
+    # Add an "Overall" group
+    df = df.copy()
+    df_all = df.copy()
+    df_all["class"] = "Overall"
+    df_combined = pd.concat([df, df_all], ignore_index=True)
+ 
+    classes = [c for c in CLASS_ORDER if c in df["class"].unique()] + ["Overall"]
+    class_labels = [CLASS_LABELS[c] for c in classes[:-1]] + ["Overall"]
+ 
+    # Build percentage table
+    rows = []
+    for cls in classes:
+        sub = df_combined[df_combined["class"] == cls]
+        total = len(sub)
+        row = {"class": cls, "total": total}
+        for v in [9, 0]:
+            n = (sub["vessel_ok"] == v).sum()
+            row[f"v{v}_n"]   = n
+            row[f"v{v}_pct"] = 100 * n / total if total > 0 else 0
+        rows.append(row)
+    summary = pd.DataFrame(rows).set_index("class").loc[classes]
+ 
+    fig, ax = plt.subplots(figsize=(9, 5), facecolor="white")
+ 
+    x = np.arange(len(classes))
+    bottoms = np.zeros(len(classes))
+ 
+    for v in [9, 0]:
+        pcts = summary[f"v{v}_pct"].values
+        bars = ax.bar(x, pcts, bottom=bottoms, color=vessel_colors[v], label=vessel_labels[v])
+        for bar, cls, pct in zip(bars, classes, pcts):
+            n = summary.loc[cls, f"v{v}_n"]
+            if pct > 4:
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bottoms[classes.index(cls)] + pct / 2,
+                    f"{n} ({pct:.0f}%)",
+                    ha="center", va="center",
+                    fontsize=9, color="white", fontweight="bold",
+                )
+        bottoms += pcts
+ 
+    # Annotate total n above each bar
+    for i, cls in enumerate(classes):
+        ax.text(i, 102, f"n={summary.loc[cls, 'total']}",
+                ha="center", va="bottom", fontsize=9, color="k")
+ 
+    ax.set_xticks(x)
+    ax.set_xticklabels(class_labels, fontsize=12)
+    ax.set_ylabel("Percentage of Images (%)", fontsize=12)
+    ax.tick_params(axis="y", labelsize=12)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0f}%"))
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.2), ncols=2, fontsize=11, frameon=True)
+ 
+    plt.tight_layout()
+    plt.show()
+ 
 
 disc_localisation_path = Path(__file__).parents[1]
-csv = disc_localisation_path / "all_candidates" / "best_candidates_050226.csv"
+csv = disc_localisation_path / "combined_candidates" / "best_candidates_reclassified.csv"
 df = pd.read_csv(csv)
 
 count_ratings(df)
@@ -165,78 +293,8 @@ cmap = plt.colormaps.get_cmap("bwr").resampled(4)
 
 
 threshold = find_threshold(df)
-plot_kde(df, "weighted_score", "Weighted Score", num_points, cmap)
-plot_kde_binary(df, "weighted_score", "Weighted Score", num_points, cmap)
-
-def plot_localisation_success(df):
-    """
-    Stacked 100% bar chart showing localisation rating distribution
-    per class, plus an overall bar.
-    """
-    rating_colors = {1: "#185FA5", 2: "#1D9E75", 3: "#BA7517", 4: "#A32D2D"}
-    rating_labels = {1: "1 – Perfect", 2: "2 – Pretty good",
-                     3: "3 – Not great", 4: "4 – Completely off"}
-
-    # Add an "Overall" group to the class breakdown
-    df = df.copy()
-    df_all = df.copy()
-    df_all["class"] = "Overall"
-    df_combined = pd.concat([df, df_all], ignore_index=True)
-
-    classes = [c for c in sorted(df["class"].unique())] + ["Overall"]
-
-    # Build percentage table
-    rows = []
-    for cls in classes:
-        sub = df_combined[df_combined["class"] == cls]
-        total = len(sub)
-        row = {"class": cls, "total": total}
-        for r in [1, 2, 3, 4]:
-            n = (sub["rating"] == r).sum()
-            row[f"r{r}_n"]   = n
-            row[f"r{r}_pct"] = 100 * n / total if total > 0 else 0
-        rows.append(row)
-    summary = pd.DataFrame(rows).set_index("class").loc[classes]
-
-    fig, ax = plt.subplots(figsize=(9, 5), facecolor="white")
-
-    x = np.arange(len(classes))
-    bottoms = np.zeros(len(classes))
-
-    for r in [1, 2, 3, 4]:
-        pcts = summary[f"r{r}_pct"].values
-        bars = ax.bar(x, pcts, bottom=bottoms,
-                      color=rating_colors[r], label=rating_labels[r],
-                      width=0.55, edgecolor="white", linewidth=0.8)
-        # Annotate each segment with count + %
-        for bar, cls, pct in zip(bars, classes, pcts):
-            n = summary.loc[cls, f"r{r}_n"]
-            if pct > 4:
-                ax.text(
-                    bar.get_x() + bar.get_width() / 2,
-                    bottoms[classes.index(cls)] + pct / 2,
-                    f"{n}\n({pct:.0f}%)",
-                    ha="center", va="center",
-                    fontsize=8, color="white", fontweight="bold",
-                )
-        bottoms += pcts
-
-    # Annotate total n above each bar
-    for i, cls in enumerate(classes):
-        ax.text(i, 102, f"n={summary.loc[cls, 'total']}",
-                ha="center", va="bottom", fontsize=8, color="#444441")
-
-    ax.set_xticks(x)
-    ax.set_xticklabels(classes, fontsize=10)
-    ax.set_ylim(0, 112)
-    ax.set_ylabel("Percentage of images (%)", fontsize=10)
-    ax.set_title("Disc localisation success by class", fontsize=11)
-    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:.0f}%"))
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(loc="upper right", fontsize=9, frameon=False)
-
-    plt.tight_layout()
-    plt.savefig("localisation_success.png", dpi=150, bbox_inches="tight")
-    plt.show()
+plot_kde(df, "weighted_score", "Weighted Score", num_points, cmap, threshold)
 
 plot_localisation_success(df)
+ 
+plot_vessel_ok(df)
