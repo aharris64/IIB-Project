@@ -1,6 +1,6 @@
 
 EXPERIMENT_NOTE = (
-    "Mobile Net V3 with disc centering, no augmentation, removed manually rated class 4, removed some datasets"
+    "Mobile Net V3 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets"
 )
 
 # Model
@@ -9,7 +9,7 @@ NUM_CLASSES = 3
 FREEZE = "head"
 
 # Data
-DATASET = "disc_centred_r4.0_cl4_removed"
+DATASET = "disc_centred_r4.0_cl34_augmented"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
