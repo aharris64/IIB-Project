@@ -22,7 +22,7 @@ def build_model(model_name, num_classes, freeze):
     elif model_name == "mobilenet_v3_small":
         return mobile_net_v3_small(num_classes, freeze)
 
-    return ValueError(f"Unknown model_name='{model_name}'")
+    raise ValueError(f"Unknown model_name='{model_name}'")
 
 def get_backbone(model, model_name):
     """Return the backbone (feature extractor) module for a given model."""
@@ -73,7 +73,7 @@ def mobile_net_v2(num_classes, freeze):
     return model
 
 def mobile_net_v3(num_classes, freeze):
-    # Use v3 large over v3 small initially
+    # v3 la4t3
     model = mobilenet_v3_large(weights = 'IMAGENET1K_V1', progress = True)
     in_features = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(in_features, num_classes)

@@ -4,7 +4,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "mobile_net_v3_small"
+MODEL_NAME = "mobilenet_v3_small"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
