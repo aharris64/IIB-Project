@@ -1,15 +1,15 @@
 
 EXPERIMENT_NOTE = (
-    "Efficient net b0 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
+    "Mobilenetv3 small with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase, quarters"
 )
 
 # Model
-MODEL_NAME = "ghostnet"
+MODEL_NAME = "mobilenet_v3_small"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
 # Data
-DATASET = "disc_centred_r4.0_cl34_augmented"
+DATASET = "disc_centred_r4.0_cl34_quarters"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
