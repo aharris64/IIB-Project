@@ -1,10 +1,10 @@
 
 EXPERIMENT_NOTE = (
-    "Mobile Net V3 small with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
+    "Resnet 18 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
 )
 
 # Model
-MODEL_NAME = "mobilenet_v3_small"
+MODEL_NAME = "resnet"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
