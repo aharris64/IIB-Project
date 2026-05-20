@@ -1,4 +1,4 @@
-from torchvision.models import efficientnet_b0, squeezenet1_1, mobilenet_v2, mobilenet_v3_large, resnet18
+from torchvision.models import efficientnet_b0, squeezenet1_1, mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small, resnet18
 from torch import nn
 import timm
 
@@ -19,12 +19,14 @@ def build_model(model_name, num_classes, freeze):
         return efficientnet_lite1(num_classes, freeze)
     elif model_name == "ghostnet":
         return ghost_net(num_classes, freeze)
+    elif model_name == "mobilenet_v3_small":
+        return mobile_net_v3_small(num_classes, freeze)
 
     return ValueError(f"Unknown model_name='{model_name}'")
 
 def get_backbone(model, model_name):
     """Return the backbone (feature extractor) module for a given model."""
-    if model_name in ("mobilenet_v3", "mobilenet_v2", "efficientnet_b0"):
+    if model_name in ("mobilenet_v3", "mobilenet_v3_small", "mobilenet_v2", "efficientnet_b0"):
         return model.features
     elif model_name == "resnet":
         return nn.Sequential(model.layer1, model.layer2, model.layer3, model.layer4)
@@ -73,6 +75,17 @@ def mobile_net_v2(num_classes, freeze):
 def mobile_net_v3(num_classes, freeze):
     # Use v3 large over v3 small initially
     model = mobilenet_v3_large(weights = 'IMAGENET1K_V1', progress = True)
+    in_features = model.classifier[3].in_features
+    model.classifier[3] = nn.Linear(in_features, num_classes)
+
+    if freeze != "none":
+        freeze_all(model)
+        unfreeze(model.classifier[3])
+
+    return model
+
+def mobile_net_v3_small(num_classes, freeze):
+    model = mobilenet_v3_small(weights='IMAGENET1K_V1', progress=True)
     in_features = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(in_features, num_classes)
 
