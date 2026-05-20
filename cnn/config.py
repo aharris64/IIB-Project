@@ -1,10 +1,10 @@
 
 EXPERIMENT_NOTE = (
-    "Resnet 18 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
+    "Efficient net b0 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
 )
 
 # Model
-MODEL_NAME = "resnet"
+MODEL_NAME = "efficientnet_b0"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
