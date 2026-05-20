@@ -4,7 +4,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "squeezenet"
+MODEL_NAME = "ghostnet"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
