@@ -4,7 +4,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "efficientnet_b0"
+MODEL_NAME = "efficientnet_lite0"
 NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
