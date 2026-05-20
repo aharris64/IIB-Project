@@ -22,6 +22,19 @@ def build_model(model_name, num_classes, freeze):
 
     return ValueError(f"Unknown model_name='{model_name}'")
 
+def get_backbone(model, model_name):
+    """Return the backbone (feature extractor) module for a given model."""
+    if model_name in ("mobilenet_v3", "mobilenet_v2", "efficientnet_b0"):
+        return model.features
+    elif model_name == "resnet":
+        return nn.Sequential(model.layer1, model.layer2, model.layer3, model.layer4)
+    elif model_name == "squeezenet":
+        return model.features
+    elif model_name in ("efficientnet_lite0", "efficientnet_lite1", "ghostnet"):
+        return model.blocks
+    else:
+        raise ValueError(f"Unknown model_name='{model_name}'")
+
 # Initially either a full or no freeze (possibly add partial later)
 
 def freeze_all(model):

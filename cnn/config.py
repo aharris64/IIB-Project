@@ -1,12 +1,12 @@
 
 EXPERIMENT_NOTE = (
-    "Mobile Net V3 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets"
+    "Mobile Net V3 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase"
 )
 
 # Model
 MODEL_NAME = "mobilenet_v3"
 NUM_CLASSES = 3
-FREEZE = "head"
+FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
 # Data
 DATASET = "disc_centred_r4.0_cl34_augmented"
@@ -15,9 +15,10 @@ BATCH_SIZE = 32
 
 # Training
 NUM_EPOCHS = 50
-PATIENCE = 7
-LEARNING_RATE = 1e-3
+PATIENCE = 10
+LEARNING_RATE = 1e-4
 WEIGHT_DECAY = 1e-4
+PHASE1_EPOCHS = 10
 
 # Augmentation
 
