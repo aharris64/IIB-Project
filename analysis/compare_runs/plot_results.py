@@ -2,19 +2,25 @@ import os
 
 from history import plot_loss, plot_macro_F1
 
-runs = ["efficientnet_b0_20260111_214118",
-        "efficientnet_lite0_20260114_152301",
-        "ghostnet_20260114_154543",
-        "mobilenet_v2_20260114_125208",
-        "resnet_20260114_151502",
-        "squeezenet_20260114_150400"]
 
-# Without efficient net lite 0
-runs = ["efficientnet_b0_20260111_214118",
-        "ghostnet_20260114_154543",
-        "mobilenet_v2_20260114_125208",
-        "resnet_20260114_151502",
-        "squeezenet_20260114_150400"]
+runs = ["efficientnet_b0_20260520_161651",
+        "efficientnet_lite0_20260520_164934",
+        "ghostnet_20260520_181408",
+        "mobilenet_v3_20260520_121742",
+        "mobilenet_v3_small_20260520_141418",
+        "resnet_20260520_154113",
+        "squeezenet_20260520_174646"]
+
+# w/o l0
+runs = ["efficientnet_b0_20260520_161651",
+        "ghostnet_20260520_181408",
+        "mobilenet_v3_20260520_121742",
+        "mobilenet_v3_small_20260520_141418",
+        "resnet_20260520_154113",
+        "squeezenet_20260520_174646"]
+
+runs = ["mobilenet_v3_20260520_210306",
+        "mobilenet_v3_small_20260520_185910"]
         
 
 run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"

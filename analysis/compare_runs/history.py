@@ -22,8 +22,22 @@ def plot_loss(run_root, train_loss=True, val_loss=True, save_path=None):
     Plot validation and training loss over epochs
     """
 
+    phase_boundary = None  # epoch number where phase 2 starts
+
     for r in run_root:
         model_name, history = load_history(r)
+
+        if isinstance(history, dict):
+            offset = 0
+            all_epochs = []
+            phases = list(history.values())
+            for i, phase in enumerate(phases):
+                for e in phase:
+                    all_epochs.append({**e, "epoch": e["epoch"] + offset})
+                if i == 0 and len(phases) > 1:
+                    phase_boundary = offset + len(phase)
+                offset += len(phase)
+            history = all_epochs
 
         epochs = [e["epoch"] for e in history]
         train_losses = [e["train_loss"] for e in history]
@@ -33,6 +47,9 @@ def plot_loss(run_root, train_loss=True, val_loss=True, save_path=None):
             plt.plot(epochs, train_losses, label=f"{model_name} Train Loss")
         if val_loss:
             plt.plot(epochs, val_losses, label=f"{model_name} Validation Loss")
+
+    if phase_boundary is not None:
+        plt.axvline(x=phase_boundary, color='gray', linestyle='--', linewidth=1.5, label='Phase boundary')
 
     plt.legend()
     plt.grid()
