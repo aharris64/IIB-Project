@@ -9,7 +9,7 @@ NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
 # Data
-DATASET = "disc_centred_r4.0_cl34_augmented_lowres14"
+DATASET = "disc_centred_r4.0_cl34_augmented_lowres28"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
