@@ -28,7 +28,7 @@ TARGET_SIZE = 512
 OUT_SIZE = 224
 PAD_COLOR = (0, 0, 0)
 RADIUS_SCALE_FACTOR = 4.0
-REJECT_CLASS = [4]
+REJECT_CLASS = [3,4]
  
 # Offset crops: shift centre by this fraction of the crop side length
 OFFSET_FRAC = 0.15

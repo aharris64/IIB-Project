@@ -1,6 +1,6 @@
 
 EXPERIMENT_NOTE = (
-    "Mobilenetv3 small with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase, quarters"
+    "Mobilenetv3 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase, lowres14"
 )
 
 # Model
@@ -9,7 +9,7 @@ NUM_CLASSES = 3
 FREEZE = "two_phase"   # options: "none" | "head" | "two_phase"
 
 # Data
-DATASET = "disc_centred_r4.0_cl34_quarters"
+DATASET = "disc_centred_r4.0_cl34_augmented_lowres14"
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
 

@@ -3,6 +3,15 @@ import numpy as np
 from sklearn.metrics import precision_recall_curve, average_precision_score
 import os
 
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 12,
+    'axes.labelsize': 12,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12,
+})
+
 class_names = ["normal", "papilloedema", "pseudo-\npapilloedema"]
 n = 3
 

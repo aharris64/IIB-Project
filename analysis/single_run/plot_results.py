@@ -11,8 +11,8 @@ from summary import print_summary
 # run = "efficientnet_b0_20260520_161651"
 # run = "efficientnet_lite0_20260520_164934"
 # run = "ghostnet_20260520_181408"
-run = "mobilenet_v3_20260520_121742"
-# run = "mobilenet_v3_small_20260520_141418"
+# run = "mobilenet_v3_20260520_121742"
+run = "mobilenet_v3_small_20260520_141418"
 # run = "resnet_20260520_154113"
 # run = "squeezenet_20260520_174646"
 

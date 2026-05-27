@@ -10,11 +10,11 @@ from pathlib import Path
 # Config
 # ---------------------------------------------------------------------------
 
-DATASET          = "disc_centred_r4.0_cl34_quarters"   # <-- change to any folder name
+DATASET          = "disc_centred_r4.0_cl34_augmented_lowres112"   # <-- change to any folder name
 HAS_AUGMENTATION = False   # False for quarters dataset (or any dataset with no augmented variants)
 
 SOURCE_ROOT = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets") / DATASET
-DEST_ROOT   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\train_test_val") / DATASET
+DEST_ROOT   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\train_test_val1") / DATASET
 
 CLASSES    = ["normal", "papilledema", "pseudopapilledema"]
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}

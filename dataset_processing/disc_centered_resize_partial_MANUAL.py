@@ -18,7 +18,7 @@ RADIUS_SCALE_FACTOR = 4.0
 REJECT_CLASS = [3, 4]
 
 # Quarter crop overlap: 0.0 = exact quadrants, 0.1 = 10% overlap between quarters
-OVERLAP_FRAC = 0.1
+OVERLAP_FRAC = 0.0
 
 name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_cl{''.join(str(c) for c in REJECT_CLASS)}_quarters_overlap{OVERLAP_FRAC}"
 

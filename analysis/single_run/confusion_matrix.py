@@ -6,6 +6,15 @@ import os
 class_names = ["normal", "papilloedema", "pseudo-\npapilloedema"]
 n = len(class_names)
 
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 12,
+    'axes.labelsize': 12,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12,
+})
+
 def load_confusion_matrix(run_root, split, normalised):
     """
     Loads confusion matrix from json file 'metrics' given a folder for the run
