@@ -12,12 +12,12 @@ from summary import print_summary
 # run = "efficientnet_lite0_20260520_164934"
 # run = "ghostnet_20260520_181408"
 # run = "mobilenet_v3_20260520_121742"
-run = "mobilenet_v3_small_20260520_141418"
+# run = "mobilenet_v3_small_20260520_141418"
 # run = "resnet_20260520_154113"
 # run = "squeezenet_20260520_174646"
 
 # run = "mobilenet_v3_20260520_210306"
-# run = "mobilenet_v3_small_20260520_185910"
+run = "mobilenet_v3_small_20260520_185910"
 
 run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
 save_folder =  r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\results"
