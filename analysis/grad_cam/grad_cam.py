@@ -159,7 +159,7 @@ def make_figure(results: list, method_name: str, save_path: Path = None):
 MODEL_NAME  = "mobilenet_v3_small"   # must match a key in build_model()
 NUM_CLASSES = 3
 MODEL_ROOT     = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
-MODEL_RUN = "mobilenet_v3_small_20260520_141418"
+MODEL_RUN = "mobilenet_v3_small_20260520_185910"
 WEIGHTS = Path(MODEL_ROOT) / MODEL_RUN / "best_model_state_dict.pt"
 
 # Input — set IMAGE to a single file path, or DATA_DIR to a test folder.
@@ -168,7 +168,7 @@ IMAGE    = None
 DATA_DIR = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\analysis\grad_cam\test_images"       # ImageFolder layout
 
 N            = 100       # images to sample from DATA_DIR (ignored if IMAGE is set)
-CLASS_FILTER = 1   # int: only show images from this true class; None = all classes
+CLASS_FILTER = 0  # int: only show images from this true class; None = all classes
                        #   0 = normal | 1 = papilledema | 2 = pseudopapilledema
 TARGET_CLASS = None    # int: force heatmap to explain this class; None = predicted class
 
