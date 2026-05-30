@@ -19,8 +19,8 @@ runs = ["efficientnet_b0_20260520_161651",
         "resnet_20260520_154113",
         "squeezenet_20260520_174646"]
 
-runs = ["mobilenet_v3_20260520_210306",
-        "mobilenet_v3_small_20260520_185910"]
+# runs = ["mobilenet_v3_20260520_210306",
+#         "mobilenet_v3_small_20260520_185910"]
         
 
 run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"

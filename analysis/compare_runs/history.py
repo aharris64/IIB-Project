@@ -2,6 +2,14 @@ import json
 import matplotlib.pyplot as plt
 import os
 
+plt.rcParams.update({
+    'font.size': 12,
+    'axes.titlesize': 12,
+    'axes.labelsize': 12,
+    'xtick.labelsize': 12,
+    'ytick.labelsize': 12,
+    'legend.fontsize': 12,
+})
 
 def load_history(run_root):
     """
@@ -44,9 +52,9 @@ def plot_loss(run_root, train_loss=True, val_loss=True, save_path=None):
         val_losses = [e["val_loss"] for e in history]
 
         if train_loss:
-            plt.plot(epochs, train_losses, label=f"{model_name} Train Loss")
+            plt.plot(epochs, train_losses, label=f"{model_name}")
         if val_loss:
-            plt.plot(epochs, val_losses, label=f"{model_name} Validation Loss")
+            plt.plot(epochs, val_losses, label=f"{model_name}")
 
     if phase_boundary is not None:
         plt.axvline(x=phase_boundary, color='gray', linestyle='--', linewidth=1.5, label='Phase boundary')
