@@ -11,3 +11,5 @@ optic_disc_localisation/blob_method/__pycache__
 optic_disc_localisation/combined_method/__pycache__
 optic_disc_localisation/input_images
 optic_disc_localisation/outputs
+analysis/grad_cam/test_images
+analysis/grad_cam/grad_cam_results
