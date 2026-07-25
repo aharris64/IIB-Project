@@ -1,3 +1,4 @@
+"""Prints a per-class and total breakdown of image file extensions in the raw dataset."""
 
 import os
 from collections import Counter

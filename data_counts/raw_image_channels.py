@@ -1,3 +1,5 @@
+"""Prints a per-class and total breakdown of image channel counts in the raw dataset."""
+
 from PIL import Image
 import os
 from collections import Counter

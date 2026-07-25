@@ -1,3 +1,5 @@
+"""Prints a per-class and total breakdown of image dimensions in the raw dataset."""
+
 from PIL import Image
 import os
 from collections import Counter
