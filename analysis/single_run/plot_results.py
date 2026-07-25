@@ -21,8 +21,8 @@ from summary import print_summary
 run = "mobilenet_v3_small_20260520_185910"
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-run_folder = REPO_ROOT / "runs"
-save_folder = REPO_ROOT / "results"
+run_folder = REPO_ROOT / "outputs" / "runs"
+save_folder = REPO_ROOT / "outputs" / "results"
 
 run_path = os.path.join(run_folder, run)
 save_path = os.path.join(save_folder, run)

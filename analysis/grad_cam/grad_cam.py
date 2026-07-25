@@ -159,7 +159,7 @@ def make_figure(results: list, method_name: str, save_path: Path = None):
 MODEL_NAME  = "mobilenet_v3_small"   # must match a key in build_model()
 NUM_CLASSES = 3
 REPO_ROOT = Path(__file__).resolve().parents[2]
-MODEL_ROOT     = REPO_ROOT / "runs"
+MODEL_ROOT     = REPO_ROOT / "outputs" / "runs"
 MODEL_RUN = "mobilenet_v3_small_20260530_061821"
 WEIGHTS = Path(MODEL_ROOT) / MODEL_RUN / "best_model_state_dict.pt"
 

@@ -27,7 +27,8 @@ INPUT_SIZE  = (1, 3, 224, 224)
 dummy_input   = torch.randn(INPUT_SIZE)
 dummy_np      = dummy_input.numpy()
 
-os.makedirs("onnx_models", exist_ok=True)
+ONNX_MODELS_DIR = Path(__file__).resolve().parents[2] / "outputs" / "onnx_models"
+os.makedirs(ONNX_MODELS_DIR, exist_ok=True)
 results = []
 
 for name in MODELS:
@@ -35,7 +36,7 @@ for name in MODELS:
     model.eval()
 
     # Export to ONNX
-    onnx_path = f"onnx_models/{name}.onnx"
+    onnx_path = str(ONNX_MODELS_DIR / f"{name}.onnx")
     torch.onnx.export(
         model,
         dummy_input,

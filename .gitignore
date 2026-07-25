@@ -1,5 +1,5 @@
-results/
-runs/
+outputs/results/
+outputs/runs/
 **/__pycache__/
 *.pyc
 optic_disc_localisation/input_images

@@ -24,7 +24,7 @@ runs = ["efficientnet_b0_20260520_161651",
 #         "mobilenet_v3_small_20260520_185910"]
         
 
-run_folder = Path(__file__).resolve().parents[2] / "runs"
+run_folder = Path(__file__).resolve().parents[2] / "outputs" / "runs"
 
 runs_root = []
 for run in runs:

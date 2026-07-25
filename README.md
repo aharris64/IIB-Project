@@ -16,8 +16,8 @@ full methodology, dataset description, and results.
 | `data_augmentation/` | Augmentation methods applied during dataset preparation. |
 | `data_counts/` | Scripts for auditing raw dataset properties (image sizes, channels, file types). |
 | `cnn/` | CNN training/evaluation code (`train.py`, `evaluate.py`, `models.py`, `load_data.py`, `config.py`) and a Colab notebook (`run_model.ipynb`) used to run training remotely. |
-| `onnx_models/` | Trained classifiers exported to ONNX, used for inference-time and model-size benchmarking. |
 | `analysis/` | Post-hoc analysis: training curves, confusion matrices, ROC/precision-recall, calibration, Grad-CAM visualisations, model size/inference time comparisons, and cross-run comparison tools. |
+| `outputs/` | Generated artifacts, kept separate from the code that produces them: `onnx_models/` (ONNX exports, tracked in git), `runs/` (training run logs/checkpoints), `results/` (evaluation outputs) — the latter two are gitignored and populated locally by `cnn/` and `analysis/` scripts. |
 
 ## Setup
 
