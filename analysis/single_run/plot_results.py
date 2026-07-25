@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from calibration import plot_calibration_curve
 from confusion_matrix import plot_confusion_matrix
@@ -19,8 +20,9 @@ from summary import print_summary
 # run = "mobilenet_v3_20260520_210306"
 run = "mobilenet_v3_small_20260520_185910"
 
-run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
-save_folder =  r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\results"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+run_folder = REPO_ROOT / "runs"
+save_folder = REPO_ROOT / "results"
 
 run_path = os.path.join(run_folder, run)
 save_path = os.path.join(save_folder, run)

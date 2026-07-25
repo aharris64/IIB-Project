@@ -10,7 +10,8 @@ from optic_disc_localisation.image_processing.initial_processing import resize
 
 FOCUS_THRESHOLD = 0.0
 ODL_THRESHOLD = 3.04
-image_path = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\optic_disc_localisation\input_images\normal_0009_EDD.jpg"
+# Sample image not included in the repo (optic_disc_localisation/input_images is gitignored) — replace with your own.
+image_path = str(Path(__file__).resolve().parents[1] / "optic_disc_localisation" / "input_images" / "normal_0009_EDD.jpg")
 
 def _cardinal_points(centre, r):
     cx, cy = centre

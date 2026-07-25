@@ -1,10 +1,12 @@
+import os
 from pathlib import Path
 import json
 
 from optic_disc_localisation.ratings.other_candidate_ratings.find_other_candidates import detect_disc
 
-source = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw"
-destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_candidates050226"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_candidates050226")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

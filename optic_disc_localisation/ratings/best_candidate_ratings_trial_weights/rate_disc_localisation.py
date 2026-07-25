@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import cv2
@@ -5,7 +6,8 @@ import pandas as pd
 
 name = "disc_localisation_030226"
 
-ROOT = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets")
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+ROOT = Path(DATASETS_ROOT) / "Processed Datasets"
 
 SOURCE_ROOT = ROOT / name
 

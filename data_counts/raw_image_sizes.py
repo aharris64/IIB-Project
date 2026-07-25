@@ -2,9 +2,10 @@ from PIL import Image
 import os
 from collections import Counter
 
-normal = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Combined Dataset\Normal"
-pseudopapilloedema = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Combined Dataset\Pseudopapilledema"
-papilloedema = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Combined Dataset\Papilledema"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+normal = os.path.join(DATASETS_ROOT, "Combined Dataset", "Normal")
+pseudopapilloedema = os.path.join(DATASETS_ROOT, "Combined Dataset", "Pseudopapilledema")
+papilloedema = os.path.join(DATASETS_ROOT, "Combined Dataset", "Papilledema")
 
 def count_sizes(folder):
 

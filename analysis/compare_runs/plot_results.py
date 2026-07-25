@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from history import plot_loss, plot_macro_F1
 
@@ -23,7 +24,7 @@ runs = ["efficientnet_b0_20260520_161651",
 #         "mobilenet_v3_small_20260520_185910"]
         
 
-run_folder = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
+run_folder = Path(__file__).resolve().parents[2] / "runs"
 
 runs_root = []
 for run in runs:

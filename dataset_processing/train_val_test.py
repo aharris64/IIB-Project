@@ -1,10 +1,12 @@
+import os
 import random
 from collections import defaultdict
 from pathlib import Path
 import shutil
 
-SOURCE = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets"
-DESTINATION = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\train_test_val"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+SOURCE = os.path.join(DATASETS_ROOT, "Processed Datasets")
+DESTINATION = os.path.join(SOURCE, "train_test_val")
 
 DATASET = "disc_centred_r4.0_cl4"
 

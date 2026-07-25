@@ -1,4 +1,5 @@
 
+import os
 from pathlib import Path
 import json
 import pandas as pd
@@ -16,11 +17,12 @@ ACCEPT_THRESHOLD = 1.75
 
 name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_th{ACCEPT_THRESHOLD}"
 
-source = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw")
-dest   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_centred_r4")
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source = Path(DATASETS_ROOT) / "Processed Datasets" / "raw"
+dest   = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_centred_r4"
 dest.mkdir(parents=True, exist_ok=True)
 
-json_file = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation_100226_512\disc_localisation_results.json")
+json_file = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_localisation_100226_512" / "disc_localisation_results.json"
 
 def resize_scale_factor(w: int, h: int, target_short: int) -> float:
     # matches resize(): if both sides smaller, no resize

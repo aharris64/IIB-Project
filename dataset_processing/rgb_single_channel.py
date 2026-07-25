@@ -1,8 +1,10 @@
+import os
 from pathlib import Path
 from PIL import Image
 
-source = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_centred_r4.0_cl4"
-destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_centred_r4.0_cl4")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

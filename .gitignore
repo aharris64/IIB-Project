@@ -1,14 +1,7 @@
 results/
 runs/
-analysis/__pycache__
-analysis/single_run/__pycache__
-analysis/compare_runs/__pycache__
-optic_disc_localisation/vessel_method/__pycache__
-optic_disc_localisation/visualisations/__pycache__
-optic_disc_localisation/runners/__pycache__
-optic_disc_localisation/image_processing/__pycache__
-optic_disc_localisation/blob_method/__pycache__
-optic_disc_localisation/combined_method/__pycache__
+**/__pycache__/
+*.pyc
 optic_disc_localisation/input_images
 optic_disc_localisation/outputs
 analysis/grad_cam/test_images

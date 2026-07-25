@@ -1,0 +1,14 @@
+torch
+torchvision
+timm
+onnx
+onnxruntime
+pytorch-grad-cam
+opencv-python
+numpy
+pandas
+scipy
+scikit-image
+scikit-learn
+matplotlib
+Pillow

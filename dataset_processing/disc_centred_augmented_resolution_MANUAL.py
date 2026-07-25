@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import json
 import pandas as pd
@@ -39,11 +40,12 @@ LOW_RES = 14  # e.g. 56, 28, 112 — image is downsampled to this then upsampled
 
 dataset_name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_cl{''.join(str(c) for c in REJECT_CLASS)}_augmented_lowres{LOW_RES}"
 
-source    = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw")
-dest_root = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets")
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source    = Path(DATASETS_ROOT) / "Processed Datasets" / "raw"
+dest_root = Path(DATASETS_ROOT) / "Processed Datasets"
 dest      = dest_root / dataset_name
 
-json_file = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation\disc_localisation_100226_512\disc_localisation_results.json")
+json_file = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_localisation" / "disc_localisation_100226_512" / "disc_localisation_results.json"
 
 path = Path(__file__).parents[1]
 csv  = path / "optic_disc_localisation" / "ratings" / "combined_candidates" / "best_candidates_050226.csv"

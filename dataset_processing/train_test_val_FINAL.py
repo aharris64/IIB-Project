@@ -1,4 +1,5 @@
 import math
+import os
 import random
 import re
 import shutil
@@ -13,8 +14,9 @@ from pathlib import Path
 DATASET          = "disc_centred_r4.0_cl34_augmented_lowres14"   # <-- change to any folder name
 HAS_AUGMENTATION = True   # False for quarters dataset (or any dataset with no augmented variants)
 
-SOURCE_ROOT = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets") / DATASET
-DEST_ROOT   = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\train_test_val_low_res") / DATASET
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+SOURCE_ROOT = Path(DATASETS_ROOT) / "Processed Datasets" / DATASET
+DEST_ROOT   = Path(DATASETS_ROOT) / "Processed Datasets" / "train_test_val_low_res" / DATASET
 
 CLASSES    = ["normal", "papilledema", "pseudopapilledema"]
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}

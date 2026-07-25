@@ -8,8 +8,9 @@ from optic_disc_localisation.image_processing.initial_processing import resize
 from optic_disc_localisation.visualisations.save_visualisations import save_vessel_centre_and_blob_candidate, save_centre_overlay
 
 
-source = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw"
-destination = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation_100226_BIG"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_localisation_100226_BIG")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

@@ -4,7 +4,8 @@ from collections import defaultdict
 from PIL import Image
  
 # ── Configuration ─────────────────────────────────────────────────────────────
-ROOT_FOLDER = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+ROOT_FOLDER = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
 LABELS      = {"normal", "papilledema", "pseudopapilledema"}
 CLASSES     = {"EDD", "IFD", "RFM", "PPE", "WHC"}
 PATTERN     = re.compile(r"^.+_\d{4}_([A-Z]{3})\.", re.IGNORECASE)

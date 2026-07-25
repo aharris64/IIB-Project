@@ -1,8 +1,10 @@
+import os
 import cv2
 import numpy as np
 import random
 
-image_address = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Combined Dataset\Normal\IFD 1ffa962e-8d87-11e8-9daf-6045cb817f5b..JPG"
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+image_address = os.path.join(DATASETS_ROOT, "Combined Dataset", "Normal", "IFD 1ffa962e-8d87-11e8-9daf-6045cb817f5b..JPG")
 
 def gaussian_subtraction():
     # Load image
@@ -90,6 +92,6 @@ def apply_gamma(img, gamma=1.2):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-image_address_2 = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Combined Dataset\Normal\PPE 265.jpg"
+image_address_2 = os.path.join(DATASETS_ROOT, "Combined Dataset", "Normal", "PPE 265.jpg")
 image = cv2.imread(image_address_2)
 apply_gamma(image)

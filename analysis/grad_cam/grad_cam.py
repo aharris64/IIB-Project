@@ -158,14 +158,15 @@ def make_figure(results: list, method_name: str, save_path: Path = None):
 # Model
 MODEL_NAME  = "mobilenet_v3_small"   # must match a key in build_model()
 NUM_CLASSES = 3
-MODEL_ROOT     = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\runs"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+MODEL_ROOT     = REPO_ROOT / "runs"
 MODEL_RUN = "mobilenet_v3_small_20260530_061821"
 WEIGHTS = Path(MODEL_ROOT) / MODEL_RUN / "best_model_state_dict.pt"
 
 # Input — set IMAGE to a single file path, or DATA_DIR to a test folder.
 # Leave IMAGE as None to sample from DATA_DIR.
 IMAGE    = None
-DATA_DIR = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\analysis\grad_cam\test_images"       # ImageFolder layout
+DATA_DIR = REPO_ROOT / "analysis" / "grad_cam" / "test_images"       # ImageFolder layout
 
 N            = 100       # images to sample from DATA_DIR (ignored if IMAGE is set)
 CLASS_FILTER = None  # int: only show images from this true class; None = all classes
@@ -176,7 +177,7 @@ TARGET_CLASS = None    # int: force heatmap to explain this class; None = predic
 METHOD = "HiResCAM"
 
 # Output
-OUT_DIR = r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Code\IIB-Project\analysis\grad_cam\grad_cam_results"
+OUT_DIR = REPO_ROOT / "analysis" / "grad_cam" / "grad_cam_results"
 SEED    = 42
 
 # =============================================================================

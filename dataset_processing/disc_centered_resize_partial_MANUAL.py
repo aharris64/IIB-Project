@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import json
 import pandas as pd
@@ -22,12 +23,13 @@ OVERLAP_FRAC = 0.0
 
 name = f"disc_centred_r{RADIUS_SCALE_FACTOR}_cl{''.join(str(c) for c in REJECT_CLASS)}_quarters_overlap{OVERLAP_FRAC}"
 
-source    = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\raw")
-dest_root = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets")
+DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
+source    = Path(DATASETS_ROOT) / "Processed Datasets" / "raw"
+dest_root = Path(DATASETS_ROOT) / "Processed Datasets"
 dest      = dest_root / name
 dest.mkdir(parents=True, exist_ok=True)
 
-json_file = Path(r"C:\Users\adam6\OneDrive\Documents\University\Engineering\Engineering IIB\IIB Project\Datasets\Processed Datasets\disc_localisation\disc_localisation_100226_512\disc_localisation_results.json")
+json_file = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_localisation" / "disc_localisation_100226_512" / "disc_localisation_results.json"
 
 # Load CSV
 path = Path(__file__).parents[1]
