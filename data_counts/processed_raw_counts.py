@@ -1,15 +1,20 @@
+"""Prints a resolution breakdown per label x diagnostic-acronym class, plus a summary
+table and grand total, for the Processed Datasets/raw pipeline stage (post initial
+processing, pre disc-centring) — filenames are matched against PATTERN to extract the
+trailing 3-letter acronym (EDD, IFD, RFM, PPE, WHC)."""
+
 import os
 import re
 from collections import defaultdict
 from PIL import Image
- 
-# ── Configuration ─────────────────────────────────────────────────────────────
+
+# ---- Configuration ----
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
 ROOT_FOLDER = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
 LABELS      = {"normal", "papilledema", "pseudopapilledema"}
 CLASSES     = {"EDD", "IFD", "RFM", "PPE", "WHC"}
 PATTERN     = re.compile(r"^.+_\d{4}_([A-Z]{3})\.", re.IGNORECASE)
-# ─────────────────────────────────────────────────────────────────────────────
+
  
 # { label: { class: { (width, height): count } } }
 data    = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
@@ -37,7 +42,7 @@ for label in sorted(LABELS):
         except Exception as e:
             skipped.append((label, filename, str(e)))
  
-# ── Print results ─────────────────────────────────────────────────────────────
+# ---- Print results ----
 SEP_MAJOR = "=" * 60
 SEP_MINOR = "-" * 40
  
@@ -65,7 +70,7 @@ for label in sorted(LABELS):
  
     print()
  
-# ── Summary table ─────────────────────────────────────────────────────────────
+# ---- Summary table ----
 print(SEP_MAJOR)
 print("SUMMARY  (image count per label × class)")
 print(SEP_MAJOR)
@@ -100,7 +105,7 @@ for cls in sorted(CLASSES):
 totals_row += f"{grand_total:>8}"
 print(totals_row)
  
-# ── Skipped files ──────────────────────────────────────────────────────────────
+# ---- Skipped files ----
 if skipped:
     print(f"\n⚠  Skipped {len(skipped)} file(s) (could not be opened):")
     for label, fname, reason in skipped:

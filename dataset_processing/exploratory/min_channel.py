@@ -1,3 +1,7 @@
+"""Exploratory only, not part of the reproducible pipeline: generates a min(R, G, B)
+single-channel variant of the basic-resized images, to visually assess whether this
+representation might help optic disc localisation (ODL) pipeline development."""
+
 import os
 from pathlib import Path
 from PIL import Image, ImageChops

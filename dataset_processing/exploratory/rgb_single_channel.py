@@ -1,10 +1,14 @@
+"""Exploratory only, not part of the reproducible pipeline: generates single-channel
+R/G/B variants of the disc-centred images, to visually assess whether isolating a
+colour channel might help optic disc localisation (ODL) pipeline development."""
+
 import os
 from pathlib import Path
 from PIL import Image
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
-source = os.path.join(DATASETS_ROOT, "Processed Datasets", "centred", "disc_centred_r4.0_cl4")
-destination = os.path.join(DATASETS_ROOT, "Processed Datasets")
+source = os.path.join(DATASETS_ROOT, "Dataset", "basic_resize_224")
+destination = os.path.join(DATASETS_ROOT, "Dataset", "rgb_test")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)
@@ -13,9 +17,9 @@ CLASSES = ["normal", "papilledema", "pseudopapilledema"]
 IMAGE_EXTS = {".jpg", ".png"}
 
 CHANNELS = {
-    "h_disc_centred_r4.0_cl4": lambda h, s, v: (h, h, h),
-    "s_disc_centred_r4.0_cl4": lambda h, s, v: (s, s, s),
-    "v_disc_centred_r4.0_cl4": lambda h, s, v: (v, v, v),
+    "r_disc_centred_r4.0_cl4": lambda r, g, b: (r, r, r),
+    "g_disc_centred_r4.0_cl4": lambda r, g, b: (g, g, g),
+    "b_disc_centred_r4.0_cl4": lambda r, g, b: (b, b, b),
 }
 
 # Create directory structure
@@ -34,9 +38,8 @@ for cls in CLASSES:
 
         with Image.open(img_path) as img:
             img = img.convert("RGB")
-            img_hsv = img.convert("HSV")
-            h, s, v = img_hsv.split()
+            r, g, b = img.split()
 
             for ch, merge_fn in CHANNELS.items():
-                out_img = Image.merge("RGB", merge_fn(h, s, v))
+                out_img = Image.merge("RGB", merge_fn(r, g, b))
                 out_img.save(DEST_ROOT / ch / cls / img_path.name)

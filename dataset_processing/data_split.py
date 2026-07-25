@@ -1,3 +1,13 @@
+"""Splits a processed dataset (DATASET, under DATASETS_ROOT/Processed Datasets/) into
+train/val/test, stratified per (class, diagnostic acronym) bucket so each diagnostic
+sub-category is split proportionally rather than just each class as a whole.
+
+Excludes specific acronyms from the papilledema class (PAPILLEDEMA_EXCLUDE) and, when
+HAS_AUGMENTATION is set, keeps augmented copies of an image out of val/test (only
+originals go there) so the same source image never appears in both train and eval
+augmented variants are only ever added to train.
+"""
+
 import math
 import os
 import random
@@ -7,9 +17,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-# ---------------------------------------------------------------------------
-# Config
-# ---------------------------------------------------------------------------
+# ---- Config ----
 
 DATASET          = "disc_centred_r4.0_cl34_augmented_lowres14"   # <-- change to any folder name
 HAS_AUGMENTATION = True   # False for quarters dataset (or any dataset with no augmented variants)
@@ -24,7 +32,8 @@ IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 SPLIT = (0.70, 0.15, 0.15)   # train, val, test
 SEED  = 42
 
-# Acronyms to EXCLUDE from the papilledema class only
+# These acronyms are labelled "papilledema" in the raw dataset, but actually denote the
+# broader category of optic disc oedema rather than confirmed papilloedema specifically
 PAPILLEDEMA_EXCLUDE = {"EDD", "RFM", "IFD"}
 
 assert abs(sum(SPLIT) - 1.0) < 1e-9, "Split fractions must sum to 1.0"
@@ -32,13 +41,12 @@ assert abs(sum(SPLIT) - 1.0) < 1e-9, "Split fractions must sum to 1.0"
 random.seed(SEED)
 
 
-# ---------------------------------------------------------------------------
-# Augmentation detection (only used when HAS_AUGMENTATION = True)
-# ---------------------------------------------------------------------------
+# ---- Augmentation detection (only used when HAS_AUGMENTATION = True) ----
 
 _AUG_RE = re.compile(r'(_hflip|_crop_(tl|tr|bl|br)|_q_(tl|tr|bl|br))$')
 
 def is_augmented(stem: str) -> bool:
+    """True if stem ends in an augmentation suffix (_hflip, _crop_tl, _q_tr, etc.)."""
     if not HAS_AUGMENTATION:
         return False
     return bool(_AUG_RE.search(stem))
@@ -48,32 +56,28 @@ def original_stem(stem: str) -> str:
     return _AUG_RE.sub("", stem)
 
 
-# ---------------------------------------------------------------------------
-# Acronym extraction
-# ---------------------------------------------------------------------------
+# ---- Acronym extraction ----
 
 _ACRONYM_RE = re.compile(r'_([A-Z]{2,})$')
 
 def extract_acronym(stem: str) -> str:
+    """Return the trailing diagnostic acronym (e.g. EDD, RFM) from a filename stem, or ""."""
     base = original_stem(stem)
     m = _ACRONYM_RE.search(base)
     return m.group(1) if m else ""
 
 
-# ---------------------------------------------------------------------------
-# Split helpers
-# ---------------------------------------------------------------------------
+# ---- Split helpers ----
 
 def floor_split(n: int, fractions: tuple) -> tuple[int, int, int]:
+    """Split n items into (train, val, test) counts matching fractions, remainder to test."""
     n_train = math.floor(n * fractions[0])
     n_val   = math.floor(n * fractions[1])
     n_test  = n - n_train - n_val
     return n_train, n_val, n_test
 
 
-# ---------------------------------------------------------------------------
-# Collect images
-# ---------------------------------------------------------------------------
+# ---- Collect images ----
 
 paths_by_class_acronym: dict[str, dict[str, dict[str, list[Path]]]] = {
     cls: defaultdict(lambda: defaultdict(list)) for cls in CLASSES
@@ -104,9 +108,7 @@ for cls in CLASSES:
 print(f"Excluded {excluded} papilledema files with acronyms {PAPILLEDEMA_EXCLUDE}\n")
 
 
-# ---------------------------------------------------------------------------
-# Stratified split — per class, per acronym bucket
-# ---------------------------------------------------------------------------
+# ---- Stratified split — per class, per acronym bucket ----
 
 splits: dict[str, dict[str, list[Path]]] = {
     "train": defaultdict(list),
@@ -157,9 +159,7 @@ for split_name in ("train", "val", "test"):
 print()
 
 
-# ---------------------------------------------------------------------------
-# Copy files
-# ---------------------------------------------------------------------------
+# ---- Copy files ----
 
 for split_name in ("train", "val", "test"):
     for cls in CLASSES:
