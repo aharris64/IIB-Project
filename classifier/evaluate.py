@@ -1,5 +1,5 @@
 """Shared evaluation loop used for both validation (during training) and final
-test-set evaluation — see cnn/train.py and cnn/run_model.ipynb."""
+test-set evaluation — see classifier/train.py and classifier/run_model.ipynb."""
 
 import numpy as np
 import torch

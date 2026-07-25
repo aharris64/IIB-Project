@@ -1,4 +1,4 @@
-"""Single-phase training loop. cnn/run_model.ipynb calls train() once (freeze="none"/"head")
+"""Single-phase training loop. classifier/run_model.ipynb calls train() once (freeze="none"/"head")
 or twice back-to-back (freeze="two_phase": head-only, then unfreeze + full fine-tune) —
 this module has no phase logic of its own, it just runs a plain train/early-stop loop."""
 

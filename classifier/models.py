@@ -1,6 +1,6 @@
 """Model factory: builds a pretrained backbone (torchvision or timm) with its
 classification head resized to num_classes, plus freeze/unfreeze helpers for
-staged fine-tuning (see cnn/config.py's FREEZE options).
+staged fine-tuning (see classifier/config.py's FREEZE options).
 """
 
 from torchvision.models import efficientnet_b0, squeezenet1_1, mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small, resnet18

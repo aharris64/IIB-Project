@@ -26,7 +26,7 @@ from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 
 # ── project models ────────────────────────────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).parents[2]))
-from cnn.models import build_model
+from classifier.models import build_model
 
 # ── constants ─────────────────────────────────────────────────────────────────
 CLASS_NAMES = {0: "normal", 1: "papilledema", 2: "pseudopapilledema"}

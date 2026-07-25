@@ -1,4 +1,4 @@
-"""Single source of training config, read by cnn/run_model.ipynb for one training run.
+"""Single source of training config, read by classifier/run_model.ipynb for one training run.
 
 Edit these values and re-run the notebook to launch a new experiment; a snapshot of
 this file's values is saved to <run_dir>/config.json for each run.
@@ -10,7 +10,7 @@ EXPERIMENT_NOTE = (
 )
 
 # Model
-MODEL_NAME = "mobilenet_v3_small"  # see cnn/models.py:build_model for valid names
+MODEL_NAME = "mobilenet_v3_small"  # see classifier/models.py:build_model for valid names
 NUM_CLASSES = 3
 # "none": train end-to-end from the start.
 # "head": freeze the backbone permanently, train only the classifier head.
