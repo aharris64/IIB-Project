@@ -13,7 +13,6 @@ full methodology, dataset description, and results.
 | `dataset_processing/` | Scripts to resize, channel-transform, and split the raw dataset into train/val/test sets, including disc-centred cropping variants. |
 | `optic_disc_localisation/` | Optic disc localisation pipeline (blob detection, vessel convergence, combined method), candidate rating/evaluation scripts, and runners. |
 | `image_quality_assessment/` | Image quality scoring pipeline used to filter/flag low-quality fundus images. |
-| `data_augmentation/` | Augmentation methods applied during dataset preparation. |
 | `data_counts/` | Scripts for auditing raw dataset properties (image sizes, channels, file types). |
 | `classifier/` | Classifier training/evaluation code (`train.py`, `evaluate.py`, `models.py`, `load_data.py`, `config.py`) and a Colab notebook (`run_model.ipynb`) used to run training remotely. |
 | `analysis/` | Post-hoc analysis: training curves, confusion matrices, ROC/precision-recall, calibration, Grad-CAM visualisations, model size/inference time comparisons, and cross-run comparison tools. |
