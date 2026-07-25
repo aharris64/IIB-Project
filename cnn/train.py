@@ -1,11 +1,13 @@
+"""Single-phase training loop. cnn/run_model.ipynb calls train() once (freeze="none"/"head")
+or twice back-to-back (freeze="two_phase": head-only, then unfreeze + full fine-tune) —
+this module has no phase logic of its own, it just runs a plain train/early-stop loop."""
+
 from evaluate import evaluate
 from sklearn.metrics import f1_score
 import copy
 
 def train_one_epoch(model, loader, optimizer, criterion, device):
-    """
-    Train the model for a single epoch and return average loss
-    """
+    """Run one training epoch over loader; return the average training loss."""
     model.train()
 
     total_loss = 0.0
@@ -31,10 +33,9 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
     return avg_loss
 
 def train(model, train_loader, val_loader, optimizer, criterion, device, num_epochs, patience):
-    """
-    Train for num_epochs or until there is no improvement for patience epochs
-    Return history: train_loss, val_loss, y_true, y_pred, y_prob for each epoch
-    """
+    """Train for up to num_epochs, stopping early after `patience` epochs with no
+    val_loss improvement. Returns (best_epoch, best_state_dict, history), where
+    history is a list of {epoch, train_loss, val_loss, macro_f1} per epoch."""
 
     best = None
     best_state = None
@@ -79,7 +80,5 @@ def train(model, train_loader, val_loader, optimizer, criterion, device, num_epo
         if bad_epochs >= patience:
             print(f"Early stopping at epoch {epoch+1} (no improvement for {patience} epochs)")
             break
-
-        
 
     return best_epoch, best_state, history

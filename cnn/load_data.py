@@ -1,13 +1,14 @@
+"""DataLoader construction for the train/val/test ImageFolder splits produced by
+dataset_processing/ (expects root_folder/dataset/{train,val,test}/<class>/ on disk)."""
+
 import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 
 def get_dataloaders(root_folder, dataset, batch_size):
-    """
-    Loads training, validation, and test datasets using ImageFolder and
-    returns their corresponding DataLoaders
-    """
+    """Load the train/val/test ImageFolder splits under root_folder/dataset/ and
+    wrap each in a DataLoader."""
 
     root = os.path.join(root_folder, dataset)
 

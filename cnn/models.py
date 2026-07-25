@@ -1,8 +1,19 @@
+"""Model factory: builds a pretrained backbone (torchvision or timm) with its
+classification head resized to num_classes, plus freeze/unfreeze helpers for
+staged fine-tuning (see cnn/config.py's FREEZE options).
+"""
+
 from torchvision.models import efficientnet_b0, squeezenet1_1, mobilenet_v2, mobilenet_v3_large, mobilenet_v3_small, resnet18
 from torch import nn
 import timm
 
 def build_model(model_name, num_classes, freeze):
+    """Build `model_name` with a fresh head sized to num_classes.
+
+    freeze="none" leaves every parameter trainable; any other value freezes
+    the backbone and leaves only the head trainable (see get_backbone/unfreeze
+    for staged fine-tuning after this initial freeze).
+    """
     if model_name == "efficientnet_b0":
         return efficient_net_b0(num_classes, freeze)
     elif model_name == "mobilenet_v2":
@@ -37,18 +48,22 @@ def get_backbone(model, model_name):
     else:
         raise ValueError(f"Unknown model_name='{model_name}'")
 
-# Initially either a full or no freeze (possibly add partial later)
 
 def freeze_all(model):
+    """Set requires_grad=False on every parameter in model."""
     for p in model.parameters():
         p.requires_grad = False
 
 
 def unfreeze(module):
+    """Set requires_grad=True on every parameter in module."""
     for p in module.parameters():
         p.requires_grad = True
 
-# ---- Torchvision Models ---- 
+# ---- Torchvision models ----
+# Each loads ImageNet-pretrained weights, swaps the final classifier layer for one
+# sized to num_classes, and (if freeze != "none") freezes everything except that
+# new head.
 
 def efficient_net_b0(num_classes, freeze):
     model = efficientnet_b0(weights = 'IMAGENET1K_V1', progress = True)
@@ -73,7 +88,7 @@ def mobile_net_v2(num_classes, freeze):
     return model
 
 def mobile_net_v3(num_classes, freeze):
-    # v3 la4t3
+    # v3-large (see mobile_net_v3_small for the small variant)
     model = mobilenet_v3_large(weights = 'IMAGENET1K_V1', progress = True)
     in_features = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(in_features, num_classes)
@@ -118,7 +133,8 @@ def res_net(num_classes, freeze):
 
     return model
 
-# ---- TIMM ---- 
+# ---- TIMM models ----
+# Same pattern as above, via timm's built-in num_classes= head replacement.
 
 def efficientnet_lite0(num_classes, freeze):
     model = timm.create_model("efficientnet_lite0", pretrained=True, num_classes=num_classes)
@@ -130,7 +146,7 @@ def efficientnet_lite0(num_classes, freeze):
     return model
 
 def efficientnet_lite1(num_classes, freeze):
-    # ! No pretrained weights
+    # ! timm has no pretrained checkpoint for this variant — pretrained=True is a no-op here.
     model = timm.create_model("efficientnet_lite1", pretrained=True, num_classes=num_classes)
 
     if freeze != "none":

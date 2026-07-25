@@ -1,13 +1,12 @@
+"""Shared evaluation loop used for both validation (during training) and final
+test-set evaluation — see cnn/train.py and cnn/run_model.ipynb."""
+
 import numpy as np
 import torch
 
 @torch.no_grad() # No gradient tracking
 def evaluate(model, loader, device, criterion):
-    """
-    Run evaluation for a classification model
-    Computes computes the average loss and
-    collects ground-truth labels, predicted class labels, predicted class probabilities
-    """
+    """Run one pass over loader in eval mode; return (avg_loss, y_true, y_pred, y_prob)."""
 
     model.eval()
     y_true, y_pred, y_prob = [], [], []
