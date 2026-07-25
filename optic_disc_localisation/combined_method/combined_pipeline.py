@@ -161,4 +161,4 @@ def optic_disc_localisation(img, save_results=False, save_path=None):
         save_candidate_overlay(img, [(best[0], best[1], None)], save_path, "17_best_candidate.png")
         save_vessel_centre_and_blob_candidate(img, (best[0], best[1], None), vessel_centre, save_path, "18_vessel_and_best.png")
 
-    return best
+    return fov_mask, best

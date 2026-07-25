@@ -1,3 +1,7 @@
+"""Run-time image quality gate for a captured fundus photo: localises the optic disc
+then checks focus, disc-detection confidence, and whether the disc lies within the
+image/field-of-view bounds, returning a retake message on the first failed check."""
+
 import cv2
 from PIL import Image
 from pathlib import Path
@@ -5,7 +9,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from image_quality_assessment.odl_pipeline import optic_disc_localisation
+from optic_disc_localisation.combined_method.combined_pipeline import optic_disc_localisation
 from optic_disc_localisation.image_processing.initial_processing import resize
 
 FOCUS_THRESHOLD = 0.0
@@ -99,6 +103,7 @@ def image_quality_assessment(img):
 
 
 def detect_disc(img_path, target_size=512):
+    """Load img_path, resize it, and run the image quality gate; prints the result."""
 
     with Image.open(img_path) as img:
         img = img.convert("RGB")

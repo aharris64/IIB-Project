@@ -15,7 +15,7 @@ def detect_disc(img_path, target_size=512, save_final=False, save_final_path = F
         img = img.convert("RGB")
         img = resize(img, target_size)
     
-    result = optic_disc_localisation(img, save_results=save_intermediate, save_path=save_intermediate_path)
+    fov_mask, result = optic_disc_localisation(img, save_results=save_intermediate, save_path=save_intermediate_path)
 
     blob_centre, blob_radius, vessel_centre, (total_score, contrast, response, vessel_sign) = result
 
