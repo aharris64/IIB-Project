@@ -12,10 +12,11 @@ sys.path.insert(0, str(Path(__file__).parents[1]))
 from optic_disc_localisation.combined_method.combined_pipeline import optic_disc_localisation
 from optic_disc_localisation.image_processing.initial_processing import resize
 
-FOCUS_THRESHOLD = 0.0
-ODL_THRESHOLD = 3.04
-# Sample image not included in the repo (optic_disc_localisation/input_images is gitignored) — replace with your own.
-image_path = str(Path(__file__).resolve().parents[1] / "optic_disc_localisation" / "input_images" / "normal_0009_EDD.jpg")
+FOCUS_THRESHOLD = 0.0  # placeholder: no real out-of-focus/in-focus data yet to calibrate a proper cutoff against
+ODL_THRESHOLD = 3.04 # Found empirically by maximing balanced F1 score across all thresholds in a pass fail system
+
+# Sample image not included in the repo (image_quality_assessment/test_images is gitignored) — replace with your own.
+image_path = str(Path(__file__).resolve().parent / "test_images" / "normal_0001_EDD.jpg")
 
 def _cardinal_points(centre, r):
     cx, cy = centre
