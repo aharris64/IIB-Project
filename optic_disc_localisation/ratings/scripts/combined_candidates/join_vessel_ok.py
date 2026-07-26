@@ -1,7 +1,11 @@
+"""Merges the vessel_ok column (from the best-candidate manual ratings) into all four
+combined_candidates CSVs, overwriting them in place — the one script that bridges the
+best-candidate and combined-candidates rating trees."""
+
 import pandas as pd
 from pathlib import Path
 
-root = Path(__file__).parents[1]
+root = Path(__file__).resolve().parents[2] / "data"
 
 vessel_ok_csv = root / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_manual.csv"
 

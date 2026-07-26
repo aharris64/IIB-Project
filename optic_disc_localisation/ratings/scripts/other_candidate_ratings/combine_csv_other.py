@@ -1,11 +1,18 @@
+"""Merges the generated (auto-detected) candidates with their manual ratings, one row
+per candidate. NOTE: paths below were previously broken (phantom "candidate_ratings"
+subfolder, and a generated-file name mismatch) — fixed to the real suffix-based
+filenames (_generated/_manual/_combined) living directly in this script's own data/
+folder, mirroring combine_csv_best_trial_weights.py's equivalent fix for the other
+rating tree."""
+
 import pandas as pd
 import ast
 from pathlib import Path
 
-disc_localisation_path = Path(__file__).parents[1]
-generated_csv = disc_localisation_path / "candidate_ratings" / "disc_candidates_050226.csv"
-manual_csv    = disc_localisation_path / "candidate_ratings" / "disc_candidates_050226_manual.csv"
-outpath       = disc_localisation_path / "candidate_ratings" / "combined_candidates_050226.csv"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "other_candidate_ratings"
+generated_csv = DATA_DIR / "disc_candidates_050226_generated.csv"
+manual_csv    = DATA_DIR / "disc_candidates_050226_manual.csv"
+outpath       = DATA_DIR / "disc_candidates_050226_combined.csv"
 
 # --- load ---
 df_generated = pd.read_csv(generated_csv)   # filename,class,num_candidates,candidates

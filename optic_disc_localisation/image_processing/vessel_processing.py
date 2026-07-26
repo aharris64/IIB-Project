@@ -1,3 +1,6 @@
+"""Vessel segmentation/skeletonisation helpers used by the vessel-convergence method
+of optic disc localisation."""
+
 import numpy as np
 from skimage.measure import label, regionprops
 from scipy.ndimage import distance_transform_edt
@@ -47,6 +50,7 @@ def isolate_major_vessels(img, min_area=10):
     return major_vessels
 
 def vessel_skeleton(img):
+    """1-pixel-wide morphological skeleton of a binary vessel mask."""
     return skeletonize(img)
 
 def vessel_thickness_skeleton(vessel_img, skeleton_img):

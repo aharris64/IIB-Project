@@ -1,3 +1,7 @@
+"""Projects each grid box's principal vessel direction (from vessel_directions.py) as
+attenuated rays to the image border; where the rays converge (after blurring) is a
+proxy for the optic disc / macula-adjacent point."""
+
 import numpy as np
 from optic_disc_localisation.image_processing.gaussian_processing import gaussian_blur
 

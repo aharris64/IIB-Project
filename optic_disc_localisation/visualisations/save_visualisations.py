@@ -1,30 +1,39 @@
+"""Debug/visualisation image saving shared by all three localisation pipelines."""
+
 import numpy as np
 import os
 import cv2
 from skimage.draw import line
 
-def save_image(img, save_folder, name):
-    """
-    Save an image array, handling grayscale (H×W) and RGB (H×W×3) images
-    """
-    
+
+def _prepare_bgr(img):
+    """Convert a grayscale (float [0,1] or uint8) or RGB (float or uint8) image to a
+    uint8 BGR array ready for cv2 drawing/imwrite. Raises on any other shape."""
     if img.ndim == 2:
         # Grayscale image (assumed float [0,1])
         if img.dtype != np.uint8:
             img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
-        save_path = os.path.join(save_folder, name)
-        cv2.imwrite(save_path, img)
+        return img.copy()
 
     elif img.ndim == 3 and img.shape[2] == 3:
         # RGB image
         if img.dtype != np.uint8:
             img = np.clip(img, 0, 255).astype(np.uint8)
-        save_path = os.path.join(save_folder, name)
-        cv2.imwrite(save_path, cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
-    
+        return cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
     else:
         raise ValueError("Unsupported image shape")
-    
+
+
+def save_image(img, save_folder, name):
+    """
+    Save an image array, handling grayscale (H×W) and RGB (H×W×3) images
+    """
+    img_bgr = _prepare_bgr(img)
+    save_path = os.path.join(save_folder, name)
+    cv2.imwrite(save_path, img_bgr)
+
+
 def save_mask_overlay(img, mask, save_folder, name, alpha=0.35):
     """
     Save an RGB visualization overlaying the excluded mask region in red
@@ -45,21 +54,7 @@ def save_candidate_overlay(img, candidates, save_folder, name):
     """
     Overlay candidates on img provided
     """
-
-    if img.ndim == 2:
-        # Grayscale image (assumed float [0,1])
-        if img.dtype != np.uint8:
-            img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
-        img_c = img.copy()
-
-    elif img.ndim == 3 and img.shape[2] == 3:
-        # RGB image
-        if img.dtype != np.uint8:
-            img = np.clip(img, 0, 255).astype(np.uint8)
-        img_c = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-    else:
-        raise ValueError("Unsupported image shape")
+    img_c = _prepare_bgr(img)
 
     for (centre, radius, response) in candidates:
         cv2.circle(img_c, centre, int(round(radius)), (0, 255, 0), 1)
@@ -72,21 +67,7 @@ def save_centre_overlay(img, centre, save_folder, name):
     """
     Overlay centre on image provided
     """
-
-    if img.ndim == 2:
-        # Grayscale image (assumed float [0,1])
-        if img.dtype != np.uint8:
-            img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
-        img_c = img.copy()
-
-    elif img.ndim == 3 and img.shape[2] == 3:
-        # RGB image
-        if img.dtype != np.uint8:
-            img = np.clip(img, 0, 255).astype(np.uint8)
-        img_c = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-    else:
-        raise ValueError("Unsupported image shape")
+    img_c = _prepare_bgr(img)
 
     cv2.circle(img_c, centre, 2, (255, 0, 0), -1)
 
@@ -97,21 +78,8 @@ def save_vessel_centre_and_blob_candidate(img, blob_candidate, vessel_centre, sa
     """
     Overlay both the centre and radius of blob candidate and vessel centre on the same image
     """
-    if img.ndim == 2:
-        # Grayscale image (assumed float [0,1])
-        if img.dtype != np.uint8:
-            img = (np.clip(img, 0, 1) * 255).astype(np.uint8)
-        img_c = img.copy()
+    img_c = _prepare_bgr(img)
 
-    elif img.ndim == 3 and img.shape[2] == 3:
-        # RGB image
-        if img.dtype != np.uint8:
-            img = np.clip(img, 0, 255).astype(np.uint8)
-        img_c = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-    else:
-        raise ValueError("Unsupported image shape")
-    
     blob_centre, blob_radius, blob_resp = blob_candidate
     
     cv2.circle(img_c, blob_centre, int(round(blob_radius)), (0, 255, 0), 1)

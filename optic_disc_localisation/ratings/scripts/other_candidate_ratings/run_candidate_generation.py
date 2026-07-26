@@ -1,8 +1,12 @@
+"""Batch driver for the "other candidates" rating set: for each raw dataset image,
+finds every non-best blob candidate (find_other_candidates.detect_disc), saves
+per-candidate overlay images, and writes a combined all_candidates_results.json."""
+
 import os
 from pathlib import Path
 import json
 
-from optic_disc_localisation.ratings.other_candidate_ratings.find_other_candidates import detect_disc
+from optic_disc_localisation.ratings.scripts.other_candidate_ratings.find_other_candidates import detect_disc
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
 source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
@@ -18,7 +22,10 @@ DEST_ROOT.mkdir(parents=True, exist_ok=True)
 
 TARGET_SIZE=512
 
-disc_localisation_path = Path(__file__).parents[1]
+# NOTE: previously off-by-one (parents[1] landed on ratings/outputs/, which doesn't
+# exist) — parents[3] correctly reaches optic_disc_localisation/, matching the real
+# outputs/ folder that disc_localisaton_stats.py reads from.
+disc_localisation_path = Path(__file__).resolve().parents[3]
 out_file = disc_localisation_path / "outputs" / "all_candidates_results.json"
 out_file.parent.mkdir(parents=True, exist_ok=True)
 

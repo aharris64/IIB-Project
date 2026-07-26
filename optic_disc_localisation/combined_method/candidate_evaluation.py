@@ -1,6 +1,14 @@
+"""Candidate scoring for combined_method: unlike blob_method's version, this adds a
+vessel-convergence-proximity term (score_vessel_blob) as a disambiguating feature and
+uses fixed weights fitted by ratings/scripts/combined_candidates/learn_weights.py via
+linear regression against manual quality ratings, rather than blob_method's simple
+additive weights."""
+
 import numpy as np
 
 def score_vessel_blob(center, radius, point):
+    """Proximity score in [~-inf, 1]: 1 at point==center, decreasing linearly to 0 at
+    the candidate's radius and negative beyond it."""
     cx, cy = center
     x, y = point
 
@@ -10,19 +18,19 @@ def score_vessel_blob(center, radius, point):
 
     return score
 
-def score_candidate(img, centre, radius, response, vessel_centre, 
+def score_candidate(img, centre, radius, response, vessel_centre,
                     inner_k=1.0, outer_k=1.8, w_bias=0.5929768734602114,
                     w_contrast=3.831443 , w_response=-8.454572, w_vessel_sign=1.211922):
     """
     Score a blob candidate by combining:
       - local contrast (inner disk vs surrounding annulus),
-      - absolute brightness of the candidate,
-      - magnitude of the DoG response
+      - magnitude of the DoG response,
+      - whether the vessel-convergence point lies within the candidate's radius
+        (score_vessel_blob's sign, via w_vessel_sign)
 
     inner_k: scale factor applied to radius to define inner disk radius
     outer_k: scale factor applied to radius to define outer disk radius
-    gamma: exponent applied ot brightness term
-    w_contrast, w_brightness, w_response: weight of different factors
+    w_bias, w_contrast, w_response, w_vessel_sign: fitted weights (see module docstring)
     """
 
     h, w = img.shape

@@ -1,3 +1,9 @@
+"""Interactive OpenCV labeling tool: rate each per-candidate image 1-4 via keypresses,
+resuming from START_ROW. NOTE: the output path was previously broken (wrote to a
+filename — "_candidates_.csv" — that doesn't match any real tracked file) — fixed to
+write directly to the real tracked _manual.csv, so continuing to rate here now
+updates the real file."""
+
 import os
 from pathlib import Path
 import re
@@ -22,9 +28,8 @@ RATING_KEYS = {"1", "2", "3", "4"}
 
 cand_regex = re.compile(r"^(?P<stem>.+?)_cand(?P<cand>\d+)(?:_vb[-\d.]+)?$", re.IGNORECASE)
 
-out_dir = Path(__file__).resolve().parent
-out_dir.mkdir(parents=True, exist_ok=True)
-simple_file = out_dir / f"{name}_candidates_.csv"
+out_dir = Path(__file__).resolve().parents[2] / "data" / "other_candidate_ratings"
+simple_file = out_dir / f"{name}_manual.csv"
 
 
 def parse_candidate_name(p: Path):

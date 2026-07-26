@@ -1,7 +1,14 @@
+"""Batch driver: runs disc localisation over an entire raw dataset (DATASETS_ROOT),
+saving per-class final overlays (split into success / no-blob-detected /
+vessel-blob-inconsistent) plus a combined disc_localisation_results.json."""
+
 from pathlib import Path
 import json
 import os
+import sys
 from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from optic_disc_localisation.runners.run_disc_localisation import detect_disc
 from optic_disc_localisation.image_processing.initial_processing import resize
@@ -22,7 +29,7 @@ DEST_ROOT.mkdir(parents=True, exist_ok=True)
 
 TARGET_SIZE=1280
 
-disc_localisation_path = Path(__file__).parents[1]
+disc_localisation_path = Path(__file__).parents[1]  # optic_disc_localisation/ (one level up from runners/)
 no_blob_dir = disc_localisation_path / "outputs" / "final_output_images" / "no_blob_detected"
 neg_score_dir = disc_localisation_path / "outputs" / "final_output_images" / "inconsistent_vessel_and_blob"
 

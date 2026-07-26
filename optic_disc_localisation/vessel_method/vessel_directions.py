@@ -1,3 +1,6 @@
+"""Per-grid-box weighted PCA over the vessel skeleton, giving each box's dominant
+vessel direction (feeds into vessel_convergence.py's ray projection)."""
+
 import numpy as np
 
 def weighted_pca_points_2d(points, thickness, thickness_weight=1.0):

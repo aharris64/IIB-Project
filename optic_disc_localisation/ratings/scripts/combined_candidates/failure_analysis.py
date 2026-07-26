@@ -1,3 +1,6 @@
+"""Reports how often the highest-weighted-score candidate matches the best-rated
+candidate per image, overall/by-class/by-rating-gap, plus the worst failure cases."""
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -131,7 +134,7 @@ def print_candidate_analysis(df):
 
 
 # ── Run ───────────────────────────────────────────────────────────────
-weighted_candidates_path = Path(__file__).parents[1]
+weighted_candidates_path = Path(__file__).resolve().parents[2] / "data"
 csv = weighted_candidates_path / "combined_candidates" / "weighted_score_candidates_050226.csv"
 
 df = pd.read_csv(csv)

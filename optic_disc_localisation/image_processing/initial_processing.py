@@ -1,5 +1,11 @@
+"""Basic per-channel extraction and resizing shared by all three localisation
+pipelines (blob_method, vessel_method, combined_method)."""
+
 import numpy as np
 from PIL import Image
+
+from optic_disc_localisation.image_processing.fov_processing import create_mask, inpaint
+
 
 def extract_channel(img, channel):
     """
@@ -8,13 +14,26 @@ def extract_channel(img, channel):
     if channel == 1: # RED
         red_img = img[:, :, 0].astype(np.float32) / 255.0
         return red_img
-    elif channel == 2: # BLUE
+    elif channel == 2: # GREEN
         grn_img = img[:, :, 1].astype(np.float32) / 255.0
         return grn_img
-    elif channel == 3: # GREEN
+    elif channel == 3: # BLUE
         blu_img = img[:, :, 2].astype(np.float32) / 255.0
         return blu_img
     return None
+
+
+def extract_channel_masked(img, channel):
+    """Extract a channel, build its FOV mask, and inpaint the dark border.
+
+    Shared by blob_method, vessel_method, and combined_method's per-channel
+    preprocessing step (previously duplicated 3-line extract/mask/inpaint sequence
+    in each). Returns (channel_img, fov_mask, inpainted_img).
+    """
+    ch_img = extract_channel(img, channel)
+    fov_mask = create_mask(ch_img)
+    inpaint_img = inpaint(ch_img, fov_mask)
+    return ch_img, fov_mask, inpaint_img
 
 
 def resize(img, target_size):

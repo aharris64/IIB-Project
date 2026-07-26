@@ -1,3 +1,7 @@
+"""KDE plots of weighted score by rating, an F1-optimal decision threshold, and
+stacked bar charts of localisation/vessel-detection success by class — on the
+reclassified (change_labels_for_csv.py output) combined_candidates data."""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -267,7 +271,7 @@ def plot_vessel_ok(df):
     plt.show()
  
 
-disc_localisation_path = Path(__file__).parents[1]
+disc_localisation_path = Path(__file__).resolve().parents[2] / "data"
 csv = disc_localisation_path / "combined_candidates" / "best_candidates_reclassified.csv"
 df = pd.read_csv(csv)
 

@@ -1,3 +1,7 @@
+"""KDE/histogram plots of candidate properties (contrast, response, weighted score)
+by manual rating, on the un-reclassified combined_candidates data — earlier, simpler
+sibling of plot_best_candidate_properties.py."""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -82,7 +86,7 @@ def count_ratings(df):
     print(f"\nTotal samples: {total}")
 
 
-disc_localisation_path = Path(__file__).parents[1]
+disc_localisation_path = Path(__file__).resolve().parents[2] / "data"
 csv = disc_localisation_path / "combined_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 

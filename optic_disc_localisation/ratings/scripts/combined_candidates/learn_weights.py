@@ -1,3 +1,9 @@
+"""Fits a linear regression of manual rating on candidate features to derive the
+weights hardcoded into combined_method/candidate_evaluation.py's score_candidate
+(w_bias, w_contrast, w_response, w_vessel_sign) and save_weighted_score.py's
+calculate_weighted_score. NOTE: path below was previously broken (referenced a
+phantom "all_candidates" folder) — fixed to the real combined_candidates/ location."""
+
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -9,8 +15,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 
 
-disc_localisation_path = Path(__file__).parents[1]
-combined_csv = disc_localisation_path / "all_candidates" / "all_candidates_050226.csv"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
+combined_csv = DATA_ROOT / "combined_candidates" / "all_candidates_050226.csv"
 
 df = pd.read_csv(combined_csv)
 

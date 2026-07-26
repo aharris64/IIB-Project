@@ -1,9 +1,12 @@
+"""Reclassifies papilledema rows whose image name suggests non-specific disc oedema
+(EDD/IFD/RFM acronyms) into their own class, feeding plot_best_candidate_properties.py."""
+
 import pandas as pd
 from pathlib import Path
- 
-disc_localisation_path = Path(__file__).parents[1]
-input_csv  = disc_localisation_path / "combined_candidates" / "best_candidates_050226.csv"
-output_csv = disc_localisation_path / "combined_candidates" / "best_candidates_reclassified.csv"
+
+DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "combined_candidates"
+input_csv  = DATA_DIR / "best_candidates_050226.csv"
+output_csv = DATA_DIR / "best_candidates_reclassified.csv"
  
 df = pd.read_csv(input_csv)
  

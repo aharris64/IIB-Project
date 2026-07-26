@@ -1,11 +1,61 @@
+"""Difference-of-Gaussian (DoG) blob detection, and the enhancement-fallback chain
+that generates candidates from a vessel-suppressed image."""
+
 import cv2
 import numpy as np
 
-def find_DoG_candidates(img):
+from optic_disc_localisation.image_processing.contrast_enhancement import (
+    percentage_based_enhancement, percentile_controlled_gamma, clahe
+)
+from optic_disc_localisation.visualisations.save_visualisations import save_image, save_candidate_overlay
 
+
+def find_DoG_candidates(img):
+    """Run the DoG scale-space pyramid + local-minima detector; return blob candidates."""
     pyramid = build_scale_space_DoG_pyramid(img)
 
     candidates = find_DoG_minima(pyramid)
+
+    return candidates
+
+
+def get_candidates(img, save_results=False, save_path=None,
+                    percentage_filename="per_img.png",
+                    percentile_gamma_filename="per_gamma_img.png",
+                    clahe_filename="pclahe_img.png",
+                    candidates_filename="candidates.png"):
+    """Try percentage-based enhancement, then percentile-controlled gamma, then CLAHE,
+    stopping at the first enhancement that yields any DoG blob candidates.
+
+    Shared by blob_method and combined_method (previously duplicated identically in
+    each, save for their debug-image filenames — preserved here via the filename
+    parameters so callers keep their own existing output naming exactly).
+    """
+    per_img = percentage_based_enhancement(img)
+    candidates = find_DoG_candidates(per_img)
+
+    if save_results:
+        save_image(per_img, save_path, percentage_filename)
+        if len(candidates) > 0:
+            save_candidate_overlay(img, candidates, save_path, candidates_filename)
+
+    if len(candidates) == 0:
+        per_gamma_img = percentile_controlled_gamma(img)
+        candidates = find_DoG_candidates(per_gamma_img)
+
+        if save_results:
+            save_image(per_gamma_img, save_path, percentile_gamma_filename)
+            if len(candidates) > 0:
+                save_candidate_overlay(img, candidates, save_path, candidates_filename)
+
+    if len(candidates) == 0:
+        clahe_img = clahe(img)
+        candidates = find_DoG_candidates(clahe_img)
+
+        if save_results:
+            save_image(clahe_img, save_path, clahe_filename)
+            if len(candidates) > 0:
+                save_candidate_overlay(img, candidates, save_path, candidates_filename)
 
     return candidates
 

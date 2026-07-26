@@ -1,3 +1,8 @@
+"""Computes the fitted weighted score (weights from learn_weights.py) for every
+candidate and writes it in as blob_score, producing the final candidates file.
+NOTE: paths below were previously broken (phantom "all_candidates" folder) — fixed
+to the real combined_candidates/ location."""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -22,8 +27,8 @@ def calculate_weighted_score(df):
     return df
 
 # Load CSV
-disc_localisation_path = Path(__file__).parents[1]
-csv = disc_localisation_path / "all_candidates" / "all_candidates_050226.csv"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
+csv = DATA_ROOT / "combined_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 
 # Compute weighted score
@@ -35,5 +40,5 @@ df["blob_score"] = df["weighted_score"]
 df = df.drop(columns=["weighted_score"])
 
 # Save updated CSV
-out_csv = disc_localisation_path / "all_candidates" / "final_candidates_090226.csv"
+out_csv = DATA_ROOT / "combined_candidates" / "final_candidates_090226.csv"
 df.to_csv(out_csv, index=False)

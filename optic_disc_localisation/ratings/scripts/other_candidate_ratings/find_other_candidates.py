@@ -1,3 +1,8 @@
+"""Detection logic for the "other candidates" rating set: for each image, finds every
+valid blob candidate *except* the single best one (used to build negative/near-miss
+examples for learn_weights.py's rating-vs-feature regression). Pure detection module —
+no CSV/JSON I/O of its own; used by run_candidate_generation.py."""
+
 from optic_disc_localisation.blob_method.blob_pipeline import image_processing, vessel_suppression, get_candidates
 from optic_disc_localisation.visualisations.save_visualisations import save_vessel_centre_and_blob_candidate
 from optic_disc_localisation.blob_method.candidate_evaluation import score_candidate
@@ -9,6 +14,7 @@ from pathlib import Path
 from PIL import Image
 
 def score_vessel_blob(center, radius, point):
+    """Proximity score: 1 at point==center, decreasing to 0 at radius, negative beyond."""
     cx, cy = center
     x, y = point
 
@@ -19,7 +25,10 @@ def score_vessel_blob(center, radius, point):
     return score
 
 def detect_disc(img_path, save_candidate_path, target_size=512):
-    
+    """Resize img_path, find every non-best blob candidate, save a per-candidate
+    overlay to save_candidate_path, and return a list of
+    (vessel_proximity_score, (centre, radius, blob_score), vessel_centre)."""
+
     img_stem = Path(img_path).stem
 
     with Image.open(img_path) as img:
@@ -45,6 +54,7 @@ def detect_disc(img_path, save_candidate_path, target_size=512):
     return candidate_list
 
 def blob_disc_detection(img):
+    """Blob-detect img and return every valid candidate except the best-scoring one."""
 
     fov_mask, processed_img = image_processing(img)
     

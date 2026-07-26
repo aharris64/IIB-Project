@@ -1,3 +1,5 @@
+"""Field-of-view (FOV) masking and border inpainting for fundus images."""
+
 import numpy as np
 import cv2
 

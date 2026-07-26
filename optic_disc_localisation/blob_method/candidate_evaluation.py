@@ -1,6 +1,10 @@
+"""Candidate scoring for blob_method (blob detection alone, no vessel convergence) —
+contrast with combined_method/candidate_evaluation.py, which adds a
+vessel-convergence-proximity term and uses different, fitted weights."""
+
 import numpy as np
 
-def score_candidate(img, centre, radius, response, 
+def score_candidate(img, centre, radius, response,
                     inner_k=1.0, outer_k=1.8, gamma=1.0,
                     w_contrast=1.0, w_brightness=0.7, w_response=0.2):
     """
@@ -60,9 +64,6 @@ def best_disc_candidate(img, candidates, mask):
 
     best = None
     best_score = [-np.inf]
-
-    # if len(candidates) == 1:
-    #     return candidates[0]
 
     for (centre, radius, response) in candidates:
         x, y = centre

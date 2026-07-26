@@ -1,3 +1,9 @@
+"""Interactive OpenCV labeling tool: rate disc-localisation quality (1-4) and vessel-ok
+(0/9) per image via keypresses, resuming from START_CLASS/START_NUM. NOTE: the output
+path was previously broken (wrote to a "manual_ratings" subfolder that doesn't match
+the real flat-file data/ layout) — fixed to write directly to the real tracked
+_manual.csv, so continuing to rate here now updates the real file."""
+
 import os
 from pathlib import Path
 
@@ -44,9 +50,8 @@ if start_global is None:
     raise ValueError(f"Could not find {START_CLASS} image #{START_NUM}. Check START_NUM and sorting.")
 
 # Load existing ratings if present
-out_dir = Path(__file__).resolve().parent / "manual_ratings"
-out_dir.mkdir(parents=True, exist_ok=True)
-out_file = out_dir / f"{name}.csv"
+out_dir = Path(__file__).resolve().parents[2] / "data" / "best_candidate_ratings_trial_weights"
+out_file = out_dir / f"{name}_manual.csv"
 
 rated = {}  # (class, name) -> {"rating": int, "vessel": int}
 if out_file.exists():

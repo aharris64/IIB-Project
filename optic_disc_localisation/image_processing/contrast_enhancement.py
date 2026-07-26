@@ -1,3 +1,7 @@
+"""Contrast-enhancement fallback chain used by blob-candidate detection: several ways
+to boost optic-disc-vs-background contrast when the default enhancement fails to
+yield any DoG blob candidates."""
+
 import cv2
 import numpy as np
 
@@ -21,13 +25,6 @@ def clahe(img, clip_limit=2.0, tile_grid_size=(8, 8)):
     img_clahe = img_clahe.astype(np.float32) / 255.0
 
     return img_clahe.astype(np.float32)
-
-def gamma_brightening(img, gamma=10):
-    """
-    Bright-biased contrast enhancement
-    """
-    img_gamma = img ** gamma
-    return img_gamma.astype(np.float32)
 
 def percentage_based_enhancement(img, p_low=90, p_high=99.5):
     """

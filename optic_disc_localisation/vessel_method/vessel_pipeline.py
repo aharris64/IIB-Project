@@ -1,7 +1,10 @@
-from optic_disc_localisation.image_processing.fov_processing import create_mask, inpaint
-from optic_disc_localisation.image_processing.initial_processing import extract_channel
+"""Vessel-convergence-only optic disc localisation pipeline (no blob detection) —
+contrast with combined_method/combined_pipeline.py, which fuses this with
+blob_method's blob detection for a better-disambiguated result."""
+
+from optic_disc_localisation.image_processing.initial_processing import extract_channel_masked
 from optic_disc_localisation.image_processing.gaussian_processing import gaussian_subtraction
-from optic_disc_localisation.image_processing.vessel_processing import inverse_bool_img, otsu_thresholding, inverse_bool_img, isolate_major_vessels, vessel_skeleton, vessel_thickness_skeleton
+from optic_disc_localisation.image_processing.vessel_processing import inverse_bool_img, otsu_thresholding, isolate_major_vessels, vessel_skeleton, vessel_thickness_skeleton
 
 from optic_disc_localisation.vessel_method.vessel_directions import pca_on_grid_boxes
 from optic_disc_localisation.vessel_method.vessel_convergence import generate_vessel_rays, find_convergence_point, blur_rays
@@ -9,15 +12,10 @@ from optic_disc_localisation.vessel_method.vessel_convergence import generate_ve
 from optic_disc_localisation.visualisations.save_visualisations import save_image, save_mask_overlay, save_grid_pca, save_centre_overlay
 
 def img_processing(img, save_results=False, save_path=None):
-    
+    """Extract, mask, and inpaint the green channel."""
+
     # Green Channel
-    green_img = extract_channel(img, 2)
-    
-    # Mask to remove dark border
-    fov_mask = create_mask(green_img)
-    
-    # Fill the border with OpenCV inpaint algorithm
-    inpaint_img = inpaint(green_img, fov_mask)
+    green_img, fov_mask, inpaint_img = extract_channel_masked(img, 2)
 
     if save_results:
         save_image(green_img, save_path, "v_1_green_img.png")
@@ -27,6 +25,7 @@ def img_processing(img, save_results=False, save_path=None):
     return inpaint_img
 
 def vessel_processing(img, save_results=False, save_path=None):
+    """Highlight, threshold, isolate, skeletonise, and thickness-weight the vessels."""
 
     # Gaussian subtraction to highlight vessels
     gsub = gaussian_subtraction(img, 5)
@@ -57,6 +56,8 @@ def vessel_processing(img, save_results=False, save_path=None):
     return skeleton_img, thickness_skel
 
 def optic_disc_centre(skeleton_img, thickness_skel, save_results=False, save_path=None):
+    """PCA per grid box -> extend/attenuate rays -> blur -> return the (x, y) peak,
+    a proxy for the optic disc / macula-adjacent point."""
 
     # Perform PCA on grid
     grid_results = pca_on_grid_boxes(skeleton_img, thickness_skel)
@@ -78,6 +79,8 @@ def optic_disc_centre(skeleton_img, thickness_skel, save_results=False, save_pat
     return p_xy
 
 def vessel_disc_detection(img, save_results=False, save_path=None):
+    """Full vessel-only pipeline: green-channel prep -> vessel processing ->
+    vessel-convergence centre estimate. Returns the (x, y) centre point."""
 
     # Image processing - green channel
     processed_img = img_processing(img, save_results=save_results, save_path=save_path)
