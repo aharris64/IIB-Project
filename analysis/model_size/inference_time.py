@@ -1,3 +1,7 @@
+"""Benchmarks raw PyTorch (CPU/GPU, no export) inference latency and parameter count
+across architectures — contrast with onnx_inference_time.py, which additionally
+exports to ONNX and benchmarks via onnxruntime instead."""
+
 import torch
 import time
 from pathlib import Path

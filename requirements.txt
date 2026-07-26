@@ -3,7 +3,7 @@ torchvision
 timm
 onnx
 onnxruntime
-pytorch-grad-cam
+grad-cam
 opencv-python
 numpy
 pandas

@@ -1,34 +1,28 @@
-"""
-gradcam.py  —  Grad-CAM visualisation using pytorch-grad-cam library
-
-Install:  pip install grad-cam
-
-Edit the CONFIG section below, then run:  python gradcam.py
-"""
+"""Grad-CAM visualisation (via the pytorch-grad-cam library, `pip install grad-cam`):
+runs Grad-CAM over one image or a sample from DATA_DIR, and saves one overlay PNG per
+image directly into OUT_DIR, mirroring DATA_DIR's per-class subfolder layout. Edit the
+CONFIG section below, then run directly."""
 
 import sys
 from pathlib import Path
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
 from PIL import Image
 from torchvision import transforms
 
-# pytorch-grad-cam
 from pytorch_grad_cam import (
     GradCAM, GradCAMPlusPlus, XGradCAM, EigenGradCAM, HiResCAM
 )
 from pytorch_grad_cam.utils.image import show_cam_on_image
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 
-# ── project models ────────────────────────────────────────────────────────────
 sys.path.insert(0, str(Path(__file__).parents[2]))
 from classifier.models import build_model
 
-# ── constants ─────────────────────────────────────────────────────────────────
+# ---- Constants ----
 CLASS_NAMES = {0: "normal", 1: "papilledema", 2: "pseudopapilledema"}
 MEAN = (0.485, 0.456, 0.406)
 STD  = (0.229, 0.224, 0.225)
@@ -48,15 +42,10 @@ CAM_METHODS = {
 }
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Target-layer registry
-# Last convolutional block before global pooling — standard Grad-CAM choice.
-# ─────────────────────────────────────────────────────────────────────────────
 def get_target_layers(model, model_name: str) -> list:
-    """
-    pytorch-grad-cam expects a list of layers.
-    Returns the single best layer for each architecture.
-    """
+    """Return the single best target layer for model_name — pytorch-grad-cam expects
+    a list of layers; this is the last convolutional block before global pooling,
+    the standard Grad-CAM choice."""
     if model_name in ("mobilenet_v3", "mobilenet_v3_small"):
         return [model.features[-1]]
     elif model_name == "mobilenet_v2":
@@ -73,9 +62,6 @@ def get_target_layers(model, model_name: str) -> list:
         raise ValueError(f"No target layer defined for '{model_name}'.")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Helpers
-# ─────────────────────────────────────────────────────────────────────────────
 def unnormalise(tensor: torch.Tensor) -> np.ndarray:
     """Normalised tensor → float32 RGB array in [0, 1] (required by show_cam_on_image)."""
     img = tensor.squeeze().permute(1, 2, 0).cpu().numpy()
@@ -84,6 +70,7 @@ def unnormalise(tensor: torch.Tensor) -> np.ndarray:
 
 
 def predict(model, input_tensor: torch.Tensor, device):
+    """Run model on input_tensor; return (predicted class index, its softmax probability)."""
     model.eval()
     with torch.no_grad():
         logits = model(input_tensor.to(device))
@@ -94,7 +81,8 @@ def predict(model, input_tensor: torch.Tensor, device):
 
 
 def collect_images(data_dir: Path, n: int, class_filter: int, seed: int):
-    """Walk an ImageFolder-style directory → list of (Path, label) tuples."""
+    """Walk an ImageFolder-style directory -> list of (path, label, class_name) tuples,
+    label being the class's index in sorted subfolder order (matches CLASS_NAMES)."""
     class_dirs = sorted(d for d in data_dir.iterdir() if d.is_dir())
     label_map  = {d.name: i for i, d in enumerate(class_dirs)}
     print("Label map:", label_map)
@@ -106,54 +94,14 @@ def collect_images(data_dir: Path, n: int, class_filter: int, seed: int):
             continue
         for ext in ("*.jpg", "*.jpeg", "*.png", "*.bmp", "*.tiff"):
             for fp in d.glob(ext):
-                items.append((fp, label))
+                items.append((fp, label, d.name))
 
     rng = np.random.default_rng(seed)
     rng.shuffle(items)
     return items[:n]
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Figure builder
-# ─────────────────────────────────────────────────────────────────────────────
-def make_figure(results: list, method_name: str, save_path: Path = None):
-    n = len(results)
-    fig, axes = plt.subplots(n, 2, figsize=(8, 3.5 * n))
-    if n == 1:
-        axes = [axes]
-
-    fig.suptitle(f"Grad-CAM  ({method_name})", fontsize=12, fontweight="bold")
-
-    for i, r in enumerate(results):
-        pred_name = CLASS_NAMES.get(r["pred_class"], str(r["pred_class"]))
-        true_name = (CLASS_NAMES.get(r["true_label"], str(r["true_label"]))
-                     if r["true_label"] is not None else "?")
-        correct   = (r["true_label"] == r["pred_class"]
-                     if r["true_label"] is not None else None)
-        tick      = "✓" if correct else ("✗" if correct is False else "")
-        colour    = "green" if correct else ("red" if correct is False else "black")
-
-        axes[i][0].imshow(r["original"])
-        axes[i][0].set_title(f"{r['path'].name}\nTrue: {true_name}", fontsize=8)
-        axes[i][0].axis("off")
-
-        axes[i][1].imshow(r["overlay"])
-        axes[i][1].set_title(
-            f"{tick}  Pred: {pred_name}  ({r['pred_prob']:.1%})",
-            fontsize=8, color=colour
-        )
-        axes[i][1].axis("off")
-
-    plt.tight_layout()
-    if save_path:
-        plt.savefig(save_path, dpi=150, bbox_inches="tight")
-        print(f"Saved figure → {save_path}")
-    plt.show()
-
-
-# =============================================================================
-# CONFIG 
-# =============================================================================
+# ---- Config ----
 
 # Model
 MODEL_NAME  = "mobilenet_v3_small"   # must match a key in build_model()
@@ -176,19 +124,22 @@ TARGET_CLASS = None    # int: force heatmap to explain this class; None = predic
 # CAM method — one of: GradCAM | GradCAMPlusPlus | XGradCAM | EigenGradCAM | HiResCAM
 METHOD = "HiResCAM"
 
-# Output
+# Output — one overlay PNG per image, saved under OUT_DIR/<class_name>/ (mirroring
+# DATA_DIR's layout); with IMAGE set instead of DATA_DIR, there's no class subfolder
+# to mirror, so the overlay is saved directly under OUT_DIR.
 OUT_DIR = REPO_ROOT / "analysis" / "grad_cam" / "grad_cam_results"
 SEED    = 42
 
-# =============================================================================
-
 
 def main():
+    """Load the model + weights configured above, run Grad-CAM over the configured
+    image(s), and save one overlay PNG per image directly to OUT_DIR (no figure,
+    nothing displayed on screen)."""
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device : {device}")
     print(f"Method : {METHOD}")
 
-    # ── load model ────────────────────────────────────────────────────────────
+    # ---- Load model ----
     model = build_model(MODEL_NAME, NUM_CLASSES, freeze="none")
     state = torch.load(WEIGHTS, map_location=device)
     model.load_state_dict(state)
@@ -196,26 +147,27 @@ def main():
     model.eval()
     print(f"Loaded : {WEIGHTS}")
 
-    # ── target layers ─────────────────────────────────────────────────────────
+    # ---- Target layers ----
     target_layers = get_target_layers(model, MODEL_NAME)
     print(f"Target layer : {target_layers[0].__class__.__name__}")
 
-    # ── collect images ────────────────────────────────────────────────────────
+    # ---- Collect images ----
     if IMAGE is not None:
-        items = [(Path(IMAGE), None)]
+        items = [(Path(IMAGE), None, None)]
     else:
         items = collect_images(Path(DATA_DIR), N, CLASS_FILTER, SEED)
     print(f"Processing {len(items)} image(s) …\n")
 
-    # ── run CAM ───────────────────────────────────────────────────────────────
+    out_dir = Path(OUT_DIR)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # ---- Run CAM, saving each overlay as it's produced ----
     CamClass = CAM_METHODS[METHOD]
 
-    results = []
     with CamClass(model=model, target_layers=target_layers) as cam:
-        for img_path, label in items:
+        for img_path, label, class_name in items:
             img_pil  = Image.open(img_path).convert("RGB")
             input_t  = TRANSFORM(img_pil).unsqueeze(0).to(device)
-            original = unnormalise(input_t)
 
             pred_class, pred_prob = predict(model, input_t, device)
 
@@ -223,35 +175,21 @@ def main():
             targets    = [ClassifierOutputTarget(cam_target)]
 
             grayscale_cam = cam(input_tensor=input_t, targets=targets)[0]
+            original      = unnormalise(input_t)
             overlay_img   = show_cam_on_image(original, grayscale_cam, use_rgb=True)
 
-            results.append({
-                "path":       img_path,
-                "original":   (original * 255).astype(np.uint8),
-                "overlay":    overlay_img,
-                "pred_class": pred_class,
-                "pred_prob":  pred_prob,
-                "true_label": label,
-            })
+            dst_dir = out_dir / class_name if class_name is not None else out_dir
+            dst_dir.mkdir(parents=True, exist_ok=True)
+            cv2.imwrite(
+                str(dst_dir / f"{img_path.stem}_gradcam.png"),
+                cv2.cvtColor(overlay_img, cv2.COLOR_RGB2BGR)
+            )
 
-            true_name = CLASS_NAMES.get(label, "?")
+            true_name = CLASS_NAMES.get(label, "?") if label is not None else "?"
             pred_name = CLASS_NAMES.get(pred_class)
             tick      = "✓" if label == pred_class else ("✗" if label is not None else "")
             print(f"  {tick}  {img_path.name:<40}  "
                   f"true={true_name:<20} pred={pred_name:<20} ({pred_prob:.1%})")
-
-    # ── save outputs ──────────────────────────────────────────────────────────
-    out_dir = Path(OUT_DIR)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    fig_path = out_dir / f"gradcam_{MODEL_NAME}_{METHOD}.png"
-    make_figure(results, METHOD, save_path=fig_path)
-
-    for r in results:
-        cv2.imwrite(
-            str(out_dir / f"{r['path'].stem}_gradcam.png"),
-            cv2.cvtColor(r["overlay"], cv2.COLOR_RGB2BGR)
-        )
 
     print(f"\nDone. Outputs saved to: {out_dir}")
 

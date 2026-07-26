@@ -1,3 +1,7 @@
+"""Exports each architecture to ONNX (into outputs/onnx_models/) and benchmarks its
+onnxruntime CPU inference time and on-disk size — contrast with inference_time.py,
+which times raw PyTorch (no export) instead."""
+
 import torch
 import onnx
 import onnxruntime as ort
@@ -19,7 +23,7 @@ MODELS = [
     "ghostnet",
 ]
 
-NUM_CLASSES = 10
+NUM_CLASSES = 3
 WARMUP      = 20
 RUNS        = 100
 INPUT_SIZE  = (1, 3, 224, 224)

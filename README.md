@@ -15,7 +15,7 @@ full methodology, dataset description, and results.
 | `image_quality_assessment/` | Image quality scoring pipeline used to filter/flag low-quality fundus images. |
 | `data_counts/` | Scripts for auditing dataset properties (image sizes, channels, file types, resolution/class breakdowns) at various raw/pre-processing pipeline stages. |
 | `classifier/` | Classifier training/evaluation code (`train.py`, `evaluate.py`, `models.py`, `load_data.py`, `config.py`) and a Colab notebook (`run_model.ipynb`) used to run training remotely. |
-| `analysis/` | Post-hoc analysis: training curves, confusion matrices, ROC/precision-recall, calibration, Grad-CAM visualisations, model size/inference time comparisons, and cross-run comparison tools. |
+| `analysis/` | Post-hoc analysis. `plotting/` holds both the shared per-run plotting library (loss/F1 curves, confusion matrix, ROC/precision-recall, calibration, threshold sweep, text summary) and `plot_results.py`, the driver script that calls into it — list one run in `RUNS` for the full single-run plot set, or several to compare loss/F1 curves across runs; `figures/` holds one-off thesis figures with results pasted in directly rather than loaded from a run directory; `grad_cam/` and `model_size/` (Grad-CAM visualisations, inference-time/model-size comparisons) are self-contained. |
 | `outputs/` | Generated artifacts, kept separate from the code that produces them: `onnx_models/` (ONNX exports, tracked in git), `runs/` (training run logs/checkpoints), `results/` (evaluation outputs) — the latter two are gitignored and populated locally by `classifier/` and `analysis/` scripts. |
 
 ## Setup
