@@ -1,7 +1,6 @@
-# Resize to 224x224
-
-# Resize so the smaller side is 224
-# Crop from there if not square
+"""Baseline preprocessing (no disc localisation): resizes each raw image so its
+shorter side is TARGET_SIZE, then centre-crops to a TARGET_SIZE x TARGET_SIZE square —
+contrast with disc_centred_resize.py's disc-centred crop."""
 
 import os
 from pathlib import Path
