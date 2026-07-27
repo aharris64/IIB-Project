@@ -65,6 +65,15 @@ them from the papilledema class at the train/val/test split stage
 (`PAPILLEDEMA_EXCLUDE`) — they're still present in `raw`/other processed stages,
 just not in any `train_test_val*` split.
 
+## Training
+
+The classifiers were trained on Google Colab against an NVIDIA T4 GPU rather than
+locally, since that was the GPU available for the project — `classifier/run_model.ipynb`
+is the notebook used to drive training remotely on Colab (it wraps the same
+`train.py`/`evaluate.py`/`models.py`/`load_data.py`/`config.py` code in `classifier/`).
+Training locally instead just means running `classifier/train.py` directly with
+`DATASETS_ROOT` set; the notebook exists for convenience, not because Colab is required.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
