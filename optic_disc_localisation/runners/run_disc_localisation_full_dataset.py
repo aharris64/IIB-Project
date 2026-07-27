@@ -17,7 +17,7 @@ from optic_disc_localisation.visualisations.save_visualisations import save_vess
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
 source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
-destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_localisation_100226_BIG")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_localisation", "disc_localisation_100226_1280")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

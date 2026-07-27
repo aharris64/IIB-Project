@@ -7,8 +7,8 @@ from pathlib import Path
 from PIL import Image
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
-source = os.path.join(DATASETS_ROOT, "Dataset", "raw")
-destination = os.path.join(DATASETS_ROOT, "Dataset", "basic_resize_224")
+source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "basic_resize_224")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

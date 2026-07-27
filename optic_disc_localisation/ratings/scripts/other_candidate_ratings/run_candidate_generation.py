@@ -10,7 +10,7 @@ from optic_disc_localisation.ratings.scripts.other_candidate_ratings.find_other_
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
 source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
-destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_candidates050226")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "disc_localisation", "disc_candidates_050226")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)

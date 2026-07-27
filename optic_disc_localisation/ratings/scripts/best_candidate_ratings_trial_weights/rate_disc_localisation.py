@@ -10,7 +10,7 @@ import pandas as pd
 name = "disc_localisation_030226"
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
-ROOT = Path(DATASETS_ROOT) / "Processed Datasets"
+ROOT = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_localisation"
 
 SOURCE_ROOT = ROOT / name
 

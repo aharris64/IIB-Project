@@ -7,8 +7,8 @@ from pathlib import Path
 from PIL import Image, ImageChops
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
-source = os.path.join(DATASETS_ROOT, "Dataset", "basic_resize_224")
-destination = os.path.join(DATASETS_ROOT, "Dataset", "min_test")
+source = os.path.join(DATASETS_ROOT, "Processed Datasets", "basic_resize_224")
+destination = os.path.join(DATASETS_ROOT, "Processed Datasets", "min_test")
 
 SOURCE_ROOT = Path(source)
 DEST_ROOT = Path(destination)
