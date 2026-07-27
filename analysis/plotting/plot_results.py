@@ -18,6 +18,8 @@ from plotting.precision_recall import plot_pr_indivisual_class, plot_avg_pr
 from plotting.roc_auc import plot_roc_ovr, plot_avg_roc
 from plotting.threshold import plot_threshold_single_class, plot_threshold_single_metric
 from plotting.summary import print_summary
+from plotting.confidence import plot_confidence_bar_chart
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RUN_FOLDER = REPO_ROOT / "outputs" / "runs"
@@ -39,7 +41,7 @@ SAVE_FOLDER = REPO_ROOT / "outputs" / "results"
 #         "resnet_20260520_154113",
 #         "squeezenet_20260520_174646"]
 
-RUNS = ["mobilenet_v3_small_20260520_185910"]
+RUNS = ["mobilenet_v3_small_20260520_141418"]
 
 split = "test"
 
@@ -51,20 +53,22 @@ if len(run_paths) == 1:
 
     print_summary(run_path, save_path)
 
+    plot_confidence_bar_chart(run_path, split)
+
     n_bins = 10
     # plot_calibration_curve(run_path, split, n_bins)
 
     plot_confusion_matrix(run_path, split, False)
     plot_confusion_matrix(run_path, split, True)
 
-    plot_loss(run_path)
-    plot_macro_F1(run_path)
+    # plot_loss(run_path)
+    # plot_macro_F1(run_path)
 
-    plot_pr_indivisual_class(run_path, split)
-    plot_avg_pr(run_path, split)
+    # plot_pr_indivisual_class(run_path, split)
+    # plot_avg_pr(run_path, split)
 
-    plot_roc_ovr(run_path, split)
-    plot_avg_roc(run_path, split)
+    # plot_roc_ovr(run_path, split)
+    # plot_avg_roc(run_path, split)
 
     # plot_threshold_single_class(run_path, split, 0)
     # plot_threshold_single_class(run_path, split, 1)
