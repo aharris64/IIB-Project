@@ -1,0 +1,28 @@
+Run ID: 20260520_174646
+Timestamp: 2026-05-20T17:46:46.712061
+Device: cuda
+Seed: 42
+Note: Efficient net b0 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase
+
+Model configuration:
+  Model: squeezenet
+  Dataset: disc_centred_r4.0_cl34_augmented
+  Num classes: 3
+  Freeze: two_phase
+  Batch size: 32
+  Learning rate: 0.0001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 10
+
+Best epoch: 7
+
+Validation:
+  Loss: 0.0959
+  Macro F1: 0.9241
+  Balanced Acc: 0.9297
+
+Test:
+  Loss: 0.1130
+  Macro F1: 0.9403
+  Balanced Acc: 0.9350

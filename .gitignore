@@ -1,5 +1,3 @@
-outputs/results/
-outputs/runs/
 **/__pycache__/
 *.pyc
 optic_disc_localisation/input_images
@@ -7,5 +5,3 @@ optic_disc_localisation/outputs
 analysis/grad_cam/test_images
 analysis/grad_cam/grad_cam_results
 image_quality_assessment/test_images
-optic_disc_localisation/ratings/data/history
-optic_disc_localisation/ratings/scripts/history

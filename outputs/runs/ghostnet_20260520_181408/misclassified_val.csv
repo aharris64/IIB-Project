@@ -1,0 +1,9 @@
+filename,y_true,y_pred
+normal_1092_PPE.jpg,0,2
+normal_1645_PPE.jpg,0,2
+papilledema_0603_WHC.jpg,1,0
+pseudopapilledema_0029_PPE.jpg,2,1
+pseudopapilledema_0080_PPE.jpg,2,0
+pseudopapilledema_0217_PPE.jpg,2,0
+pseudopapilledema_0240_PPE.jpg,2,1
+pseudopapilledema_0257_PPE.jpg,2,0

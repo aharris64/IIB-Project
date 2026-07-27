@@ -1,0 +1,28 @@
+Run ID: 20260114_125208
+Timestamp: 2026-01-14T12:52:08.819001
+Device: cuda
+Seed: 42
+Note: First attempt at running
+
+Model configuration:
+  Model: mobilenet_v2
+  Dataset: basic_resize_224
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 18
+
+Validation:
+  Loss: 0.1893
+  Macro F1: 0.9004
+  Balanced Acc: 0.9128
+
+Test:
+  Loss: 0.2476
+  Macro F1: 0.8515
+  Balanced Acc: 0.8707

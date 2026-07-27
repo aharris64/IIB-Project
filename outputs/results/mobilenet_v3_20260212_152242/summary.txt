@@ -1,0 +1,28 @@
+Run ID: 20260212_152242
+Timestamp: 2026-02-12T15:22:42.302685
+Device: cuda
+Seed: 42
+Note: Mobile Net V3 with disc centering, no augmentation, removed manually rated class 4
+
+Model configuration:
+  Model: mobilenet_v3
+  Dataset: disc_centred_r4.0_cl4
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 12
+
+Validation:
+  Loss: 0.2460
+  Macro F1: 0.8411
+  Balanced Acc: 0.8512
+
+Test:
+  Loss: 0.2428
+  Macro F1: 0.8705
+  Balanced Acc: 0.8933

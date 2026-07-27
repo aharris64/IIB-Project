@@ -73,7 +73,7 @@ dest_root = Path(DATASETS_ROOT) / "Processed Datasets"
 dest      = dest_root / name
 
 json_file = Path(DATASETS_ROOT) / "Processed Datasets" / "disc_localisation" / "disc_localisation_100226_512" / "disc_localisation_results.json"
-ratings_csv = Path(__file__).resolve().parents[2] / "optic_disc_localisation" / "ratings" / "data" / "combined_candidates" / "best_candidates_050226.csv"
+ratings_csv = Path(__file__).resolve().parents[2] / "optic_disc_localisation" / "ratings" / "data" / "history" / "combined_candidates" / "best_candidates_050226.csv"
 
 df_loc, df_ratings = load_localisation_and_ratings(json_file, ratings_csv)
 

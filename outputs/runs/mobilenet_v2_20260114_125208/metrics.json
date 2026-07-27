@@ -1,0 +1,49 @@
+{
+  "best_epoch": 18,
+  "val": {
+    "loss": 0.18929809757641383,
+    "macro_f1": 0.9003715360247554,
+    "balanced_acc": 0.9128097905134492,
+    "confusion_matrix": [
+      [
+        354,
+        14,
+        6
+      ],
+      [
+        11,
+        84,
+        2
+      ],
+      [
+        2,
+        2,
+        50
+      ]
+    ],
+    "classification_report": "              precision    recall  f1-score   support\n\n           0     0.9646    0.9465    0.9555       374\n           1     0.8400    0.8660    0.8528        97\n           2     0.8621    0.9259    0.8929        54\n\n    accuracy                         0.9295       525\n   macro avg     0.8889    0.9128    0.9004       525\nweighted avg     0.9310    0.9295    0.9301       525\n"
+  },
+  "test": {
+    "loss": 0.2475828144285414,
+    "macro_f1": 0.8514515318120631,
+    "balanced_acc": 0.8706718092277299,
+    "confusion_matrix": [
+      [
+        353,
+        19,
+        9
+      ],
+      [
+        10,
+        89,
+        4
+      ],
+      [
+        0,
+        10,
+        46
+      ]
+    ],
+    "classification_report": "              precision    recall  f1-score   support\n\n           0     0.9725    0.9265    0.9489       381\n           1     0.7542    0.8641    0.8054       103\n           2     0.7797    0.8214    0.8000        56\n\n    accuracy                         0.9037       540\n   macro avg     0.8355    0.8707    0.8515       540\nweighted avg     0.9108    0.9037    0.9061       540\n"
+  }
+}

@@ -1,0 +1,28 @@
+Run ID: 20260212_105504
+Timestamp: 2026-02-12T10:55:04.178693
+Device: cuda
+Seed: 42
+Note: First pass of models: ghost net
+
+Model configuration:
+  Model: mobilenet_v3
+  Dataset: disc_centred_r4
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 14
+
+Validation:
+  Loss: 0.2097
+  Macro F1: 0.8851
+  Balanced Acc: 0.9084
+
+Test:
+  Loss: 0.2010
+  Macro F1: 0.9229
+  Balanced Acc: 0.9478

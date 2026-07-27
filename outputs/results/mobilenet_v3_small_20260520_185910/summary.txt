@@ -1,0 +1,28 @@
+Run ID: 20260520_185910
+Timestamp: 2026-05-20T18:59:10.282577
+Device: cuda
+Seed: 42
+Note: Mobilenetv3 small with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase, quarters
+
+Model configuration:
+  Model: mobilenet_v3_small
+  Dataset: disc_centred_r4.0_cl34_quarters
+  Num classes: 3
+  Freeze: two_phase
+  Batch size: 32
+  Learning rate: 0.0001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 10
+
+Best epoch: 32
+
+Validation:
+  Loss: 0.1296
+  Macro F1: 0.9158
+  Balanced Acc: 0.9221
+
+Test:
+  Loss: 0.1290
+  Macro F1: 0.9186
+  Balanced Acc: 0.9262

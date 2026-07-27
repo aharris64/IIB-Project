@@ -1,0 +1,14 @@
+{
+  "BATCH_SIZE": 32,
+  "DATASET": "basic_resize_224",
+  "EXPERIMENT_NOTE": "First pass of models: efficient net lite 0",
+  "FREEZE": "head",
+  "IMAGE_SIZE": 224,
+  "LEARNING_RATE": 0.001,
+  "MODEL_NAME": "efficientnet_lite0",
+  "NUM_CLASSES": 3,
+  "NUM_EPOCHS": 50,
+  "PATIENCE": 7,
+  "SEED": 42,
+  "WEIGHT_DECAY": 0.0001
+}

@@ -1,0 +1,28 @@
+Run ID: 20260114_151502
+Timestamp: 2026-01-14T15:15:02.268970
+Device: cuda
+Seed: 42
+Note: First pass of models: res net
+
+Model configuration:
+  Model: resnet
+  Dataset: basic_resize_224
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 15
+
+Validation:
+  Loss: 0.1849
+  Macro F1: 0.8866
+  Balanced Acc: 0.8918
+
+Test:
+  Loss: 0.2210
+  Macro F1: 0.8532
+  Balanced Acc: 0.8736

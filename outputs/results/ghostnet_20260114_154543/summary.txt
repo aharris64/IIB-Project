@@ -1,0 +1,28 @@
+Run ID: 20260114_154543
+Timestamp: 2026-01-14T15:45:43.798137
+Device: cuda
+Seed: 42
+Note: First pass of models: ghost net
+
+Model configuration:
+  Model: ghostnet
+  Dataset: basic_resize_224
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 21
+
+Validation:
+  Loss: 0.2189
+  Macro F1: 0.8714
+  Balanced Acc: 0.8789
+
+Test:
+  Loss: 0.2170
+  Macro F1: 0.8734
+  Balanced Acc: 0.8856

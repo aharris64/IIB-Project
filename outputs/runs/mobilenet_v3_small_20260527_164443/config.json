@@ -1,0 +1,15 @@
+{
+  "BATCH_SIZE": 32,
+  "DATASET": "disc_centred_r4.0_cl34_augmented_lowres56",
+  "EXPERIMENT_NOTE": "Mobilenetv3 with disc centering, augmentation, removed manually rated class 3 and 4, removed some datasets, two-phase, lowres14",
+  "FREEZE": "two_phase",
+  "IMAGE_SIZE": 224,
+  "LEARNING_RATE": 0.0001,
+  "MODEL_NAME": "mobilenet_v3_small",
+  "NUM_CLASSES": 3,
+  "NUM_EPOCHS": 50,
+  "PATIENCE": 10,
+  "PHASE1_EPOCHS": 10,
+  "SEED": 42,
+  "WEIGHT_DECAY": 0.0001
+}

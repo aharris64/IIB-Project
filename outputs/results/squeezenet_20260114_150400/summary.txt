@@ -1,0 +1,28 @@
+Run ID: 20260114_150400
+Timestamp: 2026-01-14T15:04:00.814838
+Device: cuda
+Seed: 42
+Note: First pass of models: squeeze net
+
+Model configuration:
+  Model: squeezenet
+  Dataset: basic_resize_224
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 29
+
+Validation:
+  Loss: 0.1971
+  Macro F1: 0.9014
+  Balanced Acc: 0.9056
+
+Test:
+  Loss: 0.2271
+  Macro F1: 0.8627
+  Balanced Acc: 0.8644

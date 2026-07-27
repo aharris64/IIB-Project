@@ -1,0 +1,19 @@
+{
+  "run_id": "20260212_105504",
+  "timestamp": "2026-02-12T10:55:04.178693",
+  "device": "cuda",
+  "torch_version": "2.9.0+cu128",
+  "cuda_available": true,
+  "cuda_version": "12.8",
+  "seed": 42,
+  "train_class_counts": [
+    1748,
+    456,
+    253
+  ],
+  "class_weights": [
+    0.46853548288345337,
+    1.7960525751113892,
+    3.237154245376587
+  ]
+}

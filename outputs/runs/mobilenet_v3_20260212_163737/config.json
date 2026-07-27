@@ -1,0 +1,14 @@
+{
+  "BATCH_SIZE": 32,
+  "DATASET": "disc_centred_r4.0_cl4_removed",
+  "EXPERIMENT_NOTE": "Mobile Net V3 with disc centering, no augmentation, removed manually rated class 4, removed some datasets",
+  "FREEZE": "head",
+  "IMAGE_SIZE": 224,
+  "LEARNING_RATE": 0.001,
+  "MODEL_NAME": "mobilenet_v3",
+  "NUM_CLASSES": 3,
+  "NUM_EPOCHS": 50,
+  "PATIENCE": 7,
+  "SEED": 42,
+  "WEIGHT_DECAY": 0.0001
+}

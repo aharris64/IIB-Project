@@ -1,0 +1,28 @@
+Run ID: 20260114_152301
+Timestamp: 2026-01-14T15:23:01.915184
+Device: cuda
+Seed: 42
+Note: First pass of models: efficient net lite 0
+
+Model configuration:
+  Model: efficientnet_lite0
+  Dataset: basic_resize_224
+  Num classes: 3
+  Freeze: head
+  Batch size: 32
+  Learning rate: 0.001
+  Weight decay: 0.0001
+  Epochs: 50
+  Patience: 7
+
+Best epoch: 49
+
+Validation:
+  Loss: 0.4059
+  Macro F1: 0.8368
+  Balanced Acc: 0.8371
+
+Test:
+  Loss: 0.3688
+  Macro F1: 0.8210
+  Balanced Acc: 0.8095
