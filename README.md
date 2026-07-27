@@ -10,7 +10,7 @@ full methodology, dataset description, and results.
 
 | Folder | Contents |
 |---|---|
-| `dataset_processing/` | `resizing/` holds the basic and disc-centred resize/crop variants; `data_split.py` does the final stratified train/val/test split; `exploratory/` holds one-off channel-visualisation scripts used during ODL development — not part of the reproducible pipeline. |
+| `dataset_processing/` | `resizing/` holds the basic and disc-centred resize/crop variants; `data_split.py` does the final stratified train/val/test split; `exploratory/` holds one-off channel-visualisation scripts used during ODL development. |
 | `optic_disc_localisation/` | Optic disc localisation pipeline (blob detection, vessel convergence, combined method), candidate rating/evaluation scripts, and runners. |
 | `image_quality_assessment/` | Image quality scoring pipeline used to filter/flag low-quality fundus images. |
 | `data_counts/` | Scripts for auditing dataset properties (image sizes, channels, file types, resolution/class breakdowns) at various raw/pre-processing pipeline stages. |
