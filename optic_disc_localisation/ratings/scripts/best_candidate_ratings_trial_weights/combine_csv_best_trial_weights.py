@@ -6,7 +6,7 @@ from pathlib import Path
 
 stem = "disc_localisation_030226"
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "history" / "best_candidate_ratings_trial_weights"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "best_candidate_ratings_trial_weights"
 manual_csv = DATA_DIR / f"{stem}_manual.csv"
 generated_csv = DATA_DIR / f"{stem}_generated.csv"
 

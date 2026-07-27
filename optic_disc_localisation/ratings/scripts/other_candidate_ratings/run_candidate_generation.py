@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import json
 
-from optic_disc_localisation.ratings.scripts.history.other_candidate_ratings.find_other_candidates import detect_disc
+from optic_disc_localisation.ratings.scripts.other_candidate_ratings.find_other_candidates import detect_disc
 
 DATASETS_ROOT = os.environ.get("DATASETS_ROOT", "./Datasets")
 source = os.path.join(DATASETS_ROOT, "Processed Datasets", "raw")
@@ -22,9 +22,9 @@ DEST_ROOT.mkdir(parents=True, exist_ok=True)
 
 TARGET_SIZE=512
 
-# parents[4] reaches optic_disc_localisation/, matching the real outputs/ folder that
+# parents[3] reaches optic_disc_localisation/, matching the real outputs/ folder that
 # disc_localisaton_stats.py reads from.
-disc_localisation_path = Path(__file__).resolve().parents[4]
+disc_localisation_path = Path(__file__).resolve().parents[3]
 out_file = disc_localisation_path / "outputs" / "all_candidates_results.json"
 out_file.parent.mkdir(parents=True, exist_ok=True)
 

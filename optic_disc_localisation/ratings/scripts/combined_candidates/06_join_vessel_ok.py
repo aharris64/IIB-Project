@@ -1,22 +1,21 @@
 """Step 6: merges the vessel_ok column (from the best-candidate manual ratings) into
-all four combined-candidates CSVs (three historical + the one active
-final_candidates_090226.csv), overwriting them in place — the one script that bridges
-the best-candidate and combined-candidates rating trees."""
+all four combined-candidates CSVs, overwriting them in place — the one script that
+bridges the best-candidate and combined-candidates rating trees."""
 
 import pandas as pd
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[3] / "data"
+root = Path(__file__).resolve().parents[2] / "data"
 
-vessel_ok_csv = root / "history" / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_manual.csv"
+vessel_ok_csv = root / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_manual.csv"
 
-combined_candidates_dir = root / "history" / "combined_candidates"
+combined_candidates_dir = root / "combined_candidates"
 
 TARGET_FILES = [
     combined_candidates_dir / "all_candidates_050226.csv",
     combined_candidates_dir / "weighted_score_candidates_050226.csv",
     combined_candidates_dir / "best_candidates_050226.csv",
-    root / "final_candidates_090226.csv",
+    combined_candidates_dir / "final_candidates_090226.csv",
 ]
 
 vessel_ok = pd.read_csv(vessel_ok_csv, usecols=["image", "vessel_ok"])

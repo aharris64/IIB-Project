@@ -272,8 +272,8 @@ def plot_vessel_ok(df):
     plt.show()
  
 
-disc_localisation_path = Path(__file__).resolve().parents[3] / "data"
-csv = disc_localisation_path / "history" / "combined_candidates" / "best_candidates_reclassified.csv"
+disc_localisation_path = Path(__file__).resolve().parents[2] / "data"
+csv = disc_localisation_path / "combined_candidates" / "best_candidates_reclassified.csv"
 df = pd.read_csv(csv)
 
 count_ratings(df)

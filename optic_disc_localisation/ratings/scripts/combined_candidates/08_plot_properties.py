@@ -88,8 +88,8 @@ def count_ratings(df):
     print(f"\nTotal samples: {total}")
 
 
-disc_localisation_path = Path(__file__).resolve().parents[3] / "data"
-csv = disc_localisation_path / "history" / "combined_candidates" / "all_candidates_050226.csv"
+disc_localisation_path = Path(__file__).resolve().parents[2] / "data"
+csv = disc_localisation_path / "combined_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 
 count_ratings(df)

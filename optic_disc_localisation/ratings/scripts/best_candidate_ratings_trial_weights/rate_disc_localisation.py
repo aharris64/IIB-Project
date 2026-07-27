@@ -50,7 +50,7 @@ if start_global is None:
     raise ValueError(f"Could not find {START_CLASS} image #{START_NUM}. Check START_NUM and sorting.")
 
 # Load existing ratings if present
-out_dir = Path(__file__).resolve().parents[3] / "data" / "history" / "best_candidate_ratings_trial_weights"
+out_dir = Path(__file__).resolve().parents[2] / "data" / "best_candidate_ratings_trial_weights"
 out_file = out_dir / f"{name}_manual.csv"
 
 rated = {}  # (class, name) -> {"rating": int, "vessel": int}

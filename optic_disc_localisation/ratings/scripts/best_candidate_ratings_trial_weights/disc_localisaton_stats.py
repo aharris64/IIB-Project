@@ -10,9 +10,9 @@ import json
 import pandas as pd
 from pathlib import Path
 
-disc_localisation_path = Path(__file__).resolve().parents[4]  # optic_disc_localisation/
+disc_localisation_path = Path(__file__).resolve().parents[3]  # optic_disc_localisation/
 disc_results_path = disc_localisation_path / "outputs" / "all_candidates_results.json"
-csv_results_path = Path(__file__).resolve().parents[3] / "data" / "history" / "best_candidate_ratings_trial_weights" / "disc_candidates_050226_from_json.csv"
+csv_results_path = Path(__file__).resolve().parents[2] / "data" / "best_candidate_ratings_trial_weights" / "disc_candidates_050226_from_json.csv"
 
 
 # Load JSON file

@@ -135,8 +135,8 @@ def print_candidate_analysis(df):
 
 
 # ── Run ───────────────────────────────────────────────────────────────
-weighted_candidates_path = Path(__file__).resolve().parents[3] / "data"
-csv = weighted_candidates_path / "history" / "combined_candidates" / "weighted_score_candidates_050226.csv"
+weighted_candidates_path = Path(__file__).resolve().parents[2] / "data"
+csv = weighted_candidates_path / "combined_candidates" / "weighted_score_candidates_050226.csv"
 
 df = pd.read_csv(csv)
 summary = print_candidate_analysis(df)

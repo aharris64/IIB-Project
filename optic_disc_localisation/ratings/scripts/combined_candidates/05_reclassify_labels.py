@@ -5,7 +5,7 @@ oedema (EDD/IFD/RFM acronyms) into their own class, feeding
 import pandas as pd
 from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "history" / "combined_candidates"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "combined_candidates"
 input_csv  = DATA_DIR / "best_candidates_050226.csv"
 output_csv = DATA_DIR / "best_candidates_reclassified.csv"
  

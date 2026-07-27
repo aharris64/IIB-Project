@@ -15,8 +15,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 
 
-DATA_ROOT = Path(__file__).resolve().parents[3] / "data"
-combined_csv = DATA_ROOT / "history" / "combined_candidates" / "all_candidates_050226.csv"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
+combined_csv = DATA_ROOT / "combined_candidates" / "all_candidates_050226.csv"
 
 df = pd.read_csv(combined_csv)
 

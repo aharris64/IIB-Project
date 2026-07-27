@@ -1,7 +1,5 @@
 """Step 3: computes the fitted weighted score (weights from 02_learn_weights.py) for
-every candidate and writes it in as blob_score, producing final_candidates_090226.csv
-— the one actively-used output of this whole ratings/ pipeline (everything else here
-is historical working-out that fed into this file)."""
+every candidate and writes it in as blob_score, producing final_candidates_090226.csv."""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -27,8 +25,8 @@ def calculate_weighted_score(df):
     return df
 
 # Load CSV
-DATA_ROOT = Path(__file__).resolve().parents[3] / "data"
-csv = DATA_ROOT / "history" / "combined_candidates" / "all_candidates_050226.csv"
+DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
+csv = DATA_ROOT / "combined_candidates" / "all_candidates_050226.csv"
 df = pd.read_csv(csv)
 
 # Compute weighted score
@@ -39,6 +37,6 @@ df["blob_score"] = df["weighted_score"]
 
 df = df.drop(columns=["weighted_score"])
 
-# Save updated CSV — the one active file at data/ root (not under history/)
-out_csv = DATA_ROOT / "final_candidates_090226.csv"
+# Save updated CSV
+out_csv = DATA_ROOT / "combined_candidates" / "final_candidates_090226.csv"
 df.to_csv(out_csv, index=False)
