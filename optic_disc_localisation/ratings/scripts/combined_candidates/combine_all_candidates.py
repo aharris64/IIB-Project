@@ -8,8 +8,8 @@ import pandas as pd
 from pathlib import Path
 
 DATA_ROOT = Path(__file__).resolve().parents[2] / "data"
-other_candidates = DATA_ROOT / "other_candidate_ratings" / "disc_candidates_050226_combined.csv"
-best_candidates    = DATA_ROOT / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_combined.csv"
+other_candidates = DATA_ROOT / "history" / "other_candidate_ratings" / "disc_candidates_050226_combined.csv"
+best_candidates    = DATA_ROOT / "history" / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_combined.csv"
 outpath       = DATA_ROOT / "combined_candidates" / "all_candidates_050226.csv"
 
 df_other = pd.read_csv(other_candidates)

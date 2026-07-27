@@ -7,7 +7,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[2] / "data"
 
-vessel_ok_csv = root / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_manual.csv"
+vessel_ok_csv = root / "history" / "best_candidate_ratings_trial_weights" / "disc_localisation_030226_manual.csv"
 
 combined_candidates_dir = root / "combined_candidates"
 

@@ -9,7 +9,7 @@ import pandas as pd
 import ast
 from pathlib import Path
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "other_candidate_ratings"
+DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "history" / "other_candidate_ratings"
 generated_csv = DATA_DIR / "disc_candidates_050226_generated.csv"
 manual_csv    = DATA_DIR / "disc_candidates_050226_manual.csv"
 outpath       = DATA_DIR / "disc_candidates_050226_combined.csv"

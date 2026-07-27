@@ -28,7 +28,7 @@ RATING_KEYS = {"1", "2", "3", "4"}
 
 cand_regex = re.compile(r"^(?P<stem>.+?)_cand(?P<cand>\d+)(?:_vb[-\d.]+)?$", re.IGNORECASE)
 
-out_dir = Path(__file__).resolve().parents[2] / "data" / "other_candidate_ratings"
+out_dir = Path(__file__).resolve().parents[3] / "data" / "history" / "other_candidate_ratings"
 simple_file = out_dir / f"{name}_manual.csv"
 
 

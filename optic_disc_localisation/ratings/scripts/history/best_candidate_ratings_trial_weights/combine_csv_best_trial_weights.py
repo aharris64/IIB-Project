@@ -1,15 +1,12 @@
 """Merges the manual ratings with the generated candidate results, producing the
-combined CSV. NOTE: paths below were previously broken (nested phantom
-"manual_ratings"/"csv_results"/"combined_results" subfolders) — fixed to the real
-suffix-based filenames (_manual/_generated/_combined) living directly in this
-script's own data/ folder."""
+combined CSV"""
 
 import pandas as pd
 from pathlib import Path
 
 stem = "disc_localisation_030226"
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data" / "best_candidate_ratings_trial_weights"
+DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "history" / "best_candidate_ratings_trial_weights"
 manual_csv = DATA_DIR / f"{stem}_manual.csv"
 generated_csv = DATA_DIR / f"{stem}_generated.csv"
 
