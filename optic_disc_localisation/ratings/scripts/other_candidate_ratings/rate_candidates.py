@@ -1,8 +1,5 @@
 """Interactive OpenCV labeling tool: rate each per-candidate image 1-4 via keypresses,
-resuming from START_ROW. NOTE: the output path was previously broken (wrote to a
-filename — "_candidates_.csv" — that doesn't match any real tracked file) — fixed to
-write directly to the real tracked _manual.csv, so continuing to rate here now
-updates the real file."""
+resuming from START_ROW. """
 
 import os
 from pathlib import Path

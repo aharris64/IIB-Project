@@ -1,10 +1,5 @@
 """Converts the all_candidates_results.json produced by
-ratings/scripts/other_candidate_ratings/run_candidate_generation.py into a flat CSV.
-NOTE: paths below were previously broken — the JSON read path was off-by-one (missed
-the optic_disc_localisation/ level entirely) and the CSV write path was
-self-referentially nested ("ratings/ratings/..."). The read fix is high-confidence
-(exact existing file); the write destination is a new file (no existing file
-obviously matched it), so double-check this one specifically."""
+ratings/scripts/other_candidate_ratings/run_candidate_generation.py into a flat CSV."""
 
 import json
 import pandas as pd

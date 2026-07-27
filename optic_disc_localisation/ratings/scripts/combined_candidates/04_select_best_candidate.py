@@ -1,9 +1,4 @@
-"""Step 4: picks the max-blob_score candidate per image. NOTE: its input,
-weighted_score_candidates_050226.csv, has no current producer in this pipeline (it's
-a real tracked file, but nothing here writes that exact filename anymore — likely
-produced by an earlier version of 03_apply_weighted_score.py before its output was
-renamed to final_candidates_090226.csv). Not fixed/guessed at, since this script
-already reads real historical data — just flagging the provenance gap."""
+"""Step 4: picks the max-blob_score candidate per image."""
 
 import pandas as pd
 from pathlib import Path

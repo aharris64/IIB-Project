@@ -1,9 +1,5 @@
 """Merges the generated (auto-detected) candidates with their manual ratings, one row
-per candidate. NOTE: paths below were previously broken (phantom "candidate_ratings"
-subfolder, and a generated-file name mismatch) — fixed to the real suffix-based
-filenames (_generated/_manual/_combined) living directly in this script's own data/
-folder, mirroring combine_csv_best_trial_weights.py's equivalent fix for the other
-rating tree."""
+per candidate. """
 
 import pandas as pd
 import ast

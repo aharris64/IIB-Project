@@ -1,8 +1,5 @@
 """Interactive OpenCV labeling tool: rate disc-localisation quality (1-4) and vessel-ok
-(0/9) per image via keypresses, resuming from START_CLASS/START_NUM. NOTE: the output
-path was previously broken (wrote to a "manual_ratings" subfolder that doesn't match
-the real flat-file data/ layout) — fixed to write directly to the real tracked
-_manual.csv, so continuing to rate here now updates the real file."""
+(0/9) per image via keypresses, resuming from START_CLASS/START_NUM. """
 
 import os
 from pathlib import Path
