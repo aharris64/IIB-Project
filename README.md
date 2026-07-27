@@ -57,6 +57,14 @@ and writes the next (e.g. `raw` → `disc_centred_r4.0_cl4` →
 `SOURCE`/`DEST`/`ROOT`-style constants near the top of the specific script
 you want to run for the exact stage name it expects/produces.
 
+Note on labels: the raw dataset marks some images "papilledema" with the acronyms
+EDD, RFM, or IFD, which actually denote the broader diagnostic category of optic disc
+oedema rather than confirmed papilloedema. These are too label-noisy to train or
+evaluate a papilledema classifier on, so `dataset_processing/data_split.py` excludes
+them from the papilledema class at the train/val/test split stage
+(`PAPILLEDEMA_EXCLUDE`) — they're still present in `raw`/other processed stages,
+just not in any `train_test_val*` split.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
